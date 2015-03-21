@@ -27,21 +27,25 @@ for i in range(0,len(symbolClasses)):
 sep = "*" * 30
 print(sep,)
 
+''' DISTORTION '''
+
 N = 1000
 distortedClasses = []
 for cl in symbolClasses[:]:
-    characteristicsValues = cl.characteristicsValues
+    # this is not safe, the cl values will be changes too
+    characteristicsValues = cl.characteristicsValues 
     for i in range(0, N):
         for j in range(0, len(characteristicsValues)):
             distortion = np.random.normal(0, 5, 1)
             characteristicsValues[j] += distortion[0]
 
         sc = SymbolClass(cl.name)
-        
         for k in range(0,len(characteristicsValues)):
             sc.characteristicsValues.append(characteristicsValues[k])
-            
+
         distortedClasses.append(sc);
+
+''' END OF DISTORTION '''
 
 for i in range(0, len(distortedClasses)):
     print(distortedClasses[i].characteristicsValues)
