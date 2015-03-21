@@ -33,10 +33,12 @@ N = 1000
 distortedClasses = []
 for cl in symbolClasses[:]:
     # this is not safe, the cl values will be changes too
-    characteristicsValues = cl.characteristicsValues 
+    characteristicsValues = cl.characteristicsValues
+    print(characteristicsValues)
     for i in range(0, N):
         for j in range(0, len(characteristicsValues)):
             distortion = np.random.normal(0, 5, 1)
+            
             characteristicsValues[j] += distortion[0]
 
         sc = SymbolClass(cl.name)
@@ -47,8 +49,8 @@ for cl in symbolClasses[:]:
 
 ''' END OF DISTORTION '''
 
-for i in range(0, len(distortedClasses)):
-    print(distortedClasses[i].characteristicsValues)
+#for i in range(0, len(distortedClasses)):
+    #print(distortedClasses[i].characteristicsValues)
 
 plot = Plot()
 plot.show(distortedClasses)
