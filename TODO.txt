@@ -1,0 +1,5 @@
+porz¹dny plotter - zaznaczanie punktow itp
+boxa-mullera - implementacja zamiast metody naiwnej
+Globalne zmienne
+Namespaces
+GUI simple

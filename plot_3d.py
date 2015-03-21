@@ -6,14 +6,14 @@ from symbol_class import SymbolClass
 class Plot:
     def __init__(self):
         pass
-    def show(self, classes):
+    def show(self, symbolClasses):
         fig = plt.figure()
         ax = Axes3D(fig)
         x,y,z = [],[],[]
-        for i in range(0, len(classes)):
-            x.append(classes[i].characteristicsValues[0])
-            y.append(classes[i].characteristicsValues[1])
-            z.append(classes[i].characteristicsValues[2])
+        for i in range(0, len(symbolClasses)):
+            x.append(symbolClasses[i].characteristicsValues[0])
+            y.append(symbolClasses[i].characteristicsValues[1])
+            z.append(symbolClasses[i].characteristicsValues[2])
             # put 0s on the y-axis, and put the y axis on the z-axis
         ax.scatter(x,y,z,c='b',marker='o')
         plt.show()
