@@ -1,51 +1,31 @@
-from sys import argv
+import random
+from characteristic import Characteristic
+from symbol_class import SymbolClass
+from plot_3d import Plot
+##################
 
-def fib(n):
-    a, b = 0, 1
-    while a < n:
-        print (a)
-        a, b = b, a+b
-
-def args_test(*argv, **keywords):
-    for arg in argv:
-        print arg
-    print '-' * 30
-    for key in keywords.keys():
-        print key, ":", keywords[key]
-
-'''
-fib(10)
-'''
-
-def test(a = 1, b = 2, c = 3, d = 4):
-    print a,
-    print b,
-    print c,
-    print d,
-'''
-a = 5;
-b = a;
-print id(a)
-print id(b)
-
-arr1 = [1 , 2, 3]
-arr2 = arr1
-arr2[0] = 9
-print arr1[0]
+##################
 
 
-args_test(1, 2, 5,X="x", Y="y")
+# CREATE 20 CHARACTERISTICS
+characteristics = []
+for i in range(0,3):
+    characteristics.append(Characteristic())
 
-d = {25:"25 %s", 35:"35 %s"}
-print d[35]
-'''
+# CREATE 10 SYMBOL CLASSES
+classes = []
+for i in range(0,10):
+    # Store newly created symbol class in the list
+    classes.append(SymbolClass(i))
+    # Randomize value for each characteristic of the symbol
+    for j in range(0,len(characteristics)):
+        classes[i].characteristicsValues.append(
+            random.uniform(characteristics[j].interval.lowerBound, 
+                           characteristics[j].interval.upperBound))
 
-'''
-lambda a : a + 5
-f = lambda a,b : a+b
-print f(5 , 2)
-'''
 
-matrix = [[1,2],[3,4]]
-print matrix[0][1]
+for i in range(0,len(classes)):
+    print(classes[i].characteristicsValues)
 
+plot = Plot()
+plot.show(classes)
