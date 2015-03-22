@@ -1,9 +1,10 @@
 import random
 from characteristic import Characteristic
 from symbol_class import SymbolClass
-from color_chooser import ColorChooser
+from color_chooser import ColorChooser 
 from plot_3d import Plot
 import numpy as np
+from distorter import Distorter 
 
 # CREATE 20 CHARACTERISTICS
 characteristics = []
@@ -33,22 +34,12 @@ print(sep,)
 
 N = 1000
 distortedClasses = []
+distorter = Distorter()
 for cl in symbolClasses[:]:
-    # this is not safe, the cl values will be changes too
-    characteristicsValues = cl.characteristicsValues[:]
     for i in range(0, N):
-        tmpValues = characteristicsValues[:] 
-        for j in range(0, len(characteristicsValues)):
-            distortion = np.random.normal(0, 0.2, 1)
-            #print(distortion[0])
-            tmpValues[j] += distortion[0]
-        
-        sc = SymbolClass(cl.name, cl.color)
-        print(sc.color)
-        for k in range(0,len(characteristicsValues)):
-            sc.characteristicsValues.append(tmpValues[k])
-
-        distortedClasses.append(sc);
+        distortedClass = SymbolClass(cl.name, cl.color)
+        distortedClass.characteristicsValues = distorter.generateDistortion(cl.characteristicsValues[:])
+        distortedClasses.append(distortedClass)
 
 ''' END OF DISTORTION '''
 
