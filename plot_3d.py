@@ -45,5 +45,6 @@ class Plot:
                        s=40,
                        linewidth='0',
                        marker='o')
+            
         ax.scatter(x,y,z,c=colors,s=4,linewidth='0',marker='o') 
         plt.show()

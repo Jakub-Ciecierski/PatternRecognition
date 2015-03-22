@@ -4,7 +4,7 @@ from symbol_class import SymbolClass
 from color_chooser import ColorChooser
 from plot_3d import Plot
 import numpy as np
-from cluster import computeCluster
+# from cluster import computeCluster
 from distorter import Distorter
 
 # CREATE 20 CHARACTERISTICS
@@ -33,7 +33,7 @@ print(sep,)
 
 ''' DISTORTION '''
 
-N = 100
+N = 300
 distortedClasses = []
 distorter = Distorter()
 for cl in symbolClasses[:]:
@@ -48,21 +48,21 @@ for cl in symbolClasses[:]:
 #     print(distortedClasses[i].characteristicsValues)
 
 
-############################
-# Clustering
-k = 2
-X = []
-# test for one class distortion
-for distoredClass in distortedClasses[0:N]:
-    values = []
-    for value in distoredClass.characteristicsValues[:]:
-        values.append(value[0])
-    X.append(values)
-        
-centroids = computeCluster(X, k)
-plot = Plot()
-plot.show2(centroids, distortedClasses[0:N], len(centroids))
-############################
+###########################
+ # Clustering
+# k = 2
+# X = []
+# # test for one class distortion
+# for distoredClass in distortedClasses[0:N]:
+#     values = []
+#     for value in distoredClass.characteristicsValues[:]:
+#         values.append(value[0])
+#     X.append(values)
+#          
+# centroids = computeCluster(X, k)
+# plot = Plot()
+# plot.show2(centroids, distortedClasses[0:N], len(centroids))
+###########################
 
 plot = Plot()
-#plot.show(symbolClasses + distortedClasses, len(symbolClasses))
+plot.show(symbolClasses + distortedClasses, len(symbolClasses))
