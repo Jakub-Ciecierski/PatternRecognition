@@ -46,5 +46,5 @@ for cl in symbolClasses[:]:
 # for i in range(0, len(distortedClasses)):
 #     print(distortedClasses[i].characteristicsValues)
 
-plot = Plot()
-plot.show(symbolClasses + distortedClasses, len(symbolClasses))
+# plot = Plot()
+# plot.show(symbolClasses + distortedClasses, len(symbolClasses))

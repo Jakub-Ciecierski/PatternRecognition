@@ -16,12 +16,15 @@ class Plot:
             z.append(symbolClasses[i].characteristicsValues[2])
             colors.append(symbolClasses[i].color)
            
-        ax.scatter(x,y,z,c=colors,s=4,linewidth='0',marker='o')
+        ax.scatter(x[numberOfDifferentClasses:],
+                   y[numberOfDifferentClasses:],
+                   z[numberOfDifferentClasses:],
+                   c=colors[numberOfDifferentClasses:],
+                   s=4,linewidth='0', marker='o')
+        # Draw centers
         ax.scatter(x[:numberOfDifferentClasses],
                    y[:numberOfDifferentClasses],
                    z[:numberOfDifferentClasses],
                    c='black',
-                   s=40,
-                   linewidth='0',
-                   marker='o') 
+                   s=40, linewidth='0', marker='o') 
         plt.show()
