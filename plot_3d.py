@@ -9,11 +9,14 @@ class Plot:
     def show(self, symbolClasses):
         fig = plt.figure()
         ax = Axes3D(fig)
-        x,y,z = [],[],[]
+        x,y,z, colors = [],[],[], []
         for i in range(0, len(symbolClasses)):
             x.append(symbolClasses[i].characteristicsValues[0])
             y.append(symbolClasses[i].characteristicsValues[1])
             z.append(symbolClasses[i].characteristicsValues[2])
+            colors.append(symbolClasses[i].color)
             # put 0s on the y-axis, and put the y axis on the z-axis
-        ax.scatter(x,y,z,c='b',marker='o')
+            
+        
+        ax.scatter(x,y,z,c=colors,marker='o')
         plt.show()
