@@ -1,39 +1,29 @@
 from numpy import random, sqrt, log, sin, cos, pi
+from random import Random
+
 
 class Distorter:
     def __init__(self):
-        self.z1 = 0
-        self.z2 = 0
         pass
     
     def boxMuller(self, uniform1, uniform2):
         z1 = sqrt(-2*log(uniform1))*cos(2*pi*uniform2)
         z2 = sqrt(-2*log(uniform1))*sin(2*pi*uniform2)
         return z1,z2
+    
     # at least two characteristics !!!
-    def generateDistortion(self, cloudCenterCoordinates):
+    def generateDistortion(self, cloudCenterCoordinates, _random):
         distortedCenter = []
-        rangeS = len(cloudCenterCoordinates);
-        for i in range(0, rangeS):
-#             if(i == (rangeS-1)):
-#                 self.z1, self.z2 = self.boxMuller(random.rand(1), 
-#                                                   random.rand(1))
-#                 print('last one',self.z1*20,self.z2*20)
-#                 distortion = self.z1 * 20
-#                 distortedCenter.append(cloudCenterCoordinates[i]+distortion) 
+        for i in range(len(cloudCenterCoordinates)):
+#             if(i == len(cloudCenterCoordinates)-1):
+#                 distortedCenter.append(cloudCenterCoordinates[i] + random.rand())
 #                 break;
-#             
 #             if(i % 2 == 0):
-#                 self.z1,self.z2 = self.boxMuller(random.rand(1), 
-#                                                   random.rand(1))
-#                 distortion = self.z1 *20
-#                 distortedCenter.append(cloudCenterCoordinates[i]+distortion) 
-#                 print('normal ones', self.z1*20, self.z2*20)
-#                 
-#             if(i % 2 == 1):
-#                 distortion = self.z2 * 20;    
-#                 print('odd one', self.z2 * 20)
-#                 distortedCenter.append(random.rand(1)) 
-            distortion = random.normal(0,0.4, 1)
-            distortedCenter.append(cloudCenterCoordinates[i]+distortion) 
+#                 dis1, dis2 = self.boxMuller(self._random.random(),self._random.random())
+#                 print(i,cloudCenterCoordinates[i] + dis1)
+#                 distortedCenter.append(cloudCenterCoordinates[i] + dis1)
+#             else:
+#                 print(i,cloudCenterCoordinates[i] + dis2)
+#                 distortedCenter.append(cloudCenterCoordinates[i] + dis2)
+            distortedCenter.append(cloudCenterCoordinates[i]+ _random.gauss(0, 0.3))
         return distortedCenter

@@ -6,6 +6,7 @@ from plot_3d import Plot
 import numpy as np
 from cluster import computeCluster
 from distorter import Distorter
+from random import Random
 
 # CREATE M CHARACTERISTICS
 M = 3
@@ -38,13 +39,14 @@ for i in range(0,len(symbolClasses)):
 
 ''' DISTORTION '''
 print("*" * 10 , "Computing Distortion", "*" * 10 )
-N = 100
+N = 300
 distortedClasses = []
-distorter = Distorter()
+__random = Random()
 for cl in symbolClasses[:]:
     for i in range(0, N):
         distortedClass = SymbolClass(cl.name, cl.color)
-        distortedClass.characteristicsValues = distorter.generateDistortion(cl.characteristicsValues[:])
+        distorter = Distorter()
+        distortedClass.characteristicsValues = distorter.generateDistortion(cl.characteristicsValues[:],__random)
         distortedClasses.append(distortedClass)
 
 ''' END OF DISTORTION '''
@@ -59,19 +61,19 @@ k = 3
 
 plot = Plot()
 # test for one class distortion
-centroidsOfAllClasses = []
-print("*" * 10 , "Computing Clusters", "*" * 10 ) 
-for i in range(0,len(symbolClasses)):
-    X = []
-    print("From: ", i*N, "To: ", N+N*i)
-    for distoredClass in distortedClasses[i*N:(N+N*i) - 1]: #i*N:N+N*i
-        values = []
-        for value in distoredClass.characteristicsValues[:]:
-            values.append(value[0])
-        X.append(values)
-    centroids = computeCluster(X, k)
-    plot.show2(centroids, distortedClasses[i*N:(N+N*i) - 1], len(symbolClasses))
-    centroidsOfAllClasses.append(centroids)
+# centroidsOfAllClasses = []
+# print("*" * 10 , "Computing Clusters", "*" * 10 ) 
+# for i in range(0,len(symbolClasses)):
+#     X = []
+#     print("From: ", i*N, "To: ", N+N*i)
+#     for distoredClass in distortedClasses[i*N:(N+N*i) - 1]: #i*N:N+N*i
+#         values = []
+#         for value in distoredClass.characteristicsValues[:]:
+#             values.append(value[0])
+#         X.append(values)
+#     centroids = computeCluster(X, k)
+#     plot.show2(centroids, distortedClasses[i*N:(N+N*i) - 1], len(symbolClasses))
+#     centroidsOfAllClasses.append(centroids)
 
 #plot.show2(centroidsOfAllClasses, distortedClasses, len(symbolClasses))
 ############################
