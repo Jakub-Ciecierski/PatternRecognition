@@ -35,18 +35,19 @@ N = 100
 distortedClasses = []
 for cl in symbolClasses[:]:
     # this is not safe, the cl values will be changes too
-    print(characteristicsValues)
     characteristicsValues = cl.characteristicsValues[:]
-    print(characteristicsValues)    for i in range(0, N):
+    print(characteristicsValues)
+    for i in range(0, N):
+        tmpValues = characteristicsValues[:] 
         for j in range(0, len(characteristicsValues)):
             distortion = np.random.normal(0, 5, 1)
-            print(distortion[0])
-            characteristicsValues[j] += distortion[0]
+            #print(distortion[0])
+            tmpValues[j] += distortion[0]
 
         sc = SymbolClass(cl.name, cl.color)
       
         for k in range(0,len(characteristicsValues)):
-            sc.characteristicsValues.append(characteristicsValues[k])
+            sc.characteristicsValues.append(tmpValues[k])
 
         distortedClasses.append(sc);
 
@@ -56,4 +57,4 @@ for i in range(0, len(distortedClasses)):
     print(distortedClasses[i].characteristicsValues)
 
 plot = Plot()
-plot.show(distortedClasses)
+plot.show(distortedClasses[N:N+N])
