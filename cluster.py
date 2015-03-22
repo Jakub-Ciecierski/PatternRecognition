@@ -17,8 +17,11 @@ def computeClusters(distortedClasses, k, numberOfDifferentClasses, N):
         # compute clusters of each class
         for distoredClass in distortedClasses[i*N:(N+N*i)]:
             values = []
+
             for value in distoredClass.characteristicsValues[:]:
-                values.append(value[0])
+                tmpValue = value[0]
+                values.append(tmpValue)
+
             X.append(values)
 
         centroids = computeKMeans(X, k)
