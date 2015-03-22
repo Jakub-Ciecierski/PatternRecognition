@@ -5,7 +5,7 @@ from color_chooser import ColorChooser
 from plot_3d import Plot
 import numpy as np
 from cluster import computeCluster
-from distorter import Distorter 
+from distorter import Distorter
 
 # CREATE 20 CHARACTERISTICS
 characteristics = []
@@ -33,7 +33,7 @@ print(sep,)
 
 ''' DISTORTION '''
 
-N = 10
+N = 1000
 distortedClasses = []
 distorter = Distorter()
 for cl in symbolClasses[:]:
@@ -60,4 +60,4 @@ centroids = computeCluster(X, k)
 ############################
 
 plot = Plot()
-plot.show(distortedClasses[0:N])
+plot.show(symbolClasses + distortedClasses, len(symbolClasses))
