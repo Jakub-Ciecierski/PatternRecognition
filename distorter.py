@@ -35,7 +35,5 @@ class Distorter:
 #                 print('odd one', self.z2 * 20)
 #                 distortedCenter.append(random.rand(1)) 
             distortion = random.normal(0,0.4, 1)
-            if(i == 0):
-                print(distortion)
             distortedCenter.append(cloudCenterCoordinates[i]+distortion) 
         return distortedCenter
