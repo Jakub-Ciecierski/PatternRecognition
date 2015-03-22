@@ -57,4 +57,4 @@ for i in range(0, len(distortedClasses)):
     print(distortedClasses[i].characteristicsValues)
 
 plot = Plot()
-plot.show(distortedClasses[N:N+N])
+plot.show(distortedClasses)
