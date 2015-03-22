@@ -27,7 +27,8 @@ class Plot:
         plt.show()
 
 
-    def show2(self, centroids, symbolClasses, numberOfDifferentClasses):
+    def show2(self, centroids, symbolClasses, numberOfDifferentClasses,
+              mainLabel="Plot"):
         fig = plt.figure()
         ax = Axes3D(fig)
         x,y,z, colors = [],[],[],[]
@@ -47,4 +48,20 @@ class Plot:
                        linewidth='0',
                        marker='o')
         ax.scatter(x,y,z,c=colors,s=10,linewidth='0',marker='o')
+
+        # Add 2D label of the plot
+        labelPos = 0.95
+        ax.text2D(0.02, labelPos , mainLabel, transform=ax.transAxes)
+
+        for i in range(0,numberOfDifferentClasses):
+            labelPos -= 0.05
+
+            color = symbolClasses[i*numberOfDifferentClasses].color
+            name = symbolClasses[i*numberOfDifferentClasses].name
+
+            label = ("Class: ", name, color)
+            ax.text2D(0.02, labelPos, label, transform=ax.transAxes, 
+                      color=color)
+            
+
         plt.show()
