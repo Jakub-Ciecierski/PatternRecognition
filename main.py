@@ -4,6 +4,7 @@ from symbol_class import SymbolClass
 from color_chooser import ColorChooser
 from plot_3d import Plot
 import numpy as np
+from cluster import computeCluster
 
 # CREATE 20 CHARACTERISTICS
 characteristics = []
@@ -31,7 +32,7 @@ print(sep,)
 
 ''' DISTORTION '''
 
-N = 1000
+N = 10
 distortedClasses = []
 for cl in symbolClasses[:]:
     # this is not safe, the cl values will be changes too
@@ -44,7 +45,7 @@ for cl in symbolClasses[:]:
             tmpValues[j] += distortion[0]
         
         sc = SymbolClass(cl.name, cl.color)
-        print(sc.color)
+
         for k in range(0,len(characteristicsValues)):
             sc.characteristicsValues.append(tmpValues[k])
 
@@ -55,5 +56,7 @@ for cl in symbolClasses[:]:
 # for i in range(0, len(distortedClasses)):
 #     print(distortedClasses[i].characteristicsValues)
 
+centroids = computeCluster(distortedClasses[0:N], 2)
+
 plot = Plot()
-plot.show(distortedClasses)
+plot.show(distortedClasses[0:N])
