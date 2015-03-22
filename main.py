@@ -33,7 +33,7 @@ print(sep,)
 
 ''' DISTORTION '''
 
-N = 1000
+N = 100
 distortedClasses = []
 distorter = Distorter()
 for cl in symbolClasses[:]:
@@ -54,8 +54,12 @@ k = 2
 X = []
 # test for one class distortion
 for distoredClass in distortedClasses[0:N]:
+    values = []
     for value in distoredClass.characteristicsValues[:]:
-        X.append(value)
+        values.append(value[0])
+    X.append(values)
+    #for value in distoredClass.characteristicsValues[:]:
+        
 centroids = computeCluster(X, k)
 ############################
 
