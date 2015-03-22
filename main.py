@@ -42,6 +42,10 @@ print("*" * 10 , "Computing Distortion", "*" * 10 )
 N = 100 # TODO  color = symbolClasses[i*numberOfDifferentClasses].color IndexError: list index out of range
 distortedClasses = []
 __random = Random()
+#check number f steps
+
+print(n)  
+
 for cl in symbolClasses[:]:
     for i in range(0, N):
         distortedClass = SymbolClass(cl.name, cl.color)
@@ -57,23 +61,23 @@ for cl in symbolClasses[:]:
 
 ############################
 # Clustering
-print("*" * 10 , "Computing Clusters", "*" * 10 )
-plot = Plot()
-
-MAX_K = 5
-for k in range(2,MAX_K):
-    print("Clusters [k]:", k)
-    centroidsOfAllClasses = computeClusters(distortedClasses, k, classCount, N)
-
-    # show plot for each class
-    
-    for i in range(0,classCount):
-        plot.show2(centroidsOfAllClasses[k*i:k+k*i], distortedClasses[i*N:(N+N*i)], 
-                   1, ("Clusters [k] :", k))
-    
-    # show plot for all classes
-    plot.show2(centroidsOfAllClasses, distortedClasses, classCount,
-               ("Clusters [k] :", k))
+# print("*" * 10 , "Computing Clusters", "*" * 10 )
+# plot = Plot()
+# 
+# MAX_K = 6
+# for k in range(0,MAX_K):
+#     print("Clusters [k]:", k)
+#     centroidsOfAllClasses = computeClusters(distortedClasses, k, classCount, N)
+# 
+#     # show plot for each class
+#     
+#     for i in range(0,classCount):
+#         plot.show2(centroidsOfAllClasses[k*i:k+k*i], distortedClasses[i*N:(N+N*i)], 
+#                    1, ("Clusters [k] :", k))
+#     
+#     # show plot for all classes
+#     plot.show2(centroidsOfAllClasses, distortedClasses, classCount,
+#                ("Clusters [k] :", k))
 ############################
 
 plot = Plot()
