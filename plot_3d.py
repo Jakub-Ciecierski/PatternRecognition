@@ -37,13 +37,14 @@ class Plot:
             z.append(symbolClasses[i].characteristicsValues[2])
             colors.append(symbolClasses[i].color)
 
+        
         for centroid in centroids:
             ax.scatter(centroid[0],
                        centroid[1],
                        centroid[2],
                        c='black',
-                       s=40,
+                       s=60,
                        linewidth='0',
                        marker='o')
-        ax.scatter(x,y,z,c=colors,s=4,linewidth='0',marker='o') 
+        ax.scatter(x,y,z,c=colors,s=10,linewidth='0',marker='o')
         plt.show()
