@@ -58,10 +58,11 @@ for distoredClass in distortedClasses[0:N]:
     for value in distoredClass.characteristicsValues[:]:
         values.append(value[0])
     X.append(values)
-    #for value in distoredClass.characteristicsValues[:]:
         
 centroids = computeCluster(X, k)
+plot = Plot()
+plot.show2(centroids, distortedClasses[0:N], len(centroids))
 ############################
 
 plot = Plot()
-plot.show(symbolClasses + distortedClasses, len(symbolClasses))
+#plot.show(symbolClasses + distortedClasses, len(symbolClasses))
