@@ -4,7 +4,7 @@ from symbol_class import SymbolClass
 from color_chooser import ColorChooser 
 from plot_3d import Plot
 import numpy as np
-from distorter import Distorter 
+from distorter import Distorter
 
 # CREATE 20 CHARACTERISTICS
 characteristics = []
@@ -32,7 +32,7 @@ print(sep,)
 
 ''' DISTORTION '''
 
-N = 1000
+N = 100
 distortedClasses = []
 distorter = Distorter()
 for cl in symbolClasses[:]:
@@ -47,4 +47,4 @@ for cl in symbolClasses[:]:
 #     print(distortedClasses[i].characteristicsValues)
 
 plot = Plot()
-plot.show(distortedClasses)
+plot.show(symbolClasses + distortedClasses, len(symbolClasses))

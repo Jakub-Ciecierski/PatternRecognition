@@ -6,7 +6,7 @@ from symbol_class import SymbolClass
 class Plot:
     def __init__(self):
         pass
-    def show(self, symbolClasses):
+    def show(self, symbolClasses, numberOfDifferentClasses):
         fig = plt.figure()
         ax = Axes3D(fig)
         x,y,z, colors = [],[],[],[]
@@ -15,5 +15,13 @@ class Plot:
             y.append(symbolClasses[i].characteristicsValues[1])
             z.append(symbolClasses[i].characteristicsValues[2])
             colors.append(symbolClasses[i].color)
+           
         ax.scatter(x,y,z,c=colors,s=4,linewidth='0',marker='o')
+        ax.scatter(x[:numberOfDifferentClasses],
+                   y[:numberOfDifferentClasses],
+                   z[:numberOfDifferentClasses],
+                   c='black',
+                   s=40,
+                   linewidth='0',
+                   marker='o') 
         plt.show()
