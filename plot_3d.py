@@ -55,9 +55,9 @@ class Plot:
 
         for i in range(0,numberOfDifferentClasses):
             labelPos -= 0.05
-
-            color = symbolClasses[i*numberOfDifferentClasses].color
-            name = symbolClasses[i*numberOfDifferentClasses].name
+            index = int((len(symbolClasses) / numberOfDifferentClasses) * i)
+            color = symbolClasses[index].color
+            name = symbolClasses[index].name
 
             label = ("Class: ", name, color)
             ax.text2D(0.02, labelPos, label, transform=ax.transAxes, 
