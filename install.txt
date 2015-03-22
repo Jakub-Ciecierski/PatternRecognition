@@ -1,0 +1,14 @@
+1) Scipy
+http://sourceforge.net/projects/scipy/files/scipy/0.15.1/
+
+choose latest version for 3.4
+
+2) Scikit
+http://www.lfd.uci.edu/~gohlke/pythonlibs/#scikit-learn
+
+Choose e.g.:
+	scikit_learn-0.15.2-cp34-none-win32.whl
+
+Install from cd where the .whl file is:
+
+C:\Python34\Scripts\pip.exe install scikit_learn-0.15.2-cp34-none-win32.whl
