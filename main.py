@@ -76,4 +76,4 @@ for k in range(2,MAX_K):
 ############################
 
 plot = Plot()
-#plot.show(symbolClasses + distortedClasses, len(symbolClasses))
+plot.show(symbolClasses + distortedClasses, len(symbolClasses))
