@@ -18,5 +18,5 @@ class Plot:
             # put 0s on the y-axis, and put the y axis on the z-axis
             
         
-        ax.scatter(x,y,z,c=colors,marker='o')
+        ax.scatter(x,y,z,c=colors,s = 1.5,linewidth='0',marker='o')
         plt.show()
