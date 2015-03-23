@@ -29,19 +29,23 @@ class Plot:
                    linewidth='0',
                    marker='o') 
         
-        u, v = np.mgrid[0:2*np.pi:20j, 0:np.pi:10j]
-        x=np.cos(u)*np.sin(v)
-        y=np.sin(u)*np.sin(v)
-        z=np.cos(v)
-        ax.plot_wireframe(x, y, z, color="r")
+#         u, v = np.mgrid[0:2*np.pi:20j, 0:np.pi:10j]
+#         x=np.cos(u)*np.sin(v)
+#         y=np.sin(u)*np.sin(v)
+#         z=np.cos(v)
+#         ax.plot_wireframe(x, y, z, color="r")
         
         plt.show()
 
 
-    def show2(self, centroids, symbolClasses, numberOfDifferentClasses,
+    def show2(self, centroids,labelsPerPoint, symbolClasses, numberOfDifferentClasses,
               mainLabel="Plot"):
         fig = plt.figure()
         ax = Axes3D(fig)
+#         ax.set_xlim3d(0, 20)
+#         ax.set_ylim3d(0,20)
+#         ax.set_zlim3d(0,20)
+        
         x,y,z, colors = [],[],[],[]
         for i in range(0, len(symbolClasses)):
             x.append(symbolClasses[i].characteristicsValues[0])
@@ -55,11 +59,36 @@ class Plot:
                        centroid[1],
                        centroid[2],
                        c='black',
-                       s=60,
+                       s=40,
                        linewidth='0',
                        marker='o')
-        ax.scatter(x,y,z,c=colors,s=10,linewidth='0',marker='o')
-
+        ax.scatter(x,y,z,c=colors,s=10,linewidth='0',alpha = 0.3, marker='o')
+        
+        
+        # Add lines
+        labels_tmp = labelsPerPoint[:]
+        centroids_tmp = centroids[:]
+        connected_x, connected_y, connected_z = [], [], []
+        for i in range(0, numberOfDifferentClasses):
+            for j in range(0,len(labelsPerPoint[i])):
+                centroid_coord = centroids_tmp[labelsPerPoint[i][j] + i*5]
+                connected_x.append(centroid_coord[0])
+                connected_y.append(centroid_coord[1])
+                connected_z.append(centroid_coord[2])
+#       
+        
+        for i in range(0, len(x)):
+            temp_x, temp_y, temp_z = [], [], [] 
+            temp_x.append(x[i])
+            temp_x.append(connected_x[i])
+            temp_y.append(y[i])
+            temp_y.append(connected_y[i])
+            temp_z.append(z[i])
+            temp_z.append(connected_z[i])
+            ax.plot(temp_x, temp_y, temp_z, color='black', linewidth=.1)
+            
+        ##################################################    
+        
         # Add 2D label of the plot
         labelPos = 0.95
         ax.text2D(0.02, labelPos , mainLabel, transform=ax.transAxes)

@@ -37,58 +37,35 @@ for i in range(0,len(symbolClasses)):
           "Characteristics: ", symbolClasses[i].characteristicsValues, "\n")
     
 
-''' DISTORTION '''
+
+#DISTORTION
 print("*" * 10 , "Computing Distortion", "*" * 10 )
-
-#PARAMETERS
 N = 1000
-divisor = 100
-basePointsVariance = 0.7
-cloudPointsVariance = 0.3
-distortedClasses = []
-distorter = Distorter()
+distortedClasses = Distorter(N).create_cloud(symbolClasses[:])
 
-#CALCULATIONS
-for cl in symbolClasses[:]:
-    for i in range(0, int(N/divisor)):
-        distortedClass = SymbolClass(cl.name, cl.color)
-        distortedClass.characteristicsValues = distorter.generateDistortion(
-                                                        cl.characteristicsValues[:],
-                                                        basePointsVariance)
-        distortedClasses.append(distortedClass)
-        for j in range(0,divisor):
-            cloudPoint = SymbolClass(cl.name, cl.color)
-            cloudPoint.characteristicsValues = distorter.generateDistortion(
-                                                        distortedClass.characteristicsValues[:], 
-                                                        cloudPointsVariance)
-            print(cloudPoint.characteristicsValues)
-            distortedClasses.append(cloudPoint)
-
-''' END OF DISTORTION '''
-
-# for i in range(0, len(distortedClasses)):
-#     print(distortedClasses[i].characteristicsValues)
 
 
 ############################
 # Clustering
 print("*" * 10 , "Computing Clusters", "*" * 10 )
 plot = Plot()
-   
+    
 MAX_K = 5
 for k in range(5,MAX_K + 1):
     print("Clusters [k]:", k)
-    centroidsOfAllClasses = computeClusters(distortedClasses, k, classCount, N)
-   
+    centroidsOfAllClasses, labels = computeClusters(distortedClasses, k, classCount, N)
+    
     # show plot for each class
-   
+    
     for i in range(0,classCount):
-        plot.show2(centroidsOfAllClasses[k*i:k+k*i], distortedClasses[i*N:(N+N*i)], 
+        plot.show2(centroidsOfAllClasses[k*i:k+k*i],labels, distortedClasses[i*N:(N+N*i)], 
                    1, ("Clusters [k] :", k))
-   
+    
+    
+    
     # show plot for all classes
-    plot.show2(centroidsOfAllClasses, distortedClasses, classCount)
+    plot.show2(centroidsOfAllClasses,labels, distortedClasses, classCount)
 ############################
 
 plot = Plot()
-plot.show(symbolClasses + distortedClasses, len(symbolClasses))
+# plot.show(symbolClasses + distortedClasses, len(symbolClasses))

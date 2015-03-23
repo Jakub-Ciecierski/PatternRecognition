@@ -7,10 +7,11 @@ def computeKMeans(sample, k):
     X = [];
 
     k_means.fit(sample)
-    return k_means.cluster_centers_
+    return k_means.cluster_centers_, k_means.labels_
 
 def computeClusters(distortedClasses, k, numberOfDifferentClasses, N):
     centroidsOfAllClasses = []
+    labelsOfAllClasses = []
     for i in range(0, numberOfDifferentClasses):
         X = []
 
@@ -22,8 +23,11 @@ def computeClusters(distortedClasses, k, numberOfDifferentClasses, N):
 
             X.append(values)
 
-        centroids = computeKMeans(X, k)
-
+        centroids, points_labels = computeKMeans(X, k)
+        
         for j in range(0,k):
             centroidsOfAllClasses.append(centroids[j])
-    return centroidsOfAllClasses
+        
+        labelsOfAllClasses.append(points_labels)
+          
+    return centroidsOfAllClasses, labelsOfAllClasses
