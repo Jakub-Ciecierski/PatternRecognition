@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.axes3d import Axes3D
 from symbol_class import SymbolClass
 import numpy as np
-
+from elllipsoid import Ellipsoid
 
 class Plot:
     def __init__(self):
@@ -62,6 +62,9 @@ class Plot:
                        s=40,
                        linewidth='0',
                        marker='o')
+            ellipsoid = Ellipsoid(centroid[0], centroid[1],centroid[2], 1, 1, 1)
+            e_x, e_y, e_z = ellipsoid.get_points()
+            ax.plot_wireframe(e_x, e_y, e_z, color="black", alpha=0.04)
         ax.scatter(x,y,z,c=colors,s=10,linewidth='0',alpha = 0.3, marker='o')
         
         
@@ -85,7 +88,7 @@ class Plot:
             temp_y.append(connected_y[i])
             temp_z.append(z[i])
             temp_z.append(connected_z[i])
-            ax.plot(temp_x, temp_y, temp_z, color='black', linewidth=.1)
+            ax.plot(temp_x, temp_y, temp_z, color='black', linewidth=0.1)
             
         ##################################################    
         
