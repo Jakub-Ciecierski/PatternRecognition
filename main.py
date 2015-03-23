@@ -57,10 +57,10 @@ for k in range(5,MAX_K + 1):
      
     # show plot for each class
 #      
-    for i in range(0,classCount):
-        plot.show2(centroidsOfAllClasses[k*i:k+k*i],labels, distortedClasses[i*N:(N+N*i)], 
-                   1, ("Clusters [k] :", k))
-     
+#     for i in range(0,classCount):
+#         plot.show2(centroidsOfAllClasses[k*i:k+k*i],labels, distortedClasses[i*N:(N+N*i)], 
+#                    1, ("Clusters [k] :", k))
+#      
      
      
     # show plot for all classes
