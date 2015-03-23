@@ -40,7 +40,7 @@ for i in range(0,len(symbolClasses)):
 
 #DISTORTION
 print("*" * 10 , "Computing Distortion", "*" * 10 )
-N = 1000
+N = 100
 distortedClasses = Distorter(N).create_cloud(symbolClasses[:])
 
 
@@ -49,20 +49,20 @@ distortedClasses = Distorter(N).create_cloud(symbolClasses[:])
 # Clustering
 print("*" * 10 , "Computing Clusters", "*" * 10 )
 plot = Plot()
-    
+     
 MAX_K = 5
 for k in range(5,MAX_K + 1):
     print("Clusters [k]:", k)
     centroidsOfAllClasses, labels = computeClusters(distortedClasses, k, classCount, N)
-    
+     
     # show plot for each class
-    
+#      
     for i in range(0,classCount):
         plot.show2(centroidsOfAllClasses[k*i:k+k*i],labels, distortedClasses[i*N:(N+N*i)], 
                    1, ("Clusters [k] :", k))
-    
-    
-    
+     
+     
+     
     # show plot for all classes
     plot.show2(centroidsOfAllClasses,labels, distortedClasses, classCount)
 ############################

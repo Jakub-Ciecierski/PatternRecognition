@@ -9,7 +9,7 @@ class Distorter:
     
     def __init__(self, N):
         self.N = N
-        self.divisor = 100 
+        self.divisor = 10
         if(N % self.divisor != 0):
             print("Value of 'N' is not a multiplicity of value of 'divisor'.", 
                     "It may cause some problems e.g\n",
