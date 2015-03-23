@@ -15,12 +15,18 @@ def computeClusters(distortedClasses, k, numberOfDifferentClasses, N):
         X = []
 
         # compute clusters of each class
-        for distoredClass in distortedClasses[i*N:(N+N*i)]:
+        for l in range(i*N,N+N*i):
+            distoredClass = distortedClasses[l]
             values = []
+        #for distoredClass in distortedClasses[i*N:(N+N*i)]:
+            #values = []
 
-            for value in distoredClass.characteristicsValues[:]:
-                tmpValue = value[0]
-                values.append(tmpValue)
+            for j in range(0,len(distoredClass.characteristicsValues)):
+                values.append(distoredClass.characteristicsValues[i])
+            
+            #for value in distoredClass.characteristicsValues[:]:
+                #tmpValue = value
+                #values.append(tmpValue)
 
             X.append(values)
 
