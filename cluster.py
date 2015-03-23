@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class Cluster:
     """
     This class holds data about single cluster,
@@ -6,3 +9,8 @@ class Cluster:
     def __init__(self, centroid, points):
         self.centroid = centroid
         self.points = points
+        
+    def getMaxSemiAxes(self):
+        pass
+    
+    

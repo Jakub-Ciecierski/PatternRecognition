@@ -37,31 +37,6 @@ class Clusterer:
         k_means.fit(sample)
         return k_means.cluster_centers_, k_means.labels_
 
-
-    def computeClusters(self,distortedClasses, k, numberOfDifferentClasses, N):
-        centroidsOfAllClasses = []
-        labelsOfAllClasses = []
-        for i in range(0, numberOfDifferentClasses):
-            X = []
-    
-            # compute clusters of each class
-            for distoredClass in distortedClasses[i*N:(N+N*i)]:
-                values = []
-                for value in distoredClass.characteristicsValues[:]:
-                    values.append(value)
-    
-                X.append(values)
-    
-            centroids, points_labels = self.computeKMeans(X, k)
-            
-            for j in range(0,k):
-                centroidsOfAllClasses.append(centroids[j])
-            
-            labelsOfAllClasses.append(points_labels)
-              
-        return centroidsOfAllClasses, labelsOfAllClasses
-
-
     # Computes k clusters of given sample of distortedClasses
     def computeClusters2(self,distortedClasses, k):
         X = []

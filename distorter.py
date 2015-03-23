@@ -9,15 +9,15 @@ class Distorter:
     
     def __init__(self, N):
         self.N = N
-        self.divisor = 10
+        self.divisor = 100
         if(N % self.divisor != 0):
             print("Value of 'N' is not a multiplicity of value of 'divisor'.", 
                     "It may cause some problems e.g\n",
                     "desired number of points may differ.")
              
-        self.basePointsVariance = 0.7
+        self.basePointsVariance = 0.5
         self.cloudPointsVariance = 0.3
-    
+        print("Number of distorted classes per symbol:", N)
 
     # For a given n-dimensional point, this method distort  
     # it coordinates according to normal distribution.     
