@@ -2,9 +2,10 @@ import random
 from characteristic import Characteristic
 from symbol_class import SymbolClass
 from color_chooser import ColorChooser
+from cluster import Cluster
 from plot_3d import Plot
 import numpy as np
-from cluster import computeClusters
+from clusterer import Clusterer
 from distorter import Distorter
 from random import Random
 
@@ -37,35 +38,34 @@ for i in range(0,len(symbolClasses)):
           "Characteristics: ", symbolClasses[i].characteristicsValues, "\n")
     
 
-
 #DISTORTION
 print("*" * 10 , "Computing Distortion", "*" * 10 )
 N = 100
 distortedClasses = Distorter(N).create_cloud(symbolClasses[:])
 
-
-
 ############################
 # Clustering
 print("*" * 10 , "Computing Clusters", "*" * 10 )
 plot = Plot()
-     
+clusterer = Clusterer()
 MAX_K = 5
 for k in range(5,MAX_K + 1):
+    centroidsOfAllClasses = []
+    labelsOfAllClasses = []
     print("Clusters [k]:", k)
-    centroidsOfAllClasses, labels = computeClusters(distortedClasses, k, classCount, N)
-     
-    # show plot for each class
-#      
-#     for i in range(0,classCount):
-#         plot.show2(centroidsOfAllClasses[k*i:k+k*i],labels, distortedClasses[i*N:(N+N*i)], 
-#                    1, ("Clusters [k] :", k))
-#      
-     
-     
-    # show plot for all classes
-    plot.show2(centroidsOfAllClasses,labels, distortedClasses, classCount)
-############################
 
-plot = Plot()
-# plot.show(symbolClasses + distortedClasses, len(symbolClasses))
+    # old method to check if the new method is correct
+    centroidsOfAllClasses, labelsOfAllClasses = clusterer.computeClusters(distortedClasses, k, classCount, N)
+     
+    # new aproach
+    clusterer.computeClustersOfSymbols(k, symbolClasses, distortedClasses, N)
+
+    # show plot for each class
+   
+    for i in range(0,classCount):
+        plot.show2(centroidsOfAllClasses[k*i:k+k*i],labelsOfAllClasses[k*i:k+k*i], distortedClasses[i*N:(N+N*i)], 
+                   1, ("Clusters [k] :", k))
+#         plot.show2(centroidsOfAllClasses[k*i:k+k*i],labelsOfAllClasses[k*i:k+k*i], distortedClasses[i*N:(N+N*i)], 
+    # show plot for all classes
+    plot.showAllClusters(symbolClasses)
+#     plot.show2(centroidsOfAllClasses,labelsOfAllClasses, distortedClasses, classCount)

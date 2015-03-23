@@ -108,3 +108,50 @@ class Plot:
             
 
         plt.show()
+        
+        
+        
+        
+    def showAllClusters(self,symbolClasses):
+        fig = plt.figure()
+        ax = Axes3D(fig)
+
+        x,y,z, colors = [],[],[],[]
+        for i in range(0, len(symbolClasses)):
+            symbolClass = symbolClasses[i]
+            for j in range(0, len(symbolClass.clusters)):
+                cluster = symbolClass.clusters[j]
+                
+                for point in cluster.points:
+                    x.append(point[0])
+                    y.append(point[1])
+                    z.append(point[2])
+                centroid = cluster.centroid
+
+                ax.scatter(centroid[0],
+                       centroid[1],
+                       centroid[2],
+                       c='black',
+                       s=40,
+                       linewidth='0',
+                       marker='o')
+
+            colors.append(symbolClass.color)
+
+        ax.scatter(x,y,z,c=colors,s=10,linewidth='0',alpha = 0.3, marker='o')
+        
+        # Add 2D label of the plot
+        labelPos = 0.95
+        ax.text2D(0.02, labelPos , "Plot", transform=ax.transAxes)
+
+        lenght = len(symbolClasses)
+        for i in range(0,lenght):
+            labelPos -= 0.05
+            index = int((len(symbolClasses) / lenght) * i)
+            color = symbolClasses[index].color
+            name = symbolClasses[index].name
+
+            label = ("Class: ", name, color)
+            ax.text2D(0.02, labelPos, label, transform=ax.transAxes, 
+                      color=color)
+        plt.show()
