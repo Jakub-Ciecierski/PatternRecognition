@@ -39,19 +39,30 @@ for i in range(0,len(symbolClasses)):
 
 ''' DISTORTION '''
 print("*" * 10 , "Computing Distortion", "*" * 10 )
-N = 100
+
+#PARAMETERS
+N = 1000
+divisor = 100
+basePointsVariance = 0.7
+cloudPointsVariance = 0.3
 distortedClasses = []
-__random = Random()
-#check number f steps
+distorter = Distorter()
 
-print(n)  
-
+#CALCULATIONS
 for cl in symbolClasses[:]:
-    for i in range(0, N):
+    for i in range(0, int(N/divisor)):
         distortedClass = SymbolClass(cl.name, cl.color)
-        distorter = Distorter()
-        distortedClass.characteristicsValues = distorter.generateDistortion(cl.characteristicsValues[:],__random)
+        distortedClass.characteristicsValues = distorter.generateDistortion(
+                                                        cl.characteristicsValues[:],
+                                                        basePointsVariance)
         distortedClasses.append(distortedClass)
+        for j in range(0,divisor):
+            cloudPoint = SymbolClass(cl.name, cl.color)
+            cloudPoint.characteristicsValues = distorter.generateDistortion(
+                                                        distortedClass.characteristicsValues[:], 
+                                                        cloudPointsVariance)
+            print(cloudPoint.characteristicsValues)
+            distortedClasses.append(cloudPoint)
 
 ''' END OF DISTORTION '''
 
@@ -61,22 +72,22 @@ for cl in symbolClasses[:]:
 
 ############################
 # Clustering
-print("*" * 10 , "Computing Clusters", "*" * 10 )
-plot = Plot()
-
-MAX_K = 5
-for k in range(1,MAX_K + 1):
-    print("Clusters [k]:", k)
-    centroidsOfAllClasses = computeClusters(distortedClasses, k, classCount, N)
-
-    # show plot for each class
-
-    for i in range(0,classCount):
-        plot.show2(centroidsOfAllClasses[k*i:k+k*i], distortedClasses[i*N:(N+N*i)], 
-                   1, ("Clusters [k] :", k))
-
-    # show plot for all classes
-    plot.show2(centroidsOfAllClasses, distortedClasses, classCount,
+# print("*" * 10 , "Computing Clusters", "*" * 10 )
+# plot = Plot()
+#   
+# MAX_K = 5
+# for k in range(5,MAX_K + 1):
+#     print("Clusters [k]:", k)
+#     centroidsOfAllClasses = computeClusters(distortedClasses, k, classCount, N)
+#   
+#     # show plot for each class
+#   
+#     for i in range(0,classCount):
+#         plot.show2(centroidsOfAllClasses[k*i:k+k*i], distortedClasses[i*N:(N+N*i)], 
+#                    1, ("Clusters [k] :", k))
+#   
+#     # show plot for all classes
+#     plot.show2(centroidsOfAllClasses, distortedClasses, classCount)
 ############################
 
 plot = Plot()
