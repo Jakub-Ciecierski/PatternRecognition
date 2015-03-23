@@ -56,7 +56,7 @@ for cl in symbolClasses[:]:
                                                         cl.characteristicsValues[:],
                                                         basePointsVariance)
         distortedClasses.append(distortedClass)
-        for j in range(0,divisor):
+        for j in range(0,divisor - 1):
             cloudPoint = SymbolClass(cl.name, cl.color)
             cloudPoint.characteristicsValues = distorter.generateDistortion(
                                                         distortedClass.characteristicsValues[:], 
