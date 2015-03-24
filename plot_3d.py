@@ -43,9 +43,9 @@ class Plot:
               mainLabel="Plot"):
         fig = plt.figure()
         ax = Axes3D(fig)
-#         ax.set_xlim3d(0, 20)
-#         ax.set_ylim3d(0,20)
-#         ax.set_zlim3d(0,20)
+        ax.set_xlim3d(0, 20)
+        ax.set_ylim3d(0,20)
+        ax.set_zlim3d(0,20)
         
         x,y,z, colors = [],[],[],[]
         for i in range(0, len(symbolClasses)):
@@ -120,6 +120,10 @@ class Plot:
 #         ax.set_ylim3d(0,20)
 #         ax.set_zlim3d(0,20)
 
+        #ax.set_xlim3d(0, 20)
+        #ax.set_ylim3d(0,20)
+        #ax.set_zlim3d(0,20)
+
         x,y,z, colors = [],[],[],[]
         for i in range(0, len(symbolClasses)):
             symbolClass = symbolClasses[i]
@@ -153,22 +157,22 @@ class Plot:
                 U, D, V = la.svd(A)    
                 rx, ry, rz = 1./np.sqrt(D)
                 ellipsis = Ellipsoid(0 ,0 ,0, rx, ry,rz)
-                
-                print(A)
-                
                 E = np.dstack(ellipsis.get_points())
                 E = np.dot(E,V) + centroid
                 ex, ey, ez = np.rollaxis(E, axis = -1)
                 
-#                 for i in range(len(cluster.points)):
-#                     print(ellipsis.is_point_inside(cluster.points[i])
-#                           )
-                
+  
                 ax.plot_wireframe(ex, ey, ez, color="black", alpha=0.04)
-                tx,ty,tz = ellipsis.get_points()
-#                 ax.plot_wireframe(tx, ty, tz, color="r", alpha=0.04)
-#                 print('hej',ellipsis.x, ellipsis.y, ellipsis.z)
-
+                
+                # BASED ON (x-c)^T * R^T * A * R * (x-c) <= 1 we check if point
+                # belongs to sphere
+                p = np.matrix([x[0],y[0],z[0]])
+                R = np.matrix(V[:])
+                c = np.matrix(centroid[:]) 
+                n_A = np.matrix(A[:])               
+                result = (p-c) * R.T * A * R * (p-c).T
+                ax.scatter(x[0], y[0], z[0], s=50, marker='x', c='red')
+                print('is <= 1 ?: ',result, x[0], y[0], z[0])
         ax.scatter(x,y,z,c=colors,s=10,linewidth='0',alpha = 0.45, marker='o')
         
         # Add 2D label of the plot

@@ -2,12 +2,9 @@ import random
 from characteristic import Characteristic
 from symbol_class import SymbolClass
 from color_chooser import ColorChooser
-from cluster import Cluster
 from plot_3d import Plot
-import numpy as np
 from clusterer import Clusterer
 from distorter import Distorter
-from random import Random
 
 # CREATE M CHARACTERISTICS
 M = 3
@@ -41,7 +38,7 @@ for i in range(0,len(symbolClasses)):
 #DISTORTION
 print("*" * 10 , "Computing Distortion", "*" * 10 )
 N = 100
-distortedClasses = Distorter(N).create_cloud(symbolClasses[:])
+Distorter(N).create_cloud(symbolClasses[:])
 
 ############################
 # Clustering
@@ -50,10 +47,8 @@ plot = Plot()
 clusterer = Clusterer()
 MAX_K = 5
 for k in range(MAX_K,MAX_K + 1):
-    centroidsOfAllClasses = []
-    labelsOfAllClasses = []
     print("Clusters [k]:", k)
-    clusterer.computeClustersOfSymbols(k, symbolClasses, distortedClasses, N)
+    clusterer.computeClusters(k, symbolClasses)
 ##############################
 
 # DISPLAY    

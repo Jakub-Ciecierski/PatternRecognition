@@ -1,5 +1,3 @@
-import random
-
 class SymbolClass:
     """
     SymbolClass represents a single symbol e.g. 0, 1 or 2
@@ -11,3 +9,4 @@ class SymbolClass:
         self.characteristicsValues = []
         self.color = color
         self.clusters = []
+        self.distortedClasses = []

@@ -1,5 +1,5 @@
 import numpy as np
-
+from elllipsoid import Ellipsoid
 
 class Cluster:
     """
@@ -9,8 +9,7 @@ class Cluster:
     def __init__(self, centroid, points):
         self.centroid = centroid
         self.points = points
-        
-    def getMaxSemiAxes(self):
-        pass
-    
+        self.ellipsoid = self.generate_ellipsoid()
+    def generate_ellipsoid(self):
+        return Ellipsoid(0,0,0,0,0,0)
     
