@@ -29,7 +29,7 @@ class Clusterer:
                     if labels[c] == j:
                         points.append(distortedClassesOfSingleClass[c].characteristicsValues)
     
-                cluster = Cluster(centroids[j],points)
+                cluster = Cluster(centroids[j],points, cl.name, j)
                 cl.clusters.append(cluster)
 
 

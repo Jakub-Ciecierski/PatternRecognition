@@ -38,6 +38,7 @@ class Ellipsoid:
         pointsOutX = []
         pointsOutY = []
         pointsOutZ = []
+        
         R = np.matrix(self.V[:])
         c = np.matrix(self.centroid[:]) 
         n_A = np.matrix(self.A[:]) 
@@ -46,14 +47,11 @@ class Ellipsoid:
             p = np.matrix([points[i][0],points[i][1],points[i][2]])
             result = (p-c)  * n_A * (p-c).T
              
-            if(result  > 1.05):
+            if(result  > 1.01):
                 pointsOutX.append(points[i][0])
                 pointsOutY.append(points[i][1])
                 pointsOutZ.append(points[i][2])
-#             print('result', result)
             
-#             print([points[i][0],points[i][0],points[i][0]])
-
         return pointsOutX, pointsOutY, pointsOutZ
     
     def mvee(self, points, tol = 0.001):
