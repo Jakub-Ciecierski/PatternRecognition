@@ -44,9 +44,9 @@ class Ellipsoid:
         
         for i in range(0, len(points)):
             p = np.matrix([points[i][0],points[i][1],points[i][2]])
-            result = (p-c) * R.T * n_A *R* (p-c).T
+            result = (p-c)  * n_A * (p-c).T
              
-            if(result  > 1.1):
+            if(result  > 1.05):
                 pointsOutX.append(points[i][0])
                 pointsOutY.append(points[i][1])
                 pointsOutZ.append(points[i][2])

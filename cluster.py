@@ -11,6 +11,6 @@ class Cluster:
         self.points = points
         self.ellipsoid = Ellipsoid(self.points)
         self.pox, self.poy, self.poz = self.ellipsoid.is_point_in_ellipsoid(self.points[:]) 
-        print('% points in cluster:',1- len(self.pox)/len(self.points))
+        print('points per cluster:',(1- len(self.pox)/len(self.points)) * 100,' %')
 
     

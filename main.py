@@ -35,22 +35,22 @@ for i in range(0,len(symbolClasses)):
           "Characteristics: ", symbolClasses[i].characteristicsValues, "\n")
     
 
-#DISTORTION
+# DISTORTION
 print("*" * 10 , "Computing Distortion", "*" * 10 )
 N = 100
 Distorter(N).create_cloud(symbolClasses[:])
 
-############################
+#############################
 # Clustering
 print("*" * 10 , "Computing Clusters", "*" * 10 )
 plot = Plot()
 clusterer = Clusterer()
-MAX_K = 5
+MAX_K = 4
 for k in range(MAX_K,MAX_K + 1):
     print("Clusters [k]:", k)
-    clusterer.computeClusters(k, symbolClasses[:2])
+    clusterer.computeClusters(k, symbolClasses[:])
 ##############################
 
 # DISPLAY    
-plot.showAllClusters(symbolClasses[:2])
+plot.showAllClusters(symbolClasses[:])
 
