@@ -57,5 +57,5 @@ for k in range(MAX_K,MAX_K + 1):
 ##############################
 
 # DISPLAY    
-plot.showAllClusters(symbolClasses[:2])
+plot.showAllClusters(symbolClasses[:1])
 

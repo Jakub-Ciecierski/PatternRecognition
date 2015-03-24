@@ -154,11 +154,20 @@ class Plot:
                 rx, ry, rz = 1./np.sqrt(D)
                 ellipsis = Ellipsoid(0 ,0 ,0, rx, ry,rz)
                 
+                print(A)
+                
                 E = np.dstack(ellipsis.get_points())
                 E = np.dot(E,V) + centroid
                 ex, ey, ez = np.rollaxis(E, axis = -1)
                 
+#                 for i in range(len(cluster.points)):
+#                     print(ellipsis.is_point_inside(cluster.points[i])
+#                           )
+                
                 ax.plot_wireframe(ex, ey, ez, color="black", alpha=0.04)
+                tx,ty,tz = ellipsis.get_points()
+#                 ax.plot_wireframe(tx, ty, tz, color="r", alpha=0.04)
+#                 print('hej',ellipsis.x, ellipsis.y, ellipsis.z)
 
         ax.scatter(x,y,z,c=colors,s=10,linewidth='0',alpha = 0.45, marker='o')
         
