@@ -9,7 +9,7 @@ class Distorter:
     
     def __init__(self, N):
         self.N = N
-        self.divisor = 100
+        self.divisor = 1
         if(N % self.divisor != 0):
             print("Value of 'N' is not a multiplicity of value of 'divisor'.", 
                     "It may cause some problems e.g\n",
@@ -52,7 +52,7 @@ class Distorter:
                                                                 cl.characteristicsValues[:],
                                                                 self.basePointsVariance)
                 # store result 
-                distortedClasses.append(distortedClass)
+                cl.distortedClasses.append(distortedClass)
                 # create cloud of points around newly created one - distortedClass
                 for j in range(0,self.divisor-1):
                     cloudPoint = SymbolClass(cl.name, cl.color)
@@ -60,5 +60,4 @@ class Distorter:
                     cloudPoint.characteristicsValues = self.generate_distortion(
                                                                 distortedClass.characteristicsValues[:], 
                                                                 self.cloudPointsVariance)
-                    distortedClasses.append(cloudPoint)
-        return distortedClasses
+                    cl.distortedClasses.append(cloudPoint)
