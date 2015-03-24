@@ -63,9 +63,9 @@ class Plot:
                        s=40,
                        linewidth='0',
                        marker='o')
-            ellipsoid = Ellipsoid(centroid[0], centroid[1],centroid[2], 1, 1, 1)
-            e_x, e_y, e_z = ellipsoid.get_points()
-            ax.plot_wireframe(e_x, e_y, e_z, color="black", alpha=0.04)
+#             ellipsoid = Ellipsoid(centroid[0], centroid[1],centroid[2], 1, 1, 1)
+#             e_x, e_y, e_z = ellipsoid.get_points()
+#             ax.plot_wireframe(e_x, e_y, e_z, color="black", alpha=0.04)
         ax.scatter(x,y,z,c=colors,s=10,linewidth='0',alpha = 0.3, marker='o')
         
         
@@ -151,28 +151,23 @@ class Plot:
                        c=symbolClass.color,
                        s=40,
                        marker='o')
-                
+                ax.scatter(cluster.pox, cluster.poy, cluster.poz, c='r',marker='x', s=50 )
                 # Draw ellipsoid
-                A, centroid = self.mvee(np.array(cluster.points))    
-                U, D, V = la.svd(A)    
-                rx, ry, rz = 1./np.sqrt(D)
-                ellipsis = Ellipsoid(0 ,0 ,0, rx, ry,rz)
-                E = np.dstack(ellipsis.get_points())
-                E = np.dot(E,V) + centroid
-                ex, ey, ez = np.rollaxis(E, axis = -1)
-                
-  
+
+                ex, ey, ez = cluster.ellipsoid.get_points()
+#                 
+#   
                 ax.plot_wireframe(ex, ey, ez, color="black", alpha=0.04)
                 
                 # BASED ON (x-c)^T * R^T * A * R * (x-c) <= 1 we check if point
                 # belongs to sphere
-                p = np.matrix([x[0],y[0],z[0]])
-                R = np.matrix(V[:])
-                c = np.matrix(centroid[:]) 
-                n_A = np.matrix(A[:])               
-                result = (p-c) * R.T * A * R * (p-c).T
-                ax.scatter(x[0], y[0], z[0], s=50, marker='x', c='red')
-                print('is <= 1 ?: ',result, x[0], y[0], z[0])
+#                 p = np.matrix([x[0],y[0],z[0]])
+#                 R = np.matrix(V[:])
+#                 c = np.matrix(centroid[:]) 
+#                 n_A = np.matrix(A[:])               
+#                 result = (p-c) * R.T * A * R * (p-c).T
+#                 ax.scatter(x[0], y[0], z[0], s=50, marker='x', c='red')
+#                 print('is <= 1 ?: ',result, x[0], y[0], z[0])
         ax.scatter(x,y,z,c=colors,s=10,linewidth='0',alpha = 0.45, marker='o')
         
         # Add 2D label of the plot

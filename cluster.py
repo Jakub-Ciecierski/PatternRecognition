@@ -9,7 +9,8 @@ class Cluster:
     def __init__(self, centroid, points):
         self.centroid = centroid
         self.points = points
-        self.ellipsoid = self.generate_ellipsoid()
-    def generate_ellipsoid(self):
-        return Ellipsoid(0,0,0,0,0,0)
+        self.ellipsoid = Ellipsoid(self.points)
+        self.pox, self.poy, self.poz = self.ellipsoid.is_point_in_ellipsoid(self.points[:]) 
+        print('% points in cluster:',1- len(self.pox)/len(self.points))
+
     

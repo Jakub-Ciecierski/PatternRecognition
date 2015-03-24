@@ -48,9 +48,9 @@ clusterer = Clusterer()
 MAX_K = 5
 for k in range(MAX_K,MAX_K + 1):
     print("Clusters [k]:", k)
-    clusterer.computeClusters(k, symbolClasses)
+    clusterer.computeClusters(k, symbolClasses[:2])
 ##############################
 
 # DISPLAY    
-plot.showAllClusters(symbolClasses[:1])
+plot.showAllClusters(symbolClasses[:2])
 
