@@ -28,7 +28,7 @@ N = 100
     Number of points which are randomly chose (using gaussian distribution)
     around N/DIST_DIV points.
 '''
-DIST_DIV = 1
+DIST_DIV = 10
 
 '''
     Number of clusters per symbol class.
@@ -38,14 +38,14 @@ K = 3
 '''
     Each ellipsoid's semi-axis will be scaled by this factor.
 '''
-SEMI_AXIS_SCALE = 0.85
+SEMI_AXIS_SCALE = 0.95
 
 '''
     When checking the points membership to the ellipsoid, some error
     tolerance can be take. Default value is 1 and there is no need 
     to go below it. Really.
 '''
-ELLPSD_TRESH = 1.00
+ELLPSD_TRESH = 1.001
 
 '''
     Accuracy of Minimum Volume Enclosing Ellipsoid method.
@@ -72,7 +72,6 @@ DIST_BASE_P_SD = 0.6
     generation of points surrounding base points in the cloud around original value. 
 '''
 DIST_CLOUD_P_SD = 0.3
-
 
 '''
     The distance threshold between properly generated Foreign characteristics

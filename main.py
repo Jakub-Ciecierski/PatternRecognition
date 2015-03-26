@@ -14,10 +14,12 @@ InitDataRandomizer().generate_characteristic(characteristics)
 print("*" * 10 , "Creating: ", global_v.CLASS_NUM, " Symbol Classes", "*" * 10 )
 symbolClasses = []
 InitDataRandomizer().generate_symbol_classes(symbolClasses, characteristics)
+
 # DISTORTION
 print("*" * 10 , "Computing Distortion", "*" * 10 )
 Distorter().create_cloud(symbolClasses[:])
-# Clustering
+
+# CLUSTERING
 print("*" * 10 , "Computing Clusters", "*" * 10 )
 Clusterer().computeClusters(symbolClasses[:global_v.CLASS_DISPLAY_NUM])
 
