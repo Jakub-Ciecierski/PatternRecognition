@@ -1,8 +1,8 @@
-import random
-import global_variables as global_v
+from util.random_generator import RandomGenerator
+import util.global_variables as global_v
 from characteristic import Characteristic
 from symbol_class import SymbolClass
-from color_chooser import ColorChooser
+from util.color_chooser import ColorChooser
 
 '''
     To make main.py more transparent wholl process of initialization
@@ -30,8 +30,8 @@ class InitDataRandomizer:
             # Randomize value for each characteristic of the symbol
             for j in range(0,len(characteristics)):
                 symbolClasses[i].characteristicsValues.append(
-                    random.uniform(characteristics[j].interval.lowerBound, 
-                                   characteristics[j].interval.upperBound))
+                                RandomGenerator().generateRandom(characteristics[j].interval.lowerBound, 
+                                                                 characteristics[j].interval.upperBound))
         # INFO
         for symbolClass in symbolClasses:
             print("Symbol Class:",symbolClass.name, "\n",

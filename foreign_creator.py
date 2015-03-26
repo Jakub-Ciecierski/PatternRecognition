@@ -1,6 +1,6 @@
 from symbol_class import SymbolClass
 from util.color_chooser import ColorChooser
-from util.generator import generateRandom
+from util.random_generator import RandomGenerator
 from numpy import sqrt
 
 class ForeignCreator:
@@ -20,19 +20,26 @@ class ForeignCreator:
             foreignCharacteristics = []
 
             for j in range(0,len(characteristics)):
-                foreignCharacteristic = generateRandom(characteristics[j].interval.lowerBound,
-                                                       characteristics[j].interval.upperBound)
+                foreignCharacteristic = RandomGenerator().generateRandom(
+                                                                         characteristics[j].interval.lowerBound,
+                                                                         characteristics[j].interval.upperBound)
                 foreignCharacteristics.append(foreignCharacteristic)
 
             isForeign = self.__isForeign(foreignCharacteristics, nativeClasses)
-            
+            foreignClass.characteristicsValues = foreignCharacteristics
     
-    # Checks if given vector of foreignCharacteristics does not overlap with any of
-    # the native ones
+    # Checks if given vector of foreignCharacteristics 
+    # does not overlap with any of the native ones.
+    # Based on Euclidean distance.
     def __isForeign(self, foreignCharacteristics, nativeClasses):
         # go through every characteristic in Native classes
         for cl in nativeClasses:
             for dcl in cl.distortedClasses:
+                distance = 0
                 for i in range(0,len(foreignCharacteristics)):
-                    print(foreignCharacteristics)
-                    print(dcl.characteristicsValues)
+                    distance += (foreignCharacteristics[i] - dcl.characteristicsValues[i])**2
+                distance = sqrt(distance)
+                print("The distance between two vectors: ")
+                print(dcl.characteristicsValues)
+                print(foreignCharacteristics)
+                print("is:",distance)

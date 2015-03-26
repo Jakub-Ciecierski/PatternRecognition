@@ -1,6 +1,6 @@
 import numpy as np
 from elllipsoid import Ellipsoid
-import global_variables as global_v
+import util.global_variables as global_v
 
 '''
     Structure which holds all needed information about cluster.

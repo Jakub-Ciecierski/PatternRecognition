@@ -26,7 +26,7 @@ class ColorChooser:
             "sage",
             "salmon"]
     
-    def getColor(self):
+    def get_color(self):
         _c = random.choice(self.colors)
         self.colors.remove(_c)
         return _c

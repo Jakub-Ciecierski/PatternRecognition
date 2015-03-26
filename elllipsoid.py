@@ -1,6 +1,6 @@
 import numpy as np
 import numpy.linalg as la
-import global_variables as global_v
+import util.global_variables as global_v
 
 '''
     Class manages all operations regarding ellipsoid.

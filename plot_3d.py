@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.axes3d import Axes3D
-import global_variables as global_v
+import util.global_variables as global_v
 
 '''
     In charge of plotting data onto 3D sketch.

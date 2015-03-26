@@ -1,6 +1,6 @@
 from numpy import random, sqrt, log, sin, cos, pi
 import random
-import global_variables as global_v
+import util.global_variables as global_v
 from symbol_class import SymbolClass
 
 '''

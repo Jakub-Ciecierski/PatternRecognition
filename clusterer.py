@@ -1,7 +1,7 @@
 import numpy as np
 from cluster import Cluster
 from sklearn.cluster import MiniBatchKMeans, KMeans
-import global_variables as global_v
+import util.global_variables as global_v
 
 """
     Clusterer is used to for clustering computations

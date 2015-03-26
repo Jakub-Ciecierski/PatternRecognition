@@ -1,7 +1,10 @@
-import global_variables as global_v
-from plot_3d import Plot3Dfrom clusterer import Clusterer
+import util.global_variables as global_v
+from plot_3d import Plot3D
+from clusterer import Clusterer
 from distorter import Distorter
 from init_data_randomizer import InitDataRandomizer
+from foreign_creator import ForeignCreator
+
 # CREATE CHAR_NUM CHARACTERISTICS
 print("*" * 10 , "Creating:", global_v.CHAR_NUM, "Characteristics", "*" * 10 )
 characteristics = []
