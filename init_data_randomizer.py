@@ -2,6 +2,7 @@ from util.random_generator import RandomGenerator
 import util.global_variables as global_v
 from characteristic import Characteristic
 from symbol_class import SymbolClass
+from symbol_types import SymbolType
 from util.color_chooser import ColorChooser
 
 '''
@@ -26,7 +27,7 @@ class InitDataRandomizer:
     def generate_symbol_classes(self, symbolClasses, characteristics):
         for i in range(0,global_v.CLASS_NUM):
             # Store newly created symbol class in the list
-            symbolClasses.append(SymbolClass(i, ColorChooser().get_color()))
+            symbolClasses.append(SymbolClass(i, ColorChooser().get_color(), type = SymbolType.NATIVE_BASE))
             # Randomize value for each characteristic of the symbol
             for j in range(0,len(characteristics)):
                 symbolClasses[i].characteristicsValues.append(

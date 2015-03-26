@@ -3,6 +3,7 @@ from util.color_chooser import ColorChooser
 from util.random_generator import RandomGenerator
 from numpy import sqrt
 import util.global_variables as global_v
+from symbol_types import SymbolType
 
 class ForeignCreator:
     def __init__(self):
@@ -16,7 +17,8 @@ class ForeignCreator:
         # create n Foreign classes
         foreignClasses = []
         for i in range(0,n):
-            foreignClass = SymbolClass("foreign", ColorChooser().getForeignColor())
+            foreignClass = SymbolClass("foreign", ColorChooser().getForeignColor(), 
+                                       type = SymbolType.FOREIGN)
             # Keep generating characteristics for given Foreign class 
             # while the values are not valid
             while True:

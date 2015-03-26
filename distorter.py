@@ -2,6 +2,7 @@ from numpy import random, sqrt, log, sin, cos, pi
 import random
 import util.global_variables as global_v
 from symbol_class import SymbolClass
+from symbol_types import SymbolType
 
 '''
     Class in charge of creating cloud of N  random 
@@ -46,7 +47,7 @@ class Distorter:
         for cl in symbolClasses:
             for i in range(0, int(global_v.N/global_v.DIST_DIV)):
                 # instance of new symbol
-                distortedClass = SymbolClass(cl.name, cl.color)
+                distortedClass = SymbolClass(cl.name, cl.color, type = SymbolType.NATIVE_LEARNING)
                 # randomize position around a given class(based on position)
                 distortedClass.characteristicsValues = self.__generate_distortion(
                                                                 cl.characteristicsValues[:],

@@ -25,10 +25,8 @@ print("*" * 10 , "Displaying Plot", "*" * 10 )
 Plot3D().renderPlot(symbolClasses[:global_v.CLASS_DISPLAY_NUM])
 ################################
 ### Generate Foreign classes ###
-
-foreignCreator = ForeignCreator()
 foreignClasses = []
-foreignClasses = foreignCreator.createForeignClass(global_v.CLASS_NUM * global_v.N,
+foreignClasses = ForeignCreator().createForeignClass(global_v.CLASS_NUM * global_v.N,
                                   symbolClasses, characteristics)
 #for i in range(0,N):
 
