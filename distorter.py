@@ -11,12 +11,14 @@ from symbol_types import SymbolType
 class Distorter:
     
     def __init__(self):
-        if(global_v.N % global_v.DIST_DIV != 0):
+        if((global_v.N_LEARNING+ global_v.N_TEST) % global_v.DIST_DIV != 0):
             print("Value of 'N' is not a multiplicity of value of 'divisor'.", 
                     "It may cause some problems e.g\n",
                     "desired number of points may differ.")
 
-        print("Number of distorted classes per symbol:", global_v.N)
+        print("Number of distorted classes per symbol:   ", global_v.N_LEARNING + global_v.N_TEST)
+        print("Number of learning set points:            ",global_v.N_LEARNING)
+        print("Number of test set points:                ", global_v.N_TEST)
         
     '''
         For a given n-dimensional point, this method distort  
@@ -45,7 +47,7 @@ class Distorter:
     '''             
     def create_cloud(self, symbolClasses):
         for cl in symbolClasses:
-            for i in range(0, int(global_v.N/global_v.DIST_DIV)):
+            for i in range(0, int((global_v.N_LEARNING + global_v.N_TEST)/global_v.DIST_DIV)):
                 # instance of new symbol
                 distortedClass = SymbolClass(cl.name, cl.color, type = SymbolType.NATIVE_LEARNING)
                 # randomize position around a given class(based on position)

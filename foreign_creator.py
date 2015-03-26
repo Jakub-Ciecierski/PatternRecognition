@@ -9,15 +9,17 @@ class ForeignCreator:
     def __init__(self):
         pass
     
-    # Creates Foreign classes, checks the difference
-    # of generated characteristics values to the ones of
-    # Native classes, to make sure that no Foreign class overlaps
-    # with previously generated Native classes
+    """
+        Creates Foreign classes, compares the distance
+        between newly generated characteristics values to the ones of
+        Native classes to make sure that these values do not overlap
+    """
     def createForeignClass(self, n, nativeClasses, characteristics):
         # create n Foreign classes
         foreignClasses = []
         for i in range(0,n):
-            foreignClass = SymbolClass("foreign", ColorChooser().getForeignColor(), 
+            name  = "Foreign" + str(i)
+            foreignClass = SymbolClass(name, ColorChooser().getForeignColor(), 
                                        type = SymbolType.FOREIGN)
             # Keep generating characteristics for given Foreign class 
             # while the values are not valid
@@ -35,10 +37,28 @@ class ForeignCreator:
                     break
             # Add to all classes
             foreignClasses.append(foreignClass)
+        return foreignClasses
+
+    '''
+        Creates foreign classes with duplicated characteristics from native classes
+    '''
+    def createForeignClassDuplicateCharValues(self, n, nativeClasses, characteristics):
+        foreignClasses = []
+        for nc in nativeClasses:
+            for dc in nc.distortedClasses:
+                name  = "Foreign"
+                foreignClass = SymbolClass(name, ColorChooser().getForeignColor(), 
+                                   type = SymbolType.FOREIGN)
                 
-    # Checks if given vector of foreignCharacteristics 
-    # does not overlap with any of the native ones.
-    # Based on Euclidean distance.
+                foreignClass.characteristicsValues = dc.characteristicsValues
+                foreignClasses.append(foreignClass)
+        return foreignClasses
+
+    '''
+        Checks if given vector of foreignCharacteristics 
+        does not overlap with any of the native ones.
+        Based on Euclidean distance.
+    '''
     def __isForeign(self, foreignCharacteristics, nativeClasses):
         # go through every characteristic in Native classes
         for cl in nativeClasses:

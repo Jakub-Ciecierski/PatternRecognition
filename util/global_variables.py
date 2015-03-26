@@ -12,7 +12,7 @@ CHAR_NUM = 3
     Number of symbol classes displayed on the graph.
     When CLASS_DISPLAY_NUM = CLASS_NUM, graph displays all of them.
 '''
-CLASS_DISPLAY_NUM = 1
+CLASS_DISPLAY_NUM = 3
 
 '''
     If true scale of the graph's axes is <0,20>.
@@ -21,19 +21,25 @@ CLASS_DISPLAY_NUM = 1
 UNIFORM_SCALE = False; 
 
 '''
-    Number of points for each characteristic.
+    Number of points for each characteristic in learning set.
 '''
-N = 100
+N_LEARNING = 800
+
+'''
+    Number of points for each characteristic in test set.
+'''
+N_TEST = 200
+
 '''
     Number of points which are randomly chose (using gaussian distribution)
-    around N/DIST_DIV points.
+    around N_LEARN/DIST_DIV points.
 '''
-DIST_DIV = 10
+DIST_DIV = 1
 
 '''
     Number of clusters per symbol class.
 '''
-K = 3
+K = 5
 
 '''
     Each ellipsoid's semi-axis will be scaled by this factor.
@@ -53,7 +59,7 @@ ELLPSD_TRESH = 1.001
     >> for 3D:    0.001 
     >> for 10D: 0.00001
 '''
-MVEE_ERR = 0.0001
+MVEE_ERR = 0.001
 
 '''
     Randomized values of all characteristics will be picked from
@@ -65,7 +71,7 @@ CHAR_INTERVAL = [0,20]
     Standard deviation for gaussian distribution used for
     generation of based points in the cloud around original value. 
 '''
-DIST_BASE_P_SD = 0.6
+DIST_BASE_P_SD = 0.3
 
 '''
     Standard deviation for gaussian distribution used for
