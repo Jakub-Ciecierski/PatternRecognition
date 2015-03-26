@@ -1,10 +1,11 @@
-import random
 from characteristic import Characteristic
 from symbol_class import SymbolClass
-from color_chooser import ColorChooser
+from util.color_chooser import ColorChooser
 from plot_3d import Plot
 from clusterer import Clusterer
 from distorter import Distorter
+from util.generator import generateRandom
+from foreign_creator import ForeignCreator
 
 # CREATE M CHARACTERISTICS
 M = 3
@@ -22,12 +23,12 @@ symbolClasses = []
 colorChooser = ColorChooser()
 for i in range(0,classCount):
     # Store newly created symbol class in the list
-    symbolClasses.append(SymbolClass(i, colorChooser.getColor()))
+    symbolClasses.append(SymbolClass(i, colorChooser.getNextRandomColor()))
     # Randomize value for each characteristic of the symbol
     for j in range(0,len(characteristics)):
         symbolClasses[i].characteristicsValues.append(
-            random.uniform(characteristics[j].interval.lowerBound, 
-                           characteristics[j].interval.upperBound))
+                    generateRandom(characteristics[j].interval.lowerBound, 
+                                   characteristics[j].interval.upperBound))
 
 # INFO
 for i in range(0,len(symbolClasses)):
@@ -37,7 +38,7 @@ for i in range(0,len(symbolClasses)):
 
 # DISTORTION
 print("*" * 10 , "Computing Distortion", "*" * 10 )
-N = 500
+N = 50
 Distorter(N).create_cloud(symbolClasses[:])
 
 #############################
@@ -52,5 +53,14 @@ for k in range(MAX_K,MAX_K + 1):
 ##############################
 
 # DISPLAY    
-plot.showAllClusters(symbolClasses[:3])
+#plot.showAllClusters(symbolClasses[:3])
 
+################################
+### Generate Foreign classes ###
+
+foreignCreator = ForeignCreator()
+foreignClasses = []
+foreignCreator.createForeignClass(N, symbolClasses, characteristics)
+#for i in range(0,N):
+
+################################
