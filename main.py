@@ -28,7 +28,8 @@ Plot3D().renderPlot(symbolClasses[:global_v.CLASS_DISPLAY_NUM])
 
 foreignCreator = ForeignCreator()
 foreignClasses = []
-foreignCreator.createForeignClass(N, symbolClasses, characteristics)
+foreignCreator.createForeignClass(global_v.CLASS_NUM * global_v.CHAR_NUM,
+                                  symbolClasses, characteristics)
 #for i in range(0,N):
 
 ################################
