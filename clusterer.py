@@ -17,11 +17,10 @@ class Clusterer:
     """
     def computeClusters(self, symbolClasses):
         for cl in symbolClasses:
-            # compute k clusters of each class
-            distortedClassesOfSingleClass = cl.distortedClasses
+            distortedClassesOfSingleClass = cl.distortedClasses[:global_v.N_LEARNING]
     
             centroids, labels = self.__computeClusters(distortedClassesOfSingleClass)
-            
+
             # distinguish k clusters
             for j in range(0,global_v.K):
                 # points of this cluster

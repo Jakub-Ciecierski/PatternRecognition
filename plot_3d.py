@@ -20,6 +20,7 @@ class Plot3D:
     '''
     def renderPlot(self, symbolClasses, foreignSymbols = []):
         if(global_v.CHAR_NUM == 3):
+            print("Rendering 3D plot.")
             self.__render(symbolClasses, foreignSymbols)
         else:
             print("Cannot create 3D plot - number of characteristics != 3")
@@ -70,7 +71,7 @@ class Plot3D:
                 # Draw ellipsoid
                 ex, ey, ez = cluster.ellipsoid.get_points()
                 self.axes.plot_wireframe(ex, ey, ez, color="black", alpha=0.04)
-        
+
         # Draw all points        
         self.axes.scatter(x, y, z, c=colors, s=10, linewidth='0', alpha = 0.45, marker='o')
         

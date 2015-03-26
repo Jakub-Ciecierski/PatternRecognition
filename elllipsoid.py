@@ -88,12 +88,16 @@ class Ellipsoid:
         Check  whether a give point belongs to the ellipsoid or not.
         What's more, it returns 3 vectors of coordinates(X, Y, Z),
         containing points, which does not belong to the shape.
+        If data dimension is 2D it returns only X and Y vectors.
+        What's more one can set that only number of rejected points
+        will be returned.
     '''
-    def is_point_in_ellipsoid(self, points):
+    def is_point_in_ellipsoid(self, points, just_number = False):
         # BASED ON (x-c)^T * A * (x-c) <= 1 we check if point
         # belongs to ellipsoid/ellipse
         pointsOutX = []
         pointsOutY = []
+        rejected_count = 0;
         if(global_v.CHAR_NUM == 3):
             pointsOutZ = []
         
@@ -113,25 +117,33 @@ class Ellipsoid:
             
             # Gather points which are not belonging to ellipsoid/ellipse 
             if(result  > global_v.ELLPSD_TRESH):
-                pointsOutX.append(points[i][0])
-                pointsOutY.append(points[i][1])
-                if(global_v.CHAR_NUM == 3):
-                    pointsOutZ.append(points[i][2])
-        
-        if(global_v.CHAR_NUM == 3):    
-            return pointsOutX, pointsOutY, pointsOutZ
+                if(not just_number):
+                    pointsOutX.append(points[i][0])
+                    pointsOutY.append(points[i][1])
+                    if(global_v.CHAR_NUM == 3):
+                        pointsOutZ.append(points[i][2])
+                else:
+                    rejected_count+=1
+                    
+        if(not just_number):
+            if(global_v.CHAR_NUM == 3):    
+                return pointsOutX, pointsOutY, pointsOutZ
+            else:    
+                return pointsOutX, pointsOutY
         else:
-            return pointsOutX, pointsOutY
+            return rejected_count
+            
+            
     '''
         Minimum Volume Enclosing Ellipsoid method.
         It returns matrix with ellipsoid features and center point.
     '''
     def __mvee(self, points, tol = global_v.MVEE_ERR):
         
-        N, d = points.shape
-        Q = np.column_stack((points, np.ones(N))).T
+        N_LEARN, d = points.shape
+        Q = np.column_stack((points, np.ones(N_LEARN))).T
         err = tol+1.0
-        u = np.ones(N)/N
+        u = np.ones(N_LEARN)/N_LEARN
         while err > tol:
             # assert u.sum() == 1 # invariant
             X = np.dot(np.dot(Q, np.diag(u)), Q.T)
