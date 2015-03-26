@@ -23,7 +23,7 @@ UNIFORM_SCALE = False;
 '''
     Number of points for each characteristic.
 '''
-N = 1000
+N = 100
 '''
     Number of points which are randomly chose (using gaussian distribution)
     around N/DIST_DIV points.
@@ -72,3 +72,11 @@ DIST_BASE_P_SD = 0.6
     generation of points surrounding base points in the cloud around original value. 
 '''
 DIST_CLOUD_P_SD = 0.3
+
+
+'''
+    The distance threshold between properly generated Foreign characteristics
+    and Native characteristics.
+    Distance greater than this threshold will be accepted.
+'''
+FOREIGN_CHAR_DIST_THRESH = 0
