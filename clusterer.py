@@ -1,28 +1,29 @@
 import numpy as np
 from cluster import Cluster
 from sklearn.cluster import MiniBatchKMeans, KMeans
+import global_variables as global_v
 
 """
-Clusterer is used to for clustering computations
+    Clusterer is used to for clustering computations
 """
 class Clusterer:
     def __init__(self):
         pass
 
     """
-    This method should be used to start computation on the set of symbolClasses.
+        This method should be used to start computation on the set of symbolClasses.
         k - number of clusters.
         symbolClasses - the classes for which the distortions should be clusterized.
     """
-    def computeClusters(self, k, symbolClasses):
+    def computeClusters(self, symbolClasses):
         for cl in symbolClasses:
             # compute k clusters of each class
             distortedClassesOfSingleClass = cl.distortedClasses
     
-            centroids, labels = self.__computeClusters(distortedClassesOfSingleClass, k)
+            centroids, labels = self.__computeClusters(distortedClassesOfSingleClass)
             
             # distinguish k clusters
-            for j in range(0,k):
+            for j in range(0,global_v.K):
                 # points of this cluster
                 points = []
                 for c in range(0, len(distortedClassesOfSingleClass)):
@@ -32,17 +33,18 @@ class Clusterer:
                 cluster = Cluster(centroids[j],points, cl.name, j)
                 cl.clusters.append(cluster)
 
-
-    # Computes k cluster by applying kmeans to given sample
-    def __computeKMeans(self,sample, k):
-        k_means = KMeans(init='k-means++', n_clusters=k, n_init=10)
-        X = [];
-    
+    '''
+        Computes k cluster by applying kmeans to given sample.
+    '''
+    def __computeKMeans(self,sample):
+        k_means = KMeans(init='k-means++', n_clusters=global_v.K, n_init=10)
         k_means.fit(sample)
         return k_means.cluster_centers_, k_means.labels_
-
-    # Computes k clusters of given sample of distortedClasses
-    def __computeClusters(self,distortedClasses, k):
+    
+    '''
+        Computes k clusters of given sample of distortedClasses.
+    '''
+    def __computeClusters(self,distortedClasses):
         X = []
     
         # compute clusters of each class
@@ -53,6 +55,6 @@ class Clusterer:
     
             X.append(values)
     
-        centroids, points_labels = self.__computeKMeans(X, k)
+        centroids, points_labels = self.__computeKMeans(X)
               
         return centroids, points_labels

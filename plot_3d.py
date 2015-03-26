@@ -1,178 +1,98 @@
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.axes3d import Axes3D
-from symbol_class import SymbolClass
-import numpy as np
-from elllipsoid import Ellipsoid
-import numpy.linalg as la
+import global_variables as global_v
 
-class Plot:
+'''
+    In charge of plotting data onto 3D sketch.
+'''
+class Plot3D:
+    '''
+        The only point of the constructor is to set up the axis
+        as a field of the class. It contributes to lack of 
+        needles passing axes object via methods. 
+    '''
     def __init__(self):
-        pass
-    def show(self, symbolClasses, numberOfDifferentClasses):
-        fig = plt.figure()
-        ax = Axes3D(fig)
-        ax.set_xlim3d(0, 20)
-        ax.set_ylim3d(0,20)
-        ax.set_zlim3d(0,20)
+        self.axes = self.__create_axes()
+        
+    '''
+        Checks if data is suitable for 3D rendering and plots
+        (or not) information.        
+    '''
+    def renderPlot(self, symbolClasses):
+        if(global_v.CHAR_NUM == 3):
+            self.__render(symbolClasses)
+        else:
+            print("Cannot create 3D plot - number of characteristics != 3")
+    
+    '''
+        Core of the class. It gathers all the information regarding data display from
+        provided symbol classes list and renders it on a 3D plot.
+    '''
+    def __render(self,symbolClasses):
         x,y,z, colors = [],[],[],[]
-        for i in range(0, len(symbolClasses)):
-            x.append(symbolClasses[i].characteristicsValues[0])
-            y.append(symbolClasses[i].characteristicsValues[1])
-            z.append(symbolClasses[i].characteristicsValues[2])
-            colors.append(symbolClasses[i].color)
-           
-        ax.scatter(x,y,z,c=colors,s=4,linewidth='0',marker='o')
-        ax.scatter(x[:numberOfDifferentClasses],
-                   y[:numberOfDifferentClasses],
-                   z[:numberOfDifferentClasses],
-                   c='black',
-                   s=40,
-                   linewidth='0',
-                   marker='o') 
         
-#         u, v = np.mgrid[0:2*np.pi:20j, 0:np.pi:10j]
-#         x=np.cos(u)*np.sin(v)
-#         y=np.sin(u)*np.sin(v)
-#         z=np.cos(v)
-#         ax.plot_wireframe(x, y, z, color="r")
-        
-        plt.show()
-
-
-    def show2(self, centroids,labelsPerPoint, symbolClasses, numberOfDifferentClasses,
-              mainLabel="Plot"):
-        fig = plt.figure()
-        ax = Axes3D(fig)
-        ax.set_xlim3d(0, 20)
-        ax.set_ylim3d(0,20)
-        ax.set_zlim3d(0,20)
-        
-        x,y,z, colors = [],[],[],[]
-        for i in range(0, len(symbolClasses)):
-            x.append(symbolClasses[i].characteristicsValues[0])
-            y.append(symbolClasses[i].characteristicsValues[1])
-            z.append(symbolClasses[i].characteristicsValues[2])
-            colors.append(symbolClasses[i].color)
-
-        
-        for centroid in centroids:
-            ax.scatter(centroid[0],
-                       centroid[1],
-                       centroid[2],
-                       c='black',
-                       s=40,
-                       linewidth='0',
-                       marker='o')
-#             ellipsoid = Ellipsoid(centroid[0], centroid[1],centroid[2], 1, 1, 1)
-#             e_x, e_y, e_z = ellipsoid.get_points()
-#             ax.plot_wireframe(e_x, e_y, e_z, color="black", alpha=0.04)
-        ax.scatter(x,y,z,c=colors,s=10,linewidth='0',alpha = 0.3, marker='o')
-        
-        
-        # Add lines
-        labels_tmp = labelsPerPoint[:]
-        centroids_tmp = centroids[:]
-        connected_x, connected_y, connected_z = [], [], []
-        for i in range(0, numberOfDifferentClasses):
-            for j in range(0,len(labelsPerPoint[i])):
-                centroid_coord = centroids_tmp[labelsPerPoint[i][j] + i*5]
-                connected_x.append(centroid_coord[0])
-                connected_y.append(centroid_coord[1])
-                connected_z.append(centroid_coord[2])
-#       
-        
-        for i in range(0, len(x)):
-            temp_x, temp_y, temp_z = [], [], [] 
-            temp_x.append(x[i])
-            temp_x.append(connected_x[i])
-            temp_y.append(y[i])
-            temp_y.append(connected_y[i])
-            temp_z.append(z[i])
-            temp_z.append(connected_z[i])
-            ax.plot(temp_x, temp_y, temp_z, color='black', linewidth=0.1)
-            
-        ##################################################    
-        
-        # Add 2D label of the plot
-        labelPos = 0.95
-        ax.text2D(0.02, labelPos , mainLabel, transform=ax.transAxes)
-
-        for i in range(0,numberOfDifferentClasses):
-            labelPos -= 0.05
-            index = int((len(symbolClasses) / numberOfDifferentClasses) * i)
-            color = symbolClasses[index].color
-            name = symbolClasses[index].name
-
-            label = ("Class: ", name, color)
-            ax.text2D(0.02, labelPos, label, transform=ax.transAxes, 
-                      color=color)
-            
-
-        plt.show()
-        
-        
-        
-        
-    def showAllClusters(self,symbolClasses):
-        fig = plt.figure()
-        ax = Axes3D(fig)
-#         ax.set_xlim3d(0, 20)
-#         ax.set_ylim3d(0,20)
-#         ax.set_zlim3d(0,20)
-
-        #ax.set_xlim3d(0, 20)
-        #ax.set_ylim3d(0,20)
-        #ax.set_zlim3d(0,20)
-
-        x,y,z, colors = [],[],[],[]
-        for i in range(0, len(symbolClasses)):
-            symbolClass = symbolClasses[i]
-            for j in range(0, len(symbolClass.clusters)):
+        for symbolClass in symbolClasses:
+            for cluster in symbolClass.clusters:
+                centroid = cluster.center
                 
-                cluster = symbolClass.clusters[j]
-                centroid = cluster.centroid
-                
-                # Gather points and colors
+                # Gather points and colors.
                 for point in cluster.points:
                     x.append(point[0])
                     y.append(point[1])
                     z.append(point[2])
                     colors.append(symbolClass.color)
-                    # Draw lines
-                    tmp_x = [point[0],centroid[0]]
-                    tmp_y = [point[1],centroid[1]]
-                    tmp_z = [point[2],centroid[2]]
-                    ax.plot(tmp_x, tmp_y, tmp_z, color='black', linewidth=0.1)
+                    self.__connect_by_line(point, centroid)
                     
-                # Centroid
-                ax.scatter(centroid[0],
-                       centroid[1],
-                       centroid[2],
-                       c=symbolClass.color,
-                       s=40,
-                       marker='o')
-                ax.scatter(cluster.pox, cluster.poy, cluster.poz, c='r',marker='x', s=50 )
-                # Draw ellipsoid
-
-                ex, ey, ez = cluster.ellipsoid.get_points()
-#                 
-#   
-                ax.plot_wireframe(ex, ey, ez, color="black", alpha=0.04)
+                # Draw centroid
+                self.axes.scatter(centroid[0], centroid[1], centroid[2], c=symbolClass.color,
+                       s=40, marker='o')
                 
-                # BASED ON (x-c)^T * R^T * A * R * (x-c) <= 1 we check if point
-                # belongs to sphere
-#                 p = np.matrix([x[0],y[0],z[0]])
-#                 R = np.matrix(V[:])
-#                 c = np.matrix(centroid[:]) 
-#                 n_A = np.matrix(A[:])               
-#                 result = (p-c) * R.T * A * R * (p-c).T
-#                 ax.scatter(x[0], y[0], z[0], s=50, marker='x', c='red')
-#                 print('is <= 1 ?: ',result, x[0], y[0], z[0])
-        ax.scatter(x,y,z,c=colors,s=10,linewidth='0',alpha = 0.45, marker='o')
+                # Draw points mark as rejected from ellipsoid
+                self.axes.scatter(cluster.rejected_x, cluster.rejected_y, cluster.rejected_z, c='r',marker='x', s=50 )
+                
+                # Draw ellipsoid
+                ex, ey, ez = cluster.ellipsoid.get_points()
+                self.axes.plot_wireframe(ex, ey, ez, color="black", alpha=0.04)
+        
+        # Draw all points        
+        self.axes.scatter(x, y, z, c=colors, s=10, linewidth='0', alpha = 0.45, marker='o')
         
         # Add 2D label of the plot
+        self.__generate_labels(symbolClasses)
+        
+        plt.show()
+        
+    '''
+        Creates and returns axes object.
+        Scaling way is also check and applied if needed.
+    '''
+    def __create_axes(self):
+        axes = Axes3D(plt.figure())
+
+        if(global_v.UNIFORM_SCALE):
+            axes.set_xlim3d(global_v.CHAR_INTERVAL[0], global_v.CHAR_INTERVAL[1])
+            axes.set_ylim3d(global_v.CHAR_INTERVAL[0], global_v.CHAR_INTERVAL[1])
+            axes.set_zlim3d(global_v.CHAR_INTERVAL[0], global_v.CHAR_INTERVAL[1])
+        print("3D plot scale uniformed:", global_v.UNIFORM_SCALE)
+        
+        return axes
+    
+    '''
+        Encapsulates process of rendering a line between given points.
+    '''
+    def __connect_by_line(self, point1, point2):
+        line_x = [point1[0],point2[0]]
+        line_y = [point1[1],point2[1]]
+        line_z = [point1[2],point2[2]]
+        self.axes.plot(line_x, line_y, line_z, color='black', linewidth=.1)
+        
+    '''
+        Creates labels according to information provided in a list of symbol
+        classes.
+    '''    
+    def __generate_labels(self, symbolClasses):
         labelPos = 0.95
-        ax.text2D(0.02, labelPos , "Plot", transform=ax.transAxes)
+        self.axes.text2D(0.02, labelPos , "Plot3D", transform=self.axes.transAxes)
 
         lenght = len(symbolClasses)
         for i in range(0,lenght):
@@ -182,31 +102,5 @@ class Plot:
             name = symbolClasses[index].name
 
             label = ("Class: ", name, color)
-            ax.text2D(0.02, labelPos, label, transform=ax.transAxes, 
-                      color=color)
-        plt.show()
-        
-    def mvee(self, points, tol = 0.001):
-        """
-        Finds the ellipse equation in "center form"
-        (x-c).T * A * (x-c) = 1
-        """
-        
-        N, d = points.shape
-        Q = np.column_stack((points, np.ones(N))).T
-        err = tol+1.0
-        u = np.ones(N)/N
-        while err > tol:
-            # assert u.sum() == 1 # invariant
-            X = np.dot(np.dot(Q, np.diag(u)), Q.T)
-            M = np.diag(np.dot(np.dot(Q.T, la.inv(X)), Q))
-            jdx = np.argmax(M)
-            step_size = (M[jdx]-d-1.0)/((d+1)*(M[jdx]-1.0))
-            new_u = (1-step_size)*u
-            new_u[jdx] += step_size
-            err = la.norm(new_u-u)
-            u = new_u
-        c = np.dot(u,points)        
-        A = la.inv(np.dot(np.dot(points.T, np.diag(u)), points)
-                   - np.multiply.outer(c,c))/d
-        return A, c
+            self.axes.text2D(0.02, labelPos, label, transform=self.axes.transAxes, 
+                      color=color)    
