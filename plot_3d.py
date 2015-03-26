@@ -18,9 +18,9 @@ class Plot3D:
         Checks if data is suitable for 3D rendering and plots
         (or not) information.        
     '''
-    def renderPlot(self, symbolClasses):
+    def renderPlot(self, symbolClasses, foreignSymbols = []):
         if(global_v.CHAR_NUM == 3):
-            self.__render(symbolClasses)
+            self.__render(symbolClasses, foreignSymbols)
         else:
             print("Cannot create 3D plot - number of characteristics != 3")
     
@@ -28,8 +28,25 @@ class Plot3D:
         Core of the class. It gathers all the information regarding data display from
         provided symbol classes list and renders it on a 3D plot.
     '''
-    def __render(self,symbolClasses):
+    def __render(self,symbolClasses, foreignSymbols):
         x,y,z, colors = [],[],[],[]
+        
+        if len(foreignSymbols):
+            for fSymbol in foreignSymbols:
+                fx = fSymbol.characteristicsValues[0]
+                fy = fSymbol.characteristicsValues[1]
+                fz = fSymbol.characteristicsValues[2]
+                fc = fSymbol.color
+                if len(fSymbol.clusters):
+                    self.__connect_by_line(fSymbol.characteristicsValues, fSymbol.clusters[0].center)
+                    fsize = 50
+                    falpha = 1
+                    fmarker = '^'
+                else:
+                    fsize = 20
+                    falpha = 0.45
+                    fmarker = '^'
+                self.axes.scatter(fx, fy, fz, c=fc, s=fsize, linewidth='0', alpha = falpha , marker=fmarker)
         
         for symbolClass in symbolClasses:
             for cluster in symbolClass.clusters:

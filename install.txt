@@ -14,3 +14,20 @@ Choose e.g.:
 Install from cd where the .whl file is:
 
 C:\Python34\Scripts\pip.exe install scikit_learn-0.15.2-cp34-none-win32.whl
+
+
+
+3) XLRD
+https://pypi.python.org/pypi/xlrd
+
+unzip
+
+go to the unziped directory
+C:\xlrd-0.9.3\
+
+and type in cmd:
+C:\Python34\python setup.py install
+
+
+
+

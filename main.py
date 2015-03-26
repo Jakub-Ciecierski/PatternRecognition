@@ -29,13 +29,12 @@ print("*" * 10 , "Displaying Plot", "*" * 10 )
 print("*" * 10 , "Generating:",global_v.CLASS_NUM * global_v.N,
        "Foreign classes" ,"*" * 10 )
 foreignClasses = []
-
 foreignClasses = ForeignCreator().createForeignClass(global_v.CLASS_NUM * global_v.N,
                                   symbolClasses, characteristics)
-'''
-foreignClasses = ForeignCreator().createForeignClassDuplicateCharValues(global_v.CLASS_NUM * global_v.N,
-                                  symbolClasses, characteristics)
-'''
+
 # TESTING ACCURACY OF REJECTING FOREIGN CLASSES
 print("*" * 10 , "Testing accuracy of rejecting Foreign classes:" ,"*" * 10 )
 ForeignRejector().accuracy_of_rejecting(foreignClasses , symbolClasses)
+
+print("*" * 10 , "Displaying Plot with Foreign symbols", "*" * 10 )
+Plot3D().renderPlot(symbolClasses, foreignClasses)

@@ -39,7 +39,6 @@ K = 4
     Each ellipsoid's semi-axis will be scaled by this factor.
 '''
 SEMI_AXIS_SCALE = 0.95
-
 '''
     When checking the points membership to the ellipsoid, some error
     tolerance can be take. Default value is 1 and there is no need 
