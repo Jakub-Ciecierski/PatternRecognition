@@ -6,3 +6,4 @@ class RandomGenerator:
 
     def generateRandom(self, lowerBound, upperBound):
         return random.uniform(lowerBound, upperBound)
+    

@@ -4,6 +4,7 @@ from util.random_generator import RandomGenerator
 from numpy import sqrt
 import util.global_variables as global_v
 from symbol_types import SymbolType
+import random
 
 class ForeignCreator:
     def __init__(self):
@@ -15,6 +16,8 @@ class ForeignCreator:
         Native classes to make sure that these values do not overlap
     """
     def createForeignClass(self, n, nativeClasses, characteristics):
+        print("Generating:",global_v.CLASS_NUM * (global_v.N_LEARNING + global_v.N_TEST),"Foreign classes" )
+
         # create n Foreign classes
         foreignClasses = []
         for i in range(0,n):
@@ -30,6 +33,7 @@ class ForeignCreator:
                     foreignCharacteristic = RandomGenerator().generateRandom(
                                                         characteristics[j].interval.lowerBound,
                                                         characteristics[j].interval.upperBound)
+                    foreignCharacteristic += random.gauss(0, global_v.DIST_BASE_P_SD)
                     foreignCharacteristics.append(foreignCharacteristic)
                 # Check if it is foreign 'enough'
                 if self.__isForeign(foreignCharacteristics, nativeClasses):

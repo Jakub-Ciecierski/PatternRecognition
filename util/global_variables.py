@@ -42,6 +42,16 @@ DIST_DIV = 1
 K = 5
 
 '''
+    Maximum number of iterations of the k-means algorithm to run.
+'''
+CLUS_MAX_ITER = 300
+
+'''
+    The relative increment in the results before declaring convergence.
+'''
+CLUS_TOL = 0.0001
+
+'''
     Each ellipsoid's semi-axis will be scaled by this factor.
 '''
 SEMI_AXIS_SCALE = 0.95

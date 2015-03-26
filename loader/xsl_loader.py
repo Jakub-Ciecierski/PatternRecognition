@@ -25,6 +25,7 @@ class XslLoader:
     '''
     def read_symbols(self):
         symbolClasses = []
+        print("Opening file:", self.filepath)
         wb = open_workbook(self.filepath)
         for s in wb.sheets():
             for row in range(s.nrows):
@@ -40,7 +41,7 @@ class XslLoader:
                                 currentValue != symbolClasses[len(symbolClasses)-1].name) or
                             (row == 0 and col == 0)
                         ):
-                        symbolClass = SymbolClass(currentValue, ColorChooser.get_color)
+                        symbolClass = SymbolClass(currentValue, ColorChooser().get_color())
                         symbolClasses.append(symbolClass)
                     if col == 0:
                         continue

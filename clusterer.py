@@ -36,7 +36,8 @@ class Clusterer:
         Computes k cluster by applying kmeans to given sample.
     '''
     def __computeKMeans(self,sample):
-        k_means = KMeans(init='k-means++', n_clusters=global_v.K, n_init=10)
+        k_means = KMeans(init='k-means++', n_clusters=global_v.K, n_init=10
+                            , max_iter=global_v.CLUS_MAX_ITER, tol=global_v.CLUS_TOL)
         k_means.fit(sample)
         return k_means.cluster_centers_, k_means.labels_
     
