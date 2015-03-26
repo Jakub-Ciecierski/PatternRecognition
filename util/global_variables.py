@@ -23,7 +23,7 @@ UNIFORM_SCALE = False;
 '''
     Number of points for each characteristic.
 '''
-N = 100
+N = 1000
 '''
     Number of points which are randomly chose (using gaussian distribution)
     around N/DIST_DIV points.
@@ -33,19 +33,19 @@ DIST_DIV = 1
 '''
     Number of clusters per symbol class.
 '''
-K = 3
+K = 4
 
 '''
     Each ellipsoid's semi-axis will be scaled by this factor.
 '''
-SEMI_AXIS_SCALE = 0.85
+SEMI_AXIS_SCALE = 0.95
 
 '''
     When checking the points membership to the ellipsoid, some error
     tolerance can be take. Default value is 1 and there is no need 
     to go below it. Really.
 '''
-ELLPSD_TRESH = 1.00
+ELLPSD_TRESH = 1.001
 
 '''
     Accuracy of Minimum Volume Enclosing Ellipsoid method.
@@ -53,7 +53,7 @@ ELLPSD_TRESH = 1.00
     >> for 3D:    0.001 
     >> for 10D: 0.00001
 '''
-MVEE_ERR = 0.0001
+MVEE_ERR = 0.00001
 
 '''
     Randomized values of all characteristics will be picked from
@@ -65,7 +65,7 @@ CHAR_INTERVAL = [0,20]
     Standard deviation for gaussian distribution used for
     generation of based points in the cloud around original value. 
 '''
-DIST_BASE_P_SD = 0.6
+DIST_BASE_P_SD = 0.3
 
 '''
     Standard deviation for gaussian distribution used for

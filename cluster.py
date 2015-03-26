@@ -20,7 +20,7 @@ class Cluster:
             self.rejected_x, self.rejected_y = self.ellipsoid.is_point_in_ellipsoid(self.points[:])
 
         self.__info(name, number)
-        
+
     '''
         Prints out info about created cluster.
     '''
