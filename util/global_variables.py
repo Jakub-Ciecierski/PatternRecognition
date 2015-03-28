@@ -1,7 +1,7 @@
 '''
     Number of different symbol classes.
 '''
-CLASS_NUM = 10
+CLASS_NUM = 1
 
 '''
     Number of characteristics for each symbol class.
@@ -39,7 +39,7 @@ DIST_DIV = 1
 '''
     Number of clusters per symbol class.
 '''
-K = 5
+K = 3
 
 '''
     Maximum number of iterations of the k-means algorithm to run.
@@ -49,7 +49,7 @@ CLUS_MAX_ITER = 300
 '''
     The relative increment in the results before declaring convergence.
 '''
-CLUS_TOL = 0.0001
+CLUS_TOL = 0.001
 
 '''
     Each ellipsoid's semi-axis will be scaled by this factor.
@@ -68,7 +68,7 @@ ELLPSD_TRESH = 1.001
     >> for 3D:    0.001 
     >> for 10D: 0.00001
 '''
-MVEE_ERR = 0.001
+MVEE_ERR = 0.0001
 
 '''
     Randomized values of all characteristics will be picked from
@@ -80,7 +80,7 @@ CHAR_INTERVAL = [0,20]
     Standard deviation for gaussian distribution used for
     generation of based points in the cloud around original value. 
 '''
-DIST_BASE_P_SD = 0.3
+DIST_BASE_P_SD = 0.5
 
 '''
     Standard deviation for gaussian distribution used for
@@ -94,3 +94,8 @@ DIST_CLOUD_P_SD = 0.3
     Distance greater than this threshold will be accepted.
 '''
 FOREIGN_CHAR_DIST_THRESH = 0
+
+'''
+    Turns on/off loading bars.
+'''
+LOADING_BARS = True

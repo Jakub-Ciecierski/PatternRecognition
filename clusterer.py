@@ -2,6 +2,7 @@ import numpy as np
 from cluster import Cluster
 from sklearn.cluster import MiniBatchKMeans, KMeans
 import util.global_variables as global_v
+import sys
 
 """
     Clusterer is used to for clustering computations
@@ -31,6 +32,7 @@ class Clusterer:
     
                 cluster = Cluster(centroids[j],points, cl.name, j)
                 cl.clusters.append(cluster)
+                
 
     '''
         Computes k cluster by applying kmeans to given sample.

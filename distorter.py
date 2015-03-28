@@ -3,6 +3,7 @@ import random
 import util.global_variables as global_v
 from symbol_class import SymbolClass
 from symbol_types import SymbolType
+import console_writer as console
 
 '''
     Class in charge of creating cloud of N  random 
@@ -16,9 +17,12 @@ class Distorter:
                     "It may cause some problems e.g\n",
                     "desired number of points may differ.")
 
-        print("Number of distorted classes per symbol:   ", global_v.N_LEARNING + global_v.N_TEST)
-        print("Number of learning set points:            ",global_v.N_LEARNING)
-        print("Number of test set points:                ", global_v.N_TEST)
+#         print("    Number of distorted classes per symbol:   ", global_v.N_LEARNING + global_v.N_TEST)
+#         print("    Number of learning set points:            ",global_v.N_LEARNING)
+#         print("    Number of test set points:                ", global_v.N_TEST)
+        console.write_point_text_number("Number of distorted classes per symbol", global_v.N_LEARNING + global_v.N_TEST)
+        console.write_point_text_number("Number of learning set points", global_v.N_LEARNING)
+        console.write_point_text_number("Number of test set points", global_v.N_TEST)
         
     '''
         For a given n-dimensional point, this method distort  

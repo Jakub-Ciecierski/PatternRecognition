@@ -4,6 +4,7 @@ from characteristic import Characteristic
 from symbol_class import SymbolClass
 from symbol_types import SymbolType
 from util.color_chooser import ColorChooser
+import console_writer as console
 
 '''
     To make main.py more transparent whole process of initialization
@@ -17,8 +18,11 @@ from util.color_chooser import ColorChooser
 def generate_characteristic(characteristics):
     for i in range(0,global_v.CHAR_NUM):
         characteristics.append(Characteristic())
-        print("Characterestic #",i,"Interval: From:",characteristics[i].interval.lowerBound,
-                    "To:",characteristics[i].interval.upperBound)
+        console.write_interval(i, characteristics[i].interval.lowerBound,
+                                characteristics[i].interval.upperBound,
+                                "Characterestic #", "Interval:", "From:", "To:")
+#         print("Characterestic #",i,"Interval: From:",characteristics[i].interval.lowerBound,
+#                     "To:",characteristics[i].interval.upperBound)
 '''
     Initialization of CLASS_NUM symbol classes, each with CHAR_NUM
     characteristics. Values of each characteristic is randomized.
@@ -35,8 +39,9 @@ def generate_symbol_classes(symbolClasses, characteristics):
                                                              characteristics[j].interval.upperBound))
     # INFO
     for symbolClass in symbolClasses:
-        print("Symbol Class:",symbolClass.name, "\n",
-              "Characteristics: ", symbolClass.characteristicsValues, "\n")
+        console.write_point_name(symbolClass.name,text="Symbol Class:", )
+        console.write_point_list(symbolClass.characteristicsValues, "Characteristics:")
+#
 '''
     Using provided subset of generated distorted classes function performs
     cluster-membership test, determining how many points from test set belongs
@@ -54,5 +59,6 @@ def cluster_membership_test(symbolClasses):
                 if(result == 0):
                     number_of_accepted += 1
                     break
-        print("% of test points accepted by",[symbol_class.name],"symbol class: ",
-               100*number_of_accepted/global_v.N_TEST,"%")
+#         print("% of test points accepted by",[symbol_class.name],"symbol class: ",
+#                100*number_of_accepted/global_v.N_TEST,"%")
+        console.write_name_number(symbol_class.name, 100*number_of_accepted/global_v.N_TEST, text="% of test points accepted by")
