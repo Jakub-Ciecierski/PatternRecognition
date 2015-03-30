@@ -1,11 +1,20 @@
 from elllipsoid import Ellipsoid
 import util.global_variables as global_v
+from sklearn.metrics.metrics import confusion_matrix
 
 radiuses = [1, 0.95, 0.90, 0.85, 0.80]
 
 def ambiguity_for_different_radiuses(symbolClasses):
-    for radius in radiuses:
-        print("    RADIUS:", radius)
+    #
+    # PREPARE CONFUSION MATRIX
+    #
+    confusion_matrix = []
+    for i in range(0, global_v.CLASS_NUM):
+        class_data = []
+        confusion_matrix.append(class_data)
+        
+    for r in range(0,len(radiuses)):
+        print("    RADIUS:", radiuses[r])
         #
         # Shrink each ellipsoid
         #
@@ -13,8 +22,8 @@ def ambiguity_for_different_radiuses(symbolClasses):
         for cl in symbolClasses:
             for cluster in cl.clusters:
                 # Check if there is need to recalculate
-                if(radius != global_v.SEMI_AXIS_SCALE):
-                    cluster.ellipsoid = Ellipsoid(cluster.points,radius)
+                if(radiuses[r] != global_v.SEMI_AXIS_SCALE):
+                    cluster.ellipsoid = Ellipsoid(cluster.points,radiuses[r])
                     
                 # list of point in current ellipsoid
                 pointsInEllipsoid = cluster.ellipsoid.is_point_in_ellipsoid(cluster.points,False, True)
@@ -24,8 +33,8 @@ def ambiguity_for_different_radiuses(symbolClasses):
         #
         # Check for ambiguity for each class
         #
-        print("        MEMBERSHIP RESULTS")   
-        for cl in symbolClasses:
+        print("\n        MEMBERSHIP RESULTS [LEARN SET]")   
+        for i in range(0, len(symbolClasses)):
             learn_amb   = []
             learn_unamb = []
             learn_not_class = []
@@ -35,7 +44,7 @@ def ambiguity_for_different_radiuses(symbolClasses):
             #
             # Learning set
             #
-            for point in cl.learning_set:
+            for point in symbolClasses[i].learning_set:
                 # Count of clusters to which point belongs
                 in_how_many = 0
                 # Does point belong to the right one ?
@@ -46,7 +55,7 @@ def ambiguity_for_different_radiuses(symbolClasses):
                         rejected = check_cluster.ellipsoid.is_point_in_ellipsoid([point.characteristicsValues[:]], True)
                         if(rejected == 0):
                             in_how_many += 1
-                            if(cl.name == cl_check.name):
+                            if(symbolClasses[i].name == cl_check.name):
                                 in_corrected = True
                             break
        
@@ -56,14 +65,33 @@ def ambiguity_for_different_radiuses(symbolClasses):
                 elif(in_how_many > 1 and in_corrected):
                     learn_amb.append(point)
                 else:
-                    learn_not_class.append(point)   
-            print("        >> Symbol:", [cl.name])
-            print("           Unambiguous points:                            ",100 * len(learn_unamb)/len(cl.learning_set),"%")
-            print("           Ambiguous points:                              ",100 * len(learn_amb)/len(cl.learning_set),"%")
-            print("           Not Classified points:                         ",100 * len(learn_not_class)/len(cl.learning_set),"%")
-
+                    learn_not_class.append(point) 
+                    
+            # Save results in confusion matrix
+            confusion_matrix[i].append(round(100 * len(learn_unamb)/len(symbolClasses[i].learning_set), 2))
+            confusion_matrix[i].append(round(100 * len(learn_amb)/len(symbolClasses[i].learning_set), 2))
+            confusion_matrix[i].append(round(100 * len(learn_not_class)/len(symbolClasses[i].learning_set), 2))
+            
+            # Print out results  
+            print("        >> Symbol:", [symbolClasses[i].name])
+            print("           Unambiguous points:                            ",100 * len(learn_unamb)/len(symbolClasses[i].learning_set),"%")
+            print("           Ambiguous points:                              ",100 * len(learn_amb)/len(symbolClasses[i].learning_set),"%")
+            print("           Not Classified points:                         ",100 * len(learn_not_class)/len(symbolClasses[i].learning_set),"%")
+                
         print()
-
+    
+    # DISPLAY CONF MATRIX
+    print("    CONFUSION MATRIX [LEARN SET]\n") 
+    print(11 * " ", end ="")  
+    for r in radiuses:
+        print(r,14 * " ", end ="")
+    print()       
+    for i in range(0,len(confusion_matrix)):
+        print("   ", [i], " ", end="")
+        for value in confusion_matrix[i]:
+            print(value," ", end ="")
+        print()
+        
 def prepare_data(symbolClasses):
     returnArray = []
     for cl in symbolClasses:

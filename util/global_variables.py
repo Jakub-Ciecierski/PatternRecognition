@@ -45,7 +45,7 @@ DIST_DIV = 1
 '''
     Number of clusters per symbol class.
 '''
-K = 3
+K = 5
 
 '''
     Maximum number of iterations of the k-means algorithm to run.
