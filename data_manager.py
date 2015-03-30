@@ -4,7 +4,7 @@ from characteristic import Characteristic
 from symbol_class import SymbolClass
 from symbol_types import SymbolType
 from util.color_chooser import ColorChooser
-import console_writer as console
+import console as console
 
 '''
     To make main.py more transparent whole process of initialization
@@ -21,8 +21,7 @@ def generate_characteristic(characteristics):
         console.write_interval(i, characteristics[i].interval.lowerBound,
                                 characteristics[i].interval.upperBound,
                                 "Characterestic #", "Interval:", "From:", "To:")
-#         print("Characterestic #",i,"Interval: From:",characteristics[i].interval.lowerBound,
-#                     "To:",characteristics[i].interval.upperBound)
+        
 '''
     Initialization of CLASS_NUM symbol classes, each with CHAR_NUM
     characteristics. Values of each characteristic is randomized.
@@ -51,7 +50,7 @@ def generate_symbol_classes(symbolClasses, characteristics):
 def cluster_membership_test(symbolClasses):
     for symbol_class in symbolClasses:
         number_of_accepted = 0
-        for distorted_class in symbol_class.distortedClasses[global_v.N_LEARNING:]:
+        for distorted_class in symbol_class.test_set:
             for cluster in symbol_class.clusters:
                 # Check if a given point is rejected
                 result = cluster.ellipsoid.is_point_in_ellipsoid([distorted_class.characteristicsValues[:]], True)
@@ -59,6 +58,5 @@ def cluster_membership_test(symbolClasses):
                 if(result == 0):
                     number_of_accepted += 1
                     break
-#         print("% of test points accepted by",[symbol_class.name],"symbol class: ",
-#                100*number_of_accepted/global_v.N_TEST,"%")
-        console.write_name_number(symbol_class.name, 100*number_of_accepted/global_v.N_TEST, text="% of test points accepted by")
+        console.write_name_number(symbol_class.name, 100*number_of_accepted/global_v.N_TEST, 
+                                  text="% of test points accepted by symbol")

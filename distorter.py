@@ -3,26 +3,13 @@ import random
 import util.global_variables as global_v
 from symbol_class import SymbolClass
 from symbol_types import SymbolType
-import console_writer as console
+import console as console
 
 '''
     Class in charge of creating cloud of N  random 
     points for each (supplied) class of symbols.   
 '''
 class Distorter:
-    
-    def __init__(self):
-        if((global_v.N_LEARNING+ global_v.N_TEST) % global_v.DIST_DIV != 0):
-            print("Value of 'N' is not a multiplicity of value of 'divisor'.", 
-                    "It may cause some problems e.g\n",
-                    "desired number of points may differ.")
-
-#         print("    Number of distorted classes per symbol:   ", global_v.N_LEARNING + global_v.N_TEST)
-#         print("    Number of learning set points:            ",global_v.N_LEARNING)
-#         print("    Number of test set points:                ", global_v.N_TEST)
-        console.write_point_text_number("Number of distorted classes per symbol", global_v.N_LEARNING + global_v.N_TEST)
-        console.write_point_text_number("Number of learning set points", global_v.N_LEARNING)
-        console.write_point_text_number("Number of test set points", global_v.N_TEST)
         
     '''
         For a given n-dimensional point, this method distort  
@@ -36,35 +23,56 @@ class Distorter:
             distortedCenter.append(cloudCenterCoordinates[i]+ random.gauss(0, sigmaSqrt))
         return distortedCenter
     
-    '''
-        Heart of the class. For a given set of symbol classes, this            
-        method generates cloud of points, following given algorithm:           
-                                                                                 
-        1) Take coordinates of a given class and create N/divisor              
-           new points with coordinates based on the class but distorted       
-           using normal distribution with sigma equal to 'basePointsVariance'  
-           value                                                              
-        2) For each point created in 1) create (divisor-1) point cloud         
-           based on this point distorted coordinates (again using normal       
-           distribution but with sigma equal to 'cloudPointsVariance'           
-        3) Repeat 1) and 2) until all symbol classes are managed   
-    '''             
-    def create_cloud(self, symbolClasses):
+            
+    def create_homogeneus_cloud(self, symbolClasses):
         for cl in symbolClasses:
-            for i in range(0, int((global_v.N_LEARNING + global_v.N_TEST)/global_v.DIST_DIV)):
+            # Learning set
+            for i in range(0, global_v.N_LEARNING + global_v.N_TEST):
                 # instance of new symbol
                 distortedClass = SymbolClass(cl.name, cl.color, type = SymbolType.NATIVE_LEARNING)
                 # randomize position around a given class(based on position)
                 distortedClass.characteristicsValues = self.__generate_distortion(
                                                                 cl.characteristicsValues[:],
-                                                                global_v.DIST_BASE_P_SD)
+                                                                global_v.HOMO_STD_DEV)
                 # store result 
-                cl.distortedClasses.append(distortedClass)
-                # create cloud of points around newly created one - distortedClass
-                for j in range(0,global_v.DIST_DIV-1):
-                    cloudPoint = SymbolClass(cl.name, cl.color)
-                    
-                    cloudPoint.characteristicsValues = self.__generate_distortion(
+                if(i < global_v.N_LEARNING):
+                    cl.learning_set.append(distortedClass)
+                else:
+                    cl.test_set.append(distortedClass)
+                           
+    def create_non_homogeneus_cloud(self, symbolClasses):
+        indicator = 1.0
+        ratio = global_v.N_LEARNING/(global_v.N_LEARNING+global_v.N_TEST)
+        for cl in symbolClasses:
+            for i in range(0, int(indicator)):
+
+                # instance of new symbol
+                distortedClass = SymbolClass(cl.name, cl.color)
+                # randomize position around a given class(based on position)
+                distortedClass.characteristicsValues = self.__generate_distortion(
+                                                                cl.characteristicsValues[:],
+                                                                global_v.HOMO_STD_DEV)
+                
+                scope =  int((global_v.N_LEARNING + global_v.N_TEST)/int(indicator))   
+                for j in range (0, scope):
+                    cloud_point = SymbolClass(cl.name, cl.color)
+                    cloud_point.characteristicsValues = self.__generate_distortion(
                                                                 distortedClass.characteristicsValues[:], 
-                                                                global_v.DIST_CLOUD_P_SD)
-                    cl.distortedClasses.append(cloudPoint)
+                                                                global_v.NON_HOMO_STD_DEV)
+                    # store result
+                    if(j < ratio * scope):
+                        cl.learning_set.append(cloud_point)
+                    else:
+                        cl.test_set.append(cloud_point)
+                    
+
+            # Info about number of created points
+            console.write_non_homo(cl.name, int(indicator), "Symbol Class", "Groups")
+            console.write_point_text_number(">> Number of distorted classes per symbol", len(cl.learning_set) + len(cl.test_set))
+            console.write_point_text_number(">> Number of learning set points", 
+                                            len(cl.learning_set))
+            console.write_point_text_number(">> Number of test set points", 
+                                            len(cl.test_set))    
+            indicator += 0.5
+        
+        

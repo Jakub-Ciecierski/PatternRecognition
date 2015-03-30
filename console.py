@@ -1,9 +1,27 @@
 import sys
+import getopt
+import util.global_variables as global_v
 
 header_length = 94
 header_frame_symbol = '%'
 point_indent ="    "
 subpoint_indent = "        "
+
+def parse_argv(argv):
+    # Gather up flags
+    try:                                
+        opts, args = getopt.getopt(argv, "n", ["nonhomo"])
+    except getopt.GetoptError:          
+        usage()                         
+        sys.exit(2)              
+    # Perform proper actions           
+    for opt, arg in opts:               
+        if opt in ("-n", "--nonhomo"):      
+            global_v.NON_HOMO_CLASSES = True    
+ 
+
+def usage():
+    print("to be created")
 
 def write_header(text):
     print()
@@ -59,4 +77,7 @@ def write_interval(name,lower_bound,upper_bound, text1="", text2="",text3="",tex
                                         "." * (text_l-
                     (len(text1) + len(str(name))+ len(text2)+len(text4)+len(str(lower_bound))+3)
                                                              ),
-                                        upper_bound))    
+                                        upper_bound))   
+     
+def write_non_homo(name, group, text1="", text2=""):
+    sys.stdout.write("{0}{1}: [{2}] {3}: {4}\n".format(point_indent,text1,name,text2,group ))

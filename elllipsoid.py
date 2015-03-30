@@ -15,14 +15,14 @@ class Ellipsoid:
         Matrices of Singular Value Decomposition operation are saved for 
         further usage.
     '''
-    def __init__(self, points):
+    def __init__(self, points, ratio):
         # (x-c).T * A * (x-c) <= 1 with min(log(det A))
         self.M, self.center = self.__mvee(np.array(points))
         
-        # If scaling facor os semi-axes plays some role
+        # If scaling factor on semi-axes plays some role
         # we applied it.
-        if(global_v.SEMI_AXIS_SCALE != 1):
-            self.M = self.__scale_semi_axes(self.M)
+        if(ratio != 1):
+            self.M = self.__scale_semi_axes(self.M, ratio)
         
         # Decompose matrix A using Single Variable Decomposition
         # to get more information about ellipsoid  
@@ -60,7 +60,7 @@ class Ellipsoid:
         this method perform all indispensable operations and
         returns modified matrix of the ellipsoid.
     '''    
-    def __scale_semi_axes(self, M):
+    def __scale_semi_axes(self, M,ratio):
         # Decompose matrix A using Single Variable Decomposition
         # to get more information about ellipsoid    
         U, E, V = la.svd(self.M, compute_uv=1)
@@ -70,7 +70,7 @@ class Ellipsoid:
         # Value Decomposition, we need to inverse and take square root
         # of each of its diagonal coefficients. So we adapt our scale factor to this
         # procedure.
-        scale_coefficient = 100/(np.power(global_v.SEMI_AXIS_SCALE*10, 2))
+        scale_coefficient = 100/(np.power(ratio*10, 2))
         # Modify and return semi-axes 
         return np.dot(U, np.dot(np.diag(scale_coefficient*E),V))
         
@@ -92,11 +92,14 @@ class Ellipsoid:
         What's more one can set that only number of rejected points
         will be returned.
     '''
-    def is_point_in_ellipsoid(self, points, just_number = False):
+    def is_point_in_ellipsoid(self, points, just_number = False, accepted_list= False):
         # BASED ON (x-c)^T * A * (x-c) <= 1 we check if point
         # belongs to ellipsoid/ellipse
         pointsOutX = []
         pointsOutY = []
+        
+        resultPoints = []
+        
         rejected_count = 0;
         if(global_v.CHAR_NUM == 3):
             pointsOutZ = []
@@ -107,12 +110,12 @@ class Ellipsoid:
         
         for i in range(0, len(points)):
             # Gather n-dim points in matrix
-            tmp_points =[]
+            tmp_point =[]
             for j in range(0, global_v.CHAR_NUM):
-                tmp_points.append(points[i][j])
+                tmp_point.append(points[i][j])
             
             # Plug points into ellipsoid equation    
-            p = np.matrix(tmp_points)
+            p = np.matrix(tmp_point)
             result = (p-c)  * n_A * (p-c).T
             
             # Gather points which are not belonging to ellipsoid/ellipse 
@@ -124,8 +127,14 @@ class Ellipsoid:
                         pointsOutZ.append(points[i][2])
                 else:
                     rejected_count+=1
-                    
+            else:
+                resultPoints.append(tmp_point)   
+                     
         if(not just_number):
+            # List of accepted
+            if(accepted_list):
+                return resultPoints
+            # Points for 2/3d plot
             if(global_v.CHAR_NUM == 3):    
                 return pointsOutX, pointsOutY, pointsOutZ
             else:    
@@ -162,8 +171,9 @@ class Ellipsoid:
                 spaces = ' ' * (20 - len(hashes))
                 sys.stdout.write("\r        >> minimum volume enclosing ellipsoid calculation: [{0}] {1}%".format(hashes + spaces, int(round(percentage * 100))))
                 sys.stdout.flush()
-                i -= global_v.MVEE_ERR 
-        print()
+                i -= global_v.MVEE_ERR
+        if(global_v.LOADING_BARS): 
+            print()
         c = np.dot(u,points)        
         A = la.inv(np.dot(np.dot(points.T, np.diag(u)), points)
                    - np.multiply.outer(c,c))/d

@@ -11,4 +11,5 @@ class SymbolClass:
         self.characteristicsValues = []
         self.color = color
         self.clusters = []
-        self.distortedClasses = []
+        self.learning_set = []
+        self.test_set = []

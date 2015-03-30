@@ -1,7 +1,7 @@
 '''
     Number of different symbol classes.
 '''
-CLASS_NUM = 1
+CLASS_NUM = 2
 
 '''
     Number of characteristics for each symbol class.
@@ -15,6 +15,12 @@ CHAR_NUM = 3
 CLASS_DISPLAY_NUM = 3
 
 '''
+    If set to True, classes will be distorted in non-homogeneus way.
+    Otherwise it will be common gaussian distribution around center.
+'''
+NON_HOMO_CLASSES = False
+
+'''
     If true scale of the graph's axes is <0,20>.
     Otherwise axes are scaled to data values.
 '''
@@ -23,12 +29,12 @@ UNIFORM_SCALE = False;
 '''
     Number of points for each characteristic in learning set.
 '''
-N_LEARNING = 800
+N_LEARNING = 1000
 
 '''
     Number of points for each characteristic in test set.
 '''
-N_TEST = 200
+N_TEST = 500
 
 '''
     Number of points which are randomly chose (using gaussian distribution)
@@ -54,7 +60,7 @@ CLUS_TOL = 0.001
 '''
     Each ellipsoid's semi-axis will be scaled by this factor.
 '''
-SEMI_AXIS_SCALE = 0.95
+SEMI_AXIS_SCALE = 1.0
 '''
     When checking the points membership to the ellipsoid, some error
     tolerance can be take. Default value is 1 and there is no need 
@@ -65,10 +71,9 @@ ELLPSD_TRESH = 1.001
 '''
     Accuracy of Minimum Volume Enclosing Ellipsoid method.
     Recommended settings:
-    >> for 3D:    0.001 
-    >> for 10D: 0.00001
+    >>    0.00001
 '''
-MVEE_ERR = 0.0001
+MVEE_ERR = 0.001
 
 '''
     Randomized values of all characteristics will be picked from
@@ -80,13 +85,13 @@ CHAR_INTERVAL = [0,20]
     Standard deviation for gaussian distribution used for
     generation of based points in the cloud around original value. 
 '''
-DIST_BASE_P_SD = 0.5
+HOMO_STD_DEV = 1.5
 
 '''
     Standard deviation for gaussian distribution used for
     generation of points surrounding base points in the cloud around original value. 
 '''
-DIST_CLOUD_P_SD = 0.3
+NON_HOMO_STD_DEV = 0.5
 
 '''
     The distance threshold between properly generated Foreign characteristics

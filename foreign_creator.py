@@ -49,7 +49,7 @@ class ForeignCreator:
     def createForeignClassDuplicateCharValues(self, n, nativeClasses, characteristics):
         foreignClasses = []
         for nc in nativeClasses:
-            for dc in nc.distortedClasses:
+            for dc in nc.learning_set:
                 name  = "Foreign"
                 foreignClass = SymbolClass(name, ColorChooser().getForeignColor(), 
                                    type = SymbolType.FOREIGN)
@@ -66,7 +66,7 @@ class ForeignCreator:
     def __isForeign(self, foreignCharacteristics, nativeClasses):
         # go through every characteristic in Native classes
         for cl in nativeClasses:
-            for dcl in cl.distortedClasses:
+            for dcl in cl.learning_set:
                 distance = 0
                 for i in range(0,len(foreignCharacteristics)):
                     distance += (foreignCharacteristics[i] - dcl.characteristicsValues[i])**2

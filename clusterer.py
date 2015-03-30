@@ -18,7 +18,7 @@ class Clusterer:
     """
     def computeClusters(self, symbolClasses):
         for cl in symbolClasses:
-            distortedClassesOfSingleClass = cl.distortedClasses[:global_v.N_LEARNING]
+            distortedClassesOfSingleClass = cl.learning_set[:]
     
             centroids, labels = self.__computeClusters(distortedClassesOfSingleClass)
 
@@ -44,7 +44,7 @@ class Clusterer:
         return k_means.cluster_centers_, k_means.labels_
     
     '''
-        Computes k clusters of given sample of distortedClasses.
+        Computes k clusters of given sample of learning_set.
     '''
     def __computeClusters(self,distortedClasses):
         X = []
