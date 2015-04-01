@@ -6,10 +6,14 @@ from clusterer import Clusterer
 from distorter import Distorter
 import data_manager as data
 import sys
-from foreign_creator import ForeignCreator
-from foreign_rejector import ForeignRejector
+import foreign_creator as f_creator
 from loader.xsl_loader import XslLoader
-import datetime
+
+# READ XSL FILE
+#print("*" * 10 , "Loading from sample", "*" * 10 )
+#loader =  XslLoader('test_samples\Test_set.xls', 3)
+#symbolClasses = loader.read_symbols()
+
 
 # REDIRECT OUTPUT
 if global_v.REDIRECT_TO_FILE:
@@ -38,14 +42,10 @@ else:
 
 # Generating Foreign classes
 console.write_header("Creating Non Homogeneous Foreign")
-foreignClassesNonHomo = ForeignCreator().create_non_homogeneous_foreign(symbolClasses)
+foreignClassesNonHomo = f_creator.create_non_homogeneous_foreign(symbolClasses)
 console.write_header("Creating Homogeneous Foreign")
-foreignClassesHomo = ForeignCreator().create_homogeneous_foreign(symbolClasses, characteristics)
+foreignClassesHomo = f_creator.create_homogeneous_foreign(symbolClasses, characteristics)
 
-# READ XSL FILE
-#print("*" * 10 , "Loading from sample", "*" * 10 )
-#loader =  XslLoader('test_samples\Test_set.xls', 3)
-#symbolClasses = loader.read_symbols()
 
 # CLUSTERING
 console.write_header("Computing Clusters")
@@ -65,8 +65,8 @@ console.write_header(" Displaying Plot")
 console.write_header(" Synthetic Data Calculations")
 synth_calc.ambiguity_for_different_radiuses(symbolClasses[:], foreignClassesHomo, foreignClassesNonHomo)
 
-console.write_header("Displaying plot with Non Homogeneous Foreign symbols")
+#console.write_header("Displaying plot with Non Homogeneous Foreign symbols")
 Plot3D().renderPlot(symbolClasses, foreignClassesNonHomo)
 
-console.write_header("Displaying plot with Homogeneous Foreign symbols")
+#console.write_header("Displaying plot with Homogeneous Foreign symbols")
 Plot3D().renderPlot(symbolClasses, foreignClassesHomo)

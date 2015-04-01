@@ -18,3 +18,8 @@ local.properties
 .settings/
 .loadpath
 /__pycache__/*.pyc
+/util/__pycache__/color_chooser.cpython-34.pyc
+/util/__pycache__/generator.cpython-34.pyc
+/util/__pycache__/global_variables.cpython-34.pyc
+/util/__pycache__/random_generator.cpython-34.pyc
+/loader/__pycache__/xsl_loader.cpython-34.pyc

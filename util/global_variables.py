@@ -1,7 +1,7 @@
 '''
     Number of different symbol classes.
 '''
-CLASS_NUM = 10
+CLASS_NUM = 5
 
 '''
     Number of characteristics for each symbol class.
@@ -29,12 +29,12 @@ UNIFORM_SCALE = False;
 '''
     Number of points for each characteristic in learning set.
 '''
-N_LEARNING = 1000
+N_LEARNING = 100
 
 '''
     Number of points for each characteristic in test set.
 '''
-N_TEST = 500
+N_TEST = 50
 
 '''
     Number of points which are randomly chose (using gaussian distribution)
@@ -108,9 +108,9 @@ FOREIGN_NON_HOMO_CLUSTER_COUNT = 5
 '''
     Turns on/off loading bars.
 '''
-LOADING_BARS = True
+LOADING_BARS = False
 
 '''
-    If True Redirects stdout output to file
+    If True Redirects stdout output to file, also turns off loading bars
 '''
 REDIRECT_TO_FILE = True

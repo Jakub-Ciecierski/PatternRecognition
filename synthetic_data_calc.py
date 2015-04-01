@@ -3,7 +3,7 @@ import util.global_variables as global_v
 import numpy as np
 from matrices_batch import DataInfo
 from results_data import ResultsData
-from foreign_rejector import ForeignRejector
+import foreign_rejector as f_rej
 
 radiuses = [1, 0.95, 0.90, 0.85, 0.80]
 results_data = ResultsData(len(radiuses))
@@ -34,6 +34,7 @@ def ambiguity_for_different_radiuses(symbolClasses, foreignClassesHomo = [], for
         ambiguity_test(DataInfo.LEARN, r, symbolClasses)
         print("\n        MEMBERSHIP RESULTS [TEST SET]")   
         ambiguity_test(DataInfo.TEST, r, symbolClasses)
+
         #
         # Check ambiguity for each foreign set
         #
@@ -124,8 +125,7 @@ def determine_closer_ellipsoid(ambiguous_ellipsoids, point):
         
       
 def foreign_ambiguity_test(foreignClasses, symbolClasses):
-    f_nonhomo_stric_class, f_nonhomo_amb_count, f_nonhomo_rejected_count = ForeignRejector().accuracy_of_rejecting_matrix(foreignClasses, symbolClasses)
-    print("\n\n        MEMBERSHIP RESULTS [NON HOMOGENEOUS FOREIGN SET]")
+    f_nonhomo_stric_class, f_nonhomo_amb_count, f_nonhomo_rejected_count = f_rej.accuracy_of_rejecting_matrix(foreignClasses, symbolClasses)
     for f in range(0, len(f_nonhomo_stric_class)):
         print("        >> Symbol[",f,"]:                " , (f_nonhomo_stric_class[f] / len(foreignClasses))*100, "%")
     print("        >> Ambiguous:                    " , (f_nonhomo_amb_count / len(foreignClasses))*100, "%")

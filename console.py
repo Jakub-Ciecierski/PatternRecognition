@@ -88,6 +88,7 @@ def write_non_homo(name, group, text1="", text2=""):
     sys.stdout.write("{0}{1}: [{2}] {3}: {4}\n".format(point_indent,text1,name,text2,group ))
 
 def redirect_stdout():
+    global_v.LOADING_BARS = False
     d = datetime.datetime.now().strftime('%Y-%m-%d_%H;%M;%S')
     file = "log/" + str(d) +".txt"
     print("Redirecting output to: " + file)
