@@ -31,6 +31,12 @@ else:
     console.write_header("Computing Homogeneus Distortion")
     Distorter().create_homogeneus_cloud(symbolClasses[:])
 
+# Generating Foreign classes
+console.write_header("Creating Non Homogeneous Foreign")
+foreignClassesNonHomo = ForeignCreator().create_non_homogeneous_foreign(symbolClasses)
+console.write_header("Creating Homogeneous Foreign")
+foreignClassesHomo = ForeignCreator().create_homogeneous_foreign(symbolClasses, characteristics)
+
 # READ XSL FILE
 #print("*" * 10 , "Loading from sample", "*" * 10 )
 #loader =  XslLoader('test_samples\Test_set.xls', 3)
@@ -39,6 +45,12 @@ else:
 # CLUSTERING
 console.write_header("Computing Clusters")
 Clusterer().computeClusters(symbolClasses[:global_v.CLASS_NUM])
+
+console.write_header("Displaying plot with Non Homogeneous Foreign symbols")
+Plot3D().renderPlot(symbolClasses, foreignClassesNonHomo)
+
+console.write_header("Displaying plot with Homogeneous Foreign symbols")
+Plot3D().renderPlot(symbolClasses, foreignClassesHomo)
 
 # TEST SET CHECK
 console.write_header(" Checking Test Set")
@@ -54,15 +66,9 @@ Plot3D().renderPlot(symbolClasses[:global_v.CLASS_NUM])
 console.write_header(" Synthetic Data Calculations")
 synth_calc.ambiguity_for_different_radiuses(symbolClasses[:])
 
-# GENERATING FOREIGN CLASSES
-console.write_header("Generating Foreign classes")
-foreignClasses = []
-foreignClasses = ForeignCreator().createForeignClass(global_v.CLASS_NUM * (global_v.N_LEARNING + global_v.N_TEST),
-                                  symbolClasses, characteristics)
-
 # TESTING ACCURACY OF REJECTING FOREIGN CLASSES
 console.write_header(" Testing accuracy of rejecting Foreign classes")
-ForeignRejector().accuracy_of_rejecting(foreignClasses , symbolClasses)
+ForeignRejector().accuracy_of_rejecting(foreignClassesNonHomo , symbolClasses)
 
 # print("*" * 10 , "Displaying Plot with Foreign symbols", "*" * 10 )
-Plot3D().renderPlot(symbolClasses, foreignClasses)
+#Plot3D().renderPlot(symbolClasses, foreignClasses)

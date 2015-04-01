@@ -101,6 +101,11 @@ NON_HOMO_STD_DEV = 0.5
 FOREIGN_CHAR_DIST_THRESH = 0
 
 '''
+    The number of clusters in non Homogeneous creation mode of Foreign classes
+'''
+FOREIGN_NON_HOMO_CLUSTER_COUNT = 5
+
+'''
     Turns on/off loading bars.
 '''
 LOADING_BARS = True

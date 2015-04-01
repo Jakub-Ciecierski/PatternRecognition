@@ -1,10 +1,11 @@
 from elllipsoid import Ellipsoid
 import util.global_variables as global_v
 from sklearn.metrics.metrics import confusion_matrix
+from foreign_rejector import ForeignRejector
 
 radiuses = [1, 0.95, 0.90, 0.85, 0.80]
 
-def ambiguity_for_different_radiuses(symbolClasses):
+def ambiguity_for_different_radiuses(symbolClasses, foreignSymbols = []):
     #
     # PREPARE CONFUSION MATRIX
     #
@@ -79,7 +80,12 @@ def ambiguity_for_different_radiuses(symbolClasses):
             print("           Not Classified points:                         ",100 * len(learn_not_class)/len(symbolClasses[i].learning_set),"%")
                 
         print()
-    
+        
+        # TESTING FOREIGN AMBIGUITY
+        foreign_stric_class, foreign_amb_count, foreign_rejected_count = ForeignRejector().
+                                            accuracy_of_rejecting_matrix(foreignClasses, symbolClasses)
+        
+        
     # DISPLAY CONF MATRIX
     print("    CONFUSION MATRIX [LEARN SET]\n") 
     print(11 * " ", end ="")  
