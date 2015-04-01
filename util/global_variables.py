@@ -1,7 +1,7 @@
 '''
     Number of different symbol classes.
 '''
-CLASS_NUM = 2
+CLASS_NUM = 1
 
 '''
     Number of characteristics for each symbol class.

@@ -1,18 +1,13 @@
 from elllipsoid import Ellipsoid
 import util.global_variables as global_v
+import matrices_batch
 from sklearn.metrics.metrics import confusion_matrix
+from matrices_batch import MatricesBatch, DataInfo
 
 radiuses = [1, 0.95, 0.90, 0.85, 0.80]
 
 def ambiguity_for_different_radiuses(symbolClasses):
-    #
-    # PREPARE CONFUSION MATRIX
-    #
-    confusion_matrix = []
-    for i in range(0, global_v.CLASS_NUM):
-        class_data = []
-        confusion_matrix.append(class_data)
-        
+
     for r in range(0,len(radiuses)):
         print("    RADIUS:", radiuses[r])
         #
@@ -31,16 +26,11 @@ def ambiguity_for_different_radiuses(symbolClasses):
 
         
         #
-        # Check for ambiguity for each class
+        # [LERN SET] Check for ambiguity for each class
         #
         print("\n        MEMBERSHIP RESULTS [LEARN SET]")   
+        m_batch = MatricesBatch()
         for i in range(0, len(symbolClasses)):
-            learn_amb   = []
-            learn_unamb = []
-            learn_not_class = []
-            test_amb    = [] 
-            test_unamb  = []
-            
             #
             # Learning set
             #
@@ -61,37 +51,23 @@ def ambiguity_for_different_radiuses(symbolClasses):
        
                 # Based on information we decide to which group assign our point
                 if(in_how_many == 1 and in_corrected):
-                    learn_unamb.append(point)
+                    m_batch.data(1, i, DataInfo.SAVE, DataInfo.LEARN, DataInfo.BASIC, 
+                                 DataInfo.NATIVE_CLASS, i)
                 elif(in_how_many > 1 and in_corrected):
-                    learn_amb.append(point)
+                    m_batch.data(1, i, DataInfo.SAVE, DataInfo.LEARN, DataInfo.BASIC, 
+                                 DataInfo.AMB)
                 else:
-                    learn_not_class.append(point) 
-                    
-            # Save results in confusion matrix
-            confusion_matrix[i].append(round(100 * len(learn_unamb)/len(symbolClasses[i].learning_set), 2))
-            confusion_matrix[i].append(round(100 * len(learn_amb)/len(symbolClasses[i].learning_set), 2))
-            confusion_matrix[i].append(round(100 * len(learn_not_class)/len(symbolClasses[i].learning_set), 2))
+                    m_batch.data(1, i, DataInfo.SAVE, DataInfo.LEARN, DataInfo.BASIC, 
+                                 DataInfo.NOT_CLASS)
             
             # Print out results  
-            print("        >> Symbol:", [symbolClasses[i].name])
-            print("           Unambiguous points:                            ",100 * len(learn_unamb)/len(symbolClasses[i].learning_set),"%")
-            print("           Ambiguous points:                              ",100 * len(learn_amb)/len(symbolClasses[i].learning_set),"%")
-            print("           Not Classified points:                         ",100 * len(learn_not_class)/len(symbolClasses[i].learning_set),"%")
-                
+            m_batch.summarization(i, DataInfo.LEARN, DataInfo.BASIC)    
+
+        m_batch.print_matrix(DataInfo.LEARN, DataInfo.BASIC)    
         print()
     
     # DISPLAY CONF MATRIX
-    print("    CONFUSION MATRIX [LEARN SET]\n") 
-    print(11 * " ", end ="")  
-    for r in radiuses:
-        print(r,14 * " ", end ="")
-    print()       
-    for i in range(0,len(confusion_matrix)):
-        print("   ", [i], " ", end="")
-        for value in confusion_matrix[i]:
-            print(value," ", end ="")
-        print()
-        
+    
 def prepare_data(symbolClasses):
     returnArray = []
     for cl in symbolClasses:
