@@ -66,7 +66,7 @@ console.write_header(" Synthetic Data Calculations")
 synth_calc.ambiguity_for_different_radiuses(symbolClasses[:], foreignClassesHomo, foreignClassesNonHomo)
 
 #console.write_header("Displaying plot with Non Homogeneous Foreign symbols")
-Plot3D().renderPlot(symbolClasses, foreignClassesNonHomo)
+#Plot3D().renderPlot(symbolClasses, foreignClassesNonHomo)
 
 #console.write_header("Displaying plot with Homogeneous Foreign symbols")
-Plot3D().renderPlot(symbolClasses, foreignClassesHomo)
+#Plot3D().renderPlot(symbolClasses, foreignClassesHomo)

@@ -39,9 +39,12 @@ def ambiguity_for_different_radiuses(symbolClasses, foreignClassesHomo = [], for
         # Check ambiguity for each foreign set
         #
         print("\n\n        MEMBERSHIP RESULTS [HOMOGENEOUS FOREIGN SET]")
-        foreign_ambiguity_test(foreignClassesHomo, symbolClasses)
+        foreign_ambiguity_test(DataInfo.HOMO, r, foreignClassesHomo, symbolClasses)
         print("\n\n        MEMBERSHIP RESULTS [NON HOMOGENEOUS FOREIGN SET]")
-        foreign_ambiguity_test(foreignClassesNonHomo, symbolClasses)
+        foreign_ambiguity_test(DataInfo.NONHOMO, r, foreignClassesNonHomo, symbolClasses)
+        
+        results_data.batch(r).print_matrix(DataInfo.FOREIGN, DataInfo.HOMO)
+        results_data.batch(r).print_matrix(DataInfo.FOREIGN, DataInfo.NONHOMO)
 '''
     TODO
 '''
@@ -122,11 +125,25 @@ def determine_closer_ellipsoid(ambiguous_ellipsoids, point):
             return_class = ellipsoid.class_n
 
     return return_class
-        
-      
-def foreign_ambiguity_test(foreignClasses, symbolClasses):
-    f_nonhomo_stric_class, f_nonhomo_amb_count, f_nonhomo_rejected_count = f_rej.accuracy_of_rejecting_matrix(foreignClasses, symbolClasses)
-    for f in range(0, len(f_nonhomo_stric_class)):
-        print("        >> Symbol[",f,"]:                " , (f_nonhomo_stric_class[f] / len(foreignClasses))*100, "%")
-    print("        >> Ambiguous:                    " , (f_nonhomo_amb_count / len(foreignClasses))*100, "%")
-    print("        >> Rejected:                     " , (f_nonhomo_rejected_count / len(foreignClasses))*100, "% \n")
+
+'''
+    Process of ambiguity test for foreign symbols.
+'''
+def foreign_ambiguity_test(m_type, radius, foreignClasses, symbolClasses):
+    # compute Strict classification, ambiguous count, and rejection count
+    stric_class, amb_count, rejected_count = f_rej.accuracy_of_rejecting_confusion(foreignClasses, symbolClasses)
+
+    # safe results to batch
+    results_data.batch(radius).data(amb_count, 0, DataInfo.SAVE, DataInfo.FOREIGN, m_type, 
+                     DataInfo.AMB)
+    results_data.batch(radius).data(rejected_count, 0, DataInfo.SAVE, DataInfo.FOREIGN, m_type, 
+                     DataInfo.NOT_CLASS)
+    for i in range(0, len(stric_class)):
+        results_data.batch(radius).data(stric_class[i], 0, DataInfo.SAVE, DataInfo.FOREIGN, m_type, 
+                     DataInfo.NATIVE_CLASS, i)
+
+    # TODO remove this print
+    for f in range(0, len(stric_class)):
+        print("        >> Symbol[",f,"]:                " , (stric_class[f] / len(foreignClasses))*100, "%")
+    print("        >> Ambiguous:                    " , (amb_count / len(foreignClasses))*100, "%")
+    print("        >> Rejected:                     " , (rejected_count / len(foreignClasses))*100, "% \n")

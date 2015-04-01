@@ -87,6 +87,9 @@ def write_interval(name,lower_bound,upper_bound, text1="", text2="",text3="",tex
 def write_non_homo(name, group, text1="", text2=""):
     sys.stdout.write("{0}{1}: [{2}] {3}: {4}\n".format(point_indent,text1,name,text2,group ))
 
+'''
+    Redirects stdout to a file with unique name
+'''
 def redirect_stdout():
     global_v.LOADING_BARS = False
     d = datetime.datetime.now().strftime('%Y-%m-%d_%H;%M;%S')

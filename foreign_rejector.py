@@ -5,17 +5,16 @@ from numpy import sqrt
 from scipy.spatial.kdtree import distance_matrix
 '''
     Computes accuracy of rejecting given set of Foreign classes
-    based on the clusters of Native classes
+    based on the clusters of Native classes.
+    Returns all the ingredients for confusion matrix
 '''
-def accuracy_of_rejecting_matrix(foreignClasses, nativeClasses):
+def accuracy_of_rejecting_confusion(foreignClasses, nativeClasses):
     # points which have been strictly classified to one class
     stric_class = []
     for i in range(0, len(nativeClasses)):
         stric_class.append(0)
-
     # points which have been classified to more than 1 class
     amb_count = 0
-
     # counts number of rejected foreign classes
     rejectedCount = 0
 
@@ -28,13 +27,17 @@ def accuracy_of_rejecting_matrix(foreignClasses, nativeClasses):
         # later choose the closest one
         acceptedClusters = []
         isRejected = True
-        # in how many
+        # by how many symbols is this foreign accepted 
         acc_times = 0
+        # by which symbol, in case acc_times == 1
+        # which_class represents the unambiguous symbol
         which_class = -1
 
         # check if that point belongs to some cluster
         for i in range(0,len(nativeClasses)):
+            # acc_times will be incremented if this is false
             isRejectedLocal = True
+
             for cluster in nativeClasses[i].clusters:
                 ellipsoid = cluster.ellipsoid
                 rejected = ellipsoid.is_point_in_ellipsoid(point)
@@ -59,9 +62,6 @@ def accuracy_of_rejecting_matrix(foreignClasses, nativeClasses):
             amb_count += 1
             fc.clusters.append(__find_closest_cluster(fc.characteristicsValues, acceptedClusters))
     return stric_class, amb_count, rejectedCount
-    '''print(">> Result of rejection: " ,
-                    rejectedCount / (len(foreignClasses)) * 100, "%")'''
-
 
 '''
     Computes accuracy of rejecting given set of Foreign classes

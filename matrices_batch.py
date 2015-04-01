@@ -10,7 +10,8 @@ class MatricesBatch:
         self.__m_conf_test          = self.__m_init(global_v.CLASS_NUM, global_v.CLASS_NUM+2)
         self.__m_eucl_conf_learn    = self.__m_init(global_v.CLASS_NUM, global_v.CLASS_NUM+2)
         self.__m_eucl_conf_test     = self.__m_init(global_v.CLASS_NUM, global_v.CLASS_NUM+2)
-        
+        self.__m_conf_homo_foreign  = self.__m_init(1, global_v.CLASS_NUM+2)
+        self.__m_conf_nonhomo_foreign   = self.__m_init(1, global_v.CLASS_NUM+2)
     '''
         Initialize matrix with specified number of rows and columns.
         This method obviously can be used to specified vectors as well.
@@ -87,7 +88,29 @@ class MatricesBatch:
                     self.__m_eucl_conf_test[class_n][global_v.CLASS_NUM+1] += value
                 elif(column == DataInfo.NATIVE_CLASS):  
                     self.__m_eucl_conf_test[class_n][native_no] += value 
-                    
+            
+        elif(set_type == DataInfo.FOREIGN):
+            if(m_type == DataInfo.HOMO):
+                if(column == DataInfo.AMB):
+                    # FOREIGN | HOMO | AMBIGUOUS
+                    self.__m_conf_homo_foreign[0][global_v.CLASS_NUM] += value
+                elif(column == DataInfo.NOT_CLASS):
+                    # FOREIGN | HOMO | REJECTED
+                    self.__m_conf_homo_foreign[0][global_v.CLASS_NUM + 1] += value
+                elif(column == DataInfo.NATIVE_CLASS):
+                    # FOREIGN | HOMO | NATIVE CLASS
+                    self.__m_conf_homo_foreign[0][native_no] += value
+            elif(m_type == DataInfo.NONHOMO):
+                if(column == DataInfo.AMB):
+                    # FOREIGN | NON HOMO | AMBIGUOUS
+                    self.__m_conf_nonhomo_foreign[0][global_v.CLASS_NUM] += value
+                elif(column == DataInfo.NOT_CLASS):
+                    # FOREIGN | NON HOMO | REJECTED
+                    self.__m_conf_nonhomo_foreign[0][global_v.CLASS_NUM + 1] += value
+                elif(column == DataInfo.NATIVE_CLASS):
+                    # FOREIGN | NON HOMO | NATIVE CLASS
+                    self.__m_conf_nonhomo_foreign[0][native_no] += value
+            
     def summarization(self, class_n, set_type, m_type):
         # Print out results  
         print("        >> Symbol:", [class_n])
@@ -113,11 +136,19 @@ class MatricesBatch:
             elif(m_type == DataInfo.EUCL):
                 print("CONFUSION MATRIX | TEST SET | EUCLID METHOD")
                 self.__print(self.__m_eucl_conf_test)               
+                
+        if(set_type == DataInfo.FOREIGN):
+            if(m_type == DataInfo.HOMO):
+                print("CONFUSION MATRIX | FOREIGN | HOMOGENEOUS")
+                self.__print(self.__m_conf_homo_foreign, global_v.CLASS_NUM*global_v.N_LEARNING)
+            if(m_type == DataInfo.NONHOMO):
+                print("CONFUSION MATRIX | FOREIGN | NON HOMOGENEOUS")
+                self.__print(self.__m_conf_nonhomo_foreign, global_v.CLASS_NUM*global_v.N_LEARNING)
     
-    def __print(self, matrix):
+    def __print(self, matrix, divider = global_v.N_LEARNING):
         for r in range(0, len(matrix)):
             for c in range(0, len(matrix[r])):
-                print(round(100*matrix[r][c]/global_v.N_LEARNING,2),' ', end=' ')
-            print()
-                    
-DataInfo = Enum('DataInfo','TEST LEARN EUCL BASIC AMB NATIVE_CLASS NOT_CLASS SAVE GET')            
+                print(round(100*matrix[r][c]/divider,2),' ', end=' ')
+            print("\n")
+
+DataInfo = Enum('DataInfo','TEST LEARN EUCL BASIC AMB NATIVE_CLASS NOT_CLASS SAVE GET FOREIGN HOMO NONHOMO')            

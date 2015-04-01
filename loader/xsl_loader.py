@@ -8,11 +8,13 @@ from util.color_chooser import ColorChooser
 class XslLoader:
     '''
         filepath - path to the xsl file
+        startRow - which row to start reading from
         maxColumns - how many characteristics we want to read at most
     '''
-    def __init__(self, filepath, maxColumns):
+    def __init__(self, filepath, startRow,maxColumns):
         self.filepath = filepath
         self.maxColumns = maxColumns
+        self.startRow = startRow
 
     '''
         Reads all the sheets and every row attached to it
@@ -28,7 +30,7 @@ class XslLoader:
         print("Opening file:", self.filepath)
         wb = open_workbook(self.filepath)
         for s in wb.sheets():
-            for row in range(s.nrows):
+            for row in range(self.startRow, s.nrows):
                 characteristics = []
                 for col in range(s.ncols):
                     if col == self.maxColumns + 1:
