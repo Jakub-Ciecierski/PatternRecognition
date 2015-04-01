@@ -1,8 +1,7 @@
 from elllipsoid import Ellipsoid
 import util.global_variables as global_v
-import matrices_batch
-from sklearn.metrics.metrics import confusion_matrix
-from matrices_batch import MatricesBatch, DataInfo
+import numpy as np
+from matrices_batch import DataInfo
 from results_data import ResultsData
 
 radiuses = [1, 0.95, 0.90, 0.85, 0.80]
@@ -12,6 +11,7 @@ def ambiguity_for_different_radiuses(symbolClasses):
 
     for r in range(0,len(radiuses)):
         print("    RADIUS:", radiuses[r])
+        
         #
         # Shrink each ellipsoid
         #
@@ -25,17 +25,19 @@ def ambiguity_for_different_radiuses(symbolClasses):
                 # list of point in current ellipsoid
                 pointsInEllipsoid = cluster.ellipsoid.is_point_in_ellipsoid(cluster.points,False, True)
                 print("           Symbol:",[cl.name]," Points in cluster:                ", 100 * len(pointsInEllipsoid)/len(cluster.points),"%")
-
-        
+                
         #
-        # [LERN SET] Check for ambiguity for each class
+        # TESTS FOR DIFFERENT SETS
         #
-        # LEARNING SET
         print("\n        MEMBERSHIP RESULTS [LEARN SET]")   
         ambiguity_test(DataInfo.LEARN, r, symbolClasses)
         print("\n        MEMBERSHIP RESULTS [TEST SET]")   
         ambiguity_test(DataInfo.TEST, r, symbolClasses)
-
+        
+        
+'''
+    TODO
+'''
 def ambiguity_test(set_type, radius, symbolClasses):
     for i in range(0, len(symbolClasses)):
         if(set_type == DataInfo.LEARN):
@@ -44,34 +46,75 @@ def ambiguity_test(set_type, radius, symbolClasses):
             set_to_test = symbolClasses[i].test_set
             
         for point in set_to_test:
-            # Count of clusters to which point belongs
-            in_how_many = 0
             # Does point belong to the right one ?
             in_corrected = False
+            ambiguous_ellipsoids =[]
             
             for cl_check in symbolClasses:
                 for check_cluster in cl_check.clusters:
                     rejected = check_cluster.ellipsoid.is_point_in_ellipsoid([point.characteristicsValues[:]], True)
                     if(rejected == 0):
-                        in_how_many += 1
+                        ambiguous_ellipsoids.append(EuclidianData(int(cl_check.name), check_cluster.ellipsoid.center))
                         if(symbolClasses[i].name == cl_check.name):
                             in_corrected = True
-                        break
+                        
    
             # Based on information we decide to which group assign our point
-            group_assigment(radius, i, in_how_many, in_corrected, set_type)
+            group_assigment(radius, i,DataInfo.BASIC, ambiguous_ellipsoids, in_corrected, set_type, point.characteristicsValues[:])
+            group_assigment(radius, i,DataInfo.EUCL, ambiguous_ellipsoids, in_corrected, set_type,point.characteristicsValues[:])
         
         # Print out results  
         results_data.batch(radius).summarization(i, set_type, DataInfo.BASIC)  
-
-def group_assigment(radius, class_n, in_how_many, in_corrected, set_type):
-    if(in_how_many == 1 and in_corrected):
-        results_data.batch(radius).data(1, class_n, DataInfo.SAVE, set_type, DataInfo.BASIC, 
+    results_data.batch(radius).print_matrix(set_type, DataInfo.BASIC)
+    results_data.batch(radius).print_matrix(set_type, DataInfo.EUCL)    
+'''
+    TODO
+'''
+def group_assigment(radius, class_n,m_type , ambiguous_ellipsoids, in_corrected, set_type, point):
+    if(len(ambiguous_ellipsoids) == 1 and in_corrected):
+        results_data.batch(radius).data(1, class_n, DataInfo.SAVE, set_type, m_type, 
                  DataInfo.NATIVE_CLASS, class_n)
-    elif(in_how_many > 1 and in_corrected):
-        results_data.batch(radius).data(1, class_n, DataInfo.SAVE, DataInfo.LEARN, DataInfo.BASIC, 
-                 DataInfo.AMB)
+    elif(len(ambiguous_ellipsoids) > 1 and in_corrected):
+        if(m_type == DataInfo.BASIC):
+            results_data.batch(radius).data(1, class_n, DataInfo.SAVE, set_type, m_type, 
+                     DataInfo.AMB)
+        elif(m_type == DataInfo.EUCL):
+            closest_center_class = determine_closer_ellipsoid(ambiguous_ellipsoids, point)
+            results_data.batch(radius).data(1, class_n, DataInfo.SAVE, set_type, m_type, 
+                 DataInfo.NATIVE_CLASS, closest_center_class)
     else:
-        results_data.batch(radius).data(1, class_n, DataInfo.SAVE, DataInfo.LEARN, DataInfo.BASIC, 
+        results_data.batch(radius).data(1, class_n, DataInfo.SAVE, set_type, m_type, 
                  DataInfo.NOT_CLASS)
+'''
+    TODO
+'''
+class EuclidianData:
+    def __init__(self, class_n, ellipsoid_center):
+        self.class_n = class_n
+        self.ellipsoid_center = ellipsoid_center
+        
+'''
+    TODO
+'''
+def euclidian_distance(point1, point2):
+    result = 0
+    for i in range(0, len(point1)):
+        result += np.power((point1[i]-point2[i]), 2)
+    return np.sqrt(result)
 
+'''
+    TODO
+'''
+def determine_closer_ellipsoid(ambiguous_ellipsoids, point):
+    closest = 500
+    return_class = ambiguous_ellipsoids[0].class_n
+    for ellipsoid in ambiguous_ellipsoids:
+        tmp = euclidian_distance(point, ellipsoid.ellipsoid_center)
+        if(tmp < closest):
+            closest = tmp
+            return_class = ellipsoid.class_n
+
+    return return_class
+        
+        
+    

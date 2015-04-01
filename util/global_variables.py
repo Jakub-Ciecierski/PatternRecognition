@@ -1,12 +1,12 @@
 '''
     Number of different symbol classes.
 '''
-CLASS_NUM = 4
+CLASS_NUM = 10
 
 '''
     Number of characteristics for each symbol class.
 '''
-CHAR_NUM = 6
+CHAR_NUM = 3
 
 '''
     Number of symbol classes displayed on the graph.
@@ -18,7 +18,7 @@ CLASS_DISPLAY_NUM = 3
     If set to True, classes will be distorted in non-homogeneus way.
     Otherwise it will be common gaussian distribution around center.
 '''
-NON_HOMO_CLASSES = True
+NON_HOMO_CLASSES = False
 
 '''
     If true scale of the graph's axes is <0,20>.
