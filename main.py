@@ -7,13 +7,12 @@ from distorter import Distorter
 import data_manager as data
 import sys
 import foreign_creator as f_creator
-from loader.xsl_loader import XslLoader
+import loader.loader as loader
 
 # READ XSL FILE
 #print("*" * 10 , "Loading from sample", "*" * 10 )
 #loader =  XslLoader('test_samples\Test_set.xls', 3)
 #symbolClasses = loader.read_symbols()
-
 
 # REDIRECT OUTPUT
 if global_v.REDIRECT_TO_FILE:
@@ -40,12 +39,19 @@ else:
     console.write_header("Computing Homogeneus Distortion")
     Distorter().create_homogeneus_cloud(symbolClasses[:])
 
+#console.write_header("Loading from sample")
+#symbolClasses = loader.load_xsl('test_samples\Test_set.xls', 0, 3)
+#symbolClasses = loader.load_txt('test_samples\native1.txt')
+
+# Print symbol classes to save the generated symbols
+console.write_header("Printing generated Distortions")
+console.print_symbols(symbolClasses)
+
 # Generating Foreign classes
 console.write_header("Creating Non Homogeneous Foreign")
 foreignClassesNonHomo = f_creator.create_non_homogeneous_foreign(symbolClasses)
 console.write_header("Creating Homogeneous Foreign")
 foreignClassesHomo = f_creator.create_homogeneous_foreign(symbolClasses, characteristics)
-
 
 # CLUSTERING
 console.write_header("Computing Clusters")

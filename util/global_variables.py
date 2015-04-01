@@ -50,12 +50,12 @@ K = 5
 '''
     Maximum number of iterations of the k-means algorithm to run.
 '''
-CLUS_MAX_ITER = 300
+CLUS_MAX_ITER = 1000
 
 '''
     The relative increment in the results before declaring convergence.
 '''
-CLUS_TOL = 0.001
+CLUS_TOL = 0.00001
 
 '''
     Each ellipsoid's semi-axis will be scaled by this factor.

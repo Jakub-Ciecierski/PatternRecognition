@@ -2,6 +2,7 @@ import sys
 import getopt
 import util.global_variables as global_v
 import datetime
+#from main import symbolClasses
 
 header_length = 94
 header_frame_symbol = '%'
@@ -100,3 +101,37 @@ def redirect_stdout():
             file[i] = '_'
     f = open(file, 'w')
     sys.stdout = f
+
+'''
+    prints all the symbols of native set
+    First prints a header e.g.:
+    
+    CLASS_NUM: 10
+    N_LEARNING: 1000
+    N_TEST: 500
+    
+    For each class, first line is the base native symbol
+    around which distortion was computed
+    Next N_LEARNING lines is learning set of that symbol,
+    Next N_TEST lines is the testing set of that symbol
+'''
+def print_symbols(symbolClasses):
+    print("CLASS_NUM:",global_v.CLASS_NUM)
+    print("N_LEARNING:",global_v.N_LEARNING)
+    print("N_TEST:",global_v.N_TEST)
+    for cl in symbolClasses:
+        print(cl.name,end=" ",flush=True)
+        for value in cl.characteristicsValues:
+            print(value, end=" ",flush=True)
+        print()
+
+        for ls in cl.learning_set:
+            print(cl.name,end=" ",flush=True)
+            for value in ls.characteristicsValues:
+                print(value, end=" ",flush=True)
+            print()
+        for ts in cl.test_set:
+            print(cl.name,end=" ",flush=True)
+            for value in ts.characteristicsValues:
+                print(value, end=" ",flush=True)
+            print()

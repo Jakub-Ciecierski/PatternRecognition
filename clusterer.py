@@ -39,7 +39,7 @@ class Clusterer:
     '''
     def __computeKMeans(self,sample):
         k_means = KMeans(init='k-means++', n_clusters=global_v.K, n_init=10
-                            , max_iter=global_v.CLUS_MAX_ITER, tol=global_v.CLUS_TOL)
+                            , max_iter=global_v.CLUS_MAX_ITER, tol=global_v.CLUS_TOL, random_state=4444)
         k_means.fit(sample)
         return k_means.cluster_centers_, k_means.labels_
     
