@@ -109,3 +109,8 @@ FOREIGN_NON_HOMO_CLUSTER_COUNT = 5
     Turns on/off loading bars.
 '''
 LOADING_BARS = True
+
+'''
+    If True Redirects stdout output to file
+'''
+REDIRECT_TO_FILE = True

@@ -4,11 +4,12 @@ import matrices_batch
 from sklearn.metrics.metrics import confusion_matrix
 from matrices_batch import MatricesBatch, DataInfo
 from results_data import ResultsData
+from foreign_rejector import ForeignRejector
 
 radiuses = [1, 0.95, 0.90, 0.85, 0.80]
 results_data = ResultsData(len(radiuses))
 
-def ambiguity_for_different_radiuses(symbolClasses):
+def ambiguity_for_different_radiuses(symbolClasses, foreignClassesHomo = [], foreignClassesNonHomo = []):
 
     for r in range(0,len(radiuses)):
         print("    RADIUS:", radiuses[r])
@@ -35,6 +36,14 @@ def ambiguity_for_different_radiuses(symbolClasses):
         ambiguity_test(DataInfo.LEARN, r, symbolClasses)
         print("\n        MEMBERSHIP RESULTS [TEST SET]")   
         ambiguity_test(DataInfo.TEST, r, symbolClasses)
+        
+        #
+        # Check ambiguity for each foreign set
+        #
+        print("\n\n        MEMBERSHIP RESULTS [HOMOGENEOUS FOREIGN SET]")
+        foreign_ambiguity_test(foreignClassesHomo, symbolClasses)
+        print("\n\n        MEMBERSHIP RESULTS [NON HOMOGENEOUS FOREIGN SET]")
+        foreign_ambiguity_test(foreignClassesNonHomo, symbolClasses)
 
 def ambiguity_test(set_type, radius, symbolClasses):
     for i in range(0, len(symbolClasses)):
@@ -74,3 +83,11 @@ def group_assigment(radius, class_n, in_how_many, in_corrected, set_type):
     else:
         results_data.batch(radius).data(1, class_n, DataInfo.SAVE, DataInfo.LEARN, DataInfo.BASIC, 
                  DataInfo.NOT_CLASS)
+
+def foreign_ambiguity_test(foreignClasses, symbolClasses):
+    f_nonhomo_stric_class, f_nonhomo_amb_count, f_nonhomo_rejected_count = ForeignRejector().accuracy_of_rejecting_matrix(foreignClasses, symbolClasses)
+    print("\n\n        MEMBERSHIP RESULTS [NON HOMOGENEOUS FOREIGN SET]")
+    for f in range(0, len(f_nonhomo_stric_class)):
+        print("        >> Symbol[",f,"]:                " , (f_nonhomo_stric_class[f] / len(foreignClasses))*100, "%")
+    print("        >> Ambiguous:                    " , (f_nonhomo_amb_count / len(foreignClasses))*100, "%")
+    print("        >> Rejected:                     " , (f_nonhomo_rejected_count / len(foreignClasses))*100, "% \n")

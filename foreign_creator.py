@@ -46,7 +46,7 @@ class ForeignCreator:
                     foreignCharacteristic = RandomGenerator().generateRandom(
                                                         characteristics[j].interval.lowerBound,
                                                         characteristics[j].interval.upperBound)
-                    #foreignCharacteristic += random.gauss(0, global_v.DIST_BASE_P_SD)
+                    foreignCharacteristic += random.gauss(0, global_v.HOMO_STD_DEV)
                     foreignCharacteristics.append(foreignCharacteristic)
                 # Check if it is foreign 'enough'
                 if self.__isForeign(foreignCharacteristics, nativeClasses):

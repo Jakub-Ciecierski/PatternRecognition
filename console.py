@@ -1,6 +1,7 @@
 import sys
 import getopt
 import util.global_variables as global_v
+import datetime
 
 header_length = 94
 header_frame_symbol = '%'
@@ -85,3 +86,13 @@ def write_interval(name,lower_bound,upper_bound, text1="", text2="",text3="",tex
      
 def write_non_homo(name, group, text1="", text2=""):
     sys.stdout.write("{0}{1}: [{2}] {3}: {4}\n".format(point_indent,text1,name,text2,group ))
+
+def redirect_stdout():
+    d = datetime.datetime.now().strftime('%Y-%m-%d_%H;%M;%S')
+    file = "log/" + str(d) +".txt"
+    print("Redirecting output to: " + file)
+    for i in range(0, len(file)):
+        if file[i] == ' ':
+            file[i] = '_'
+    f = open(file, 'w')
+    sys.stdout = f

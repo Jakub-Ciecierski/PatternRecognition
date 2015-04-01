@@ -9,6 +9,11 @@ import sys
 from foreign_creator import ForeignCreator
 from foreign_rejector import ForeignRejector
 from loader.xsl_loader import XslLoader
+import datetime
+
+# REDIRECT OUTPUT
+if global_v.REDIRECT_TO_FILE:
+    console.redirect_stdout()
 
 # CHECK ARGUMENTS
 console.parse_argv(sys.argv[1:])
@@ -46,12 +51,6 @@ foreignClassesHomo = ForeignCreator().create_homogeneous_foreign(symbolClasses, 
 console.write_header("Computing Clusters")
 Clusterer().computeClusters(symbolClasses[:global_v.CLASS_NUM])
 
-console.write_header("Displaying plot with Non Homogeneous Foreign symbols")
-Plot3D().renderPlot(symbolClasses, foreignClassesNonHomo)
-
-console.write_header("Displaying plot with Homogeneous Foreign symbols")
-Plot3D().renderPlot(symbolClasses, foreignClassesHomo)
-
 # TEST SET CHECK
 console.write_header(" Checking Test Set")
 data.cluster_membership_test(symbolClasses[:global_v.CLASS_NUM])
@@ -59,16 +58,15 @@ data.cluster_membership_test(symbolClasses[:global_v.CLASS_NUM])
 
 # DISPLAY
 console.write_header(" Displaying Plot")
-Plot3D().renderPlot(symbolClasses[:global_v.CLASS_NUM])
+#Plot3D().renderPlot(symbolClasses[:global_v.CLASS_NUM])
 #Plot3D().renderPlot(symbolClasses)
 
 # SYNTETIC DATA CALCULATIONS
 console.write_header(" Synthetic Data Calculations")
-synth_calc.ambiguity_for_different_radiuses(symbolClasses[:])
+synth_calc.ambiguity_for_different_radiuses(symbolClasses[:], foreignClassesHomo, foreignClassesNonHomo)
 
-# TESTING ACCURACY OF REJECTING FOREIGN CLASSES
-console.write_header(" Testing accuracy of rejecting Foreign classes")
-ForeignRejector().accuracy_of_rejecting(foreignClassesNonHomo , symbolClasses)
+console.write_header("Displaying plot with Non Homogeneous Foreign symbols")
+Plot3D().renderPlot(symbolClasses, foreignClassesNonHomo)
 
-# print("*" * 10 , "Displaying Plot with Foreign symbols", "*" * 10 )
-#Plot3D().renderPlot(symbolClasses, foreignClasses)
+console.write_header("Displaying plot with Homogeneous Foreign symbols")
+Plot3D().renderPlot(symbolClasses, foreignClassesHomo)
