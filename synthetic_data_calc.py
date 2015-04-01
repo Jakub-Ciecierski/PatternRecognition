@@ -1,19 +1,15 @@
 from elllipsoid import Ellipsoid
 import util.global_variables as global_v
+import matrices_batch
 from sklearn.metrics.metrics import confusion_matrix
-from foreign_rejector import ForeignRejector
+from matrices_batch import MatricesBatch, DataInfo
+from results_data import ResultsData
 
 radiuses = [1, 0.95, 0.90, 0.85, 0.80]
+results_data = ResultsData(len(radiuses))
 
-def ambiguity_for_different_radiuses(symbolClasses, foreignSymbols = []):
-    #
-    # PREPARE CONFUSION MATRIX
-    #
-    confusion_matrix = []
-    for i in range(0, global_v.CLASS_NUM):
-        class_data = []
-        confusion_matrix.append(class_data)
-        
+def ambiguity_for_different_radiuses(symbolClasses):
+
     for r in range(0,len(radiuses)):
         print("    RADIUS:", radiuses[r])
         #
@@ -32,74 +28,49 @@ def ambiguity_for_different_radiuses(symbolClasses, foreignSymbols = []):
 
         
         #
-        # Check for ambiguity for each class
+        # [LERN SET] Check for ambiguity for each class
         #
+        # LEARNING SET
         print("\n        MEMBERSHIP RESULTS [LEARN SET]")   
-        for i in range(0, len(symbolClasses)):
-            learn_amb   = []
-            learn_unamb = []
-            learn_not_class = []
-            test_amb    = [] 
-            test_unamb  = []
+        ambiguity_test(DataInfo.LEARN, r, symbolClasses)
+        print("\n        MEMBERSHIP RESULTS [TEST SET]")   
+        ambiguity_test(DataInfo.TEST, r, symbolClasses)
+
+def ambiguity_test(set_type, radius, symbolClasses):
+    for i in range(0, len(symbolClasses)):
+        if(set_type == DataInfo.LEARN):
+            set_to_test = symbolClasses[i].learning_set
+        if(set_type == DataInfo.TEST):
+            set_to_test = symbolClasses[i].test_set
             
-            #
-            # Learning set
-            #
-            for point in symbolClasses[i].learning_set:
-                # Count of clusters to which point belongs
-                in_how_many = 0
-                # Does point belong to the right one ?
-                in_corrected = False
-                
-                for cl_check in symbolClasses:
-                    for check_cluster in cl_check.clusters:
-                        rejected = check_cluster.ellipsoid.is_point_in_ellipsoid([point.characteristicsValues[:]], True)
-                        if(rejected == 0):
-                            in_how_many += 1
-                            if(symbolClasses[i].name == cl_check.name):
-                                in_corrected = True
-                            break
-       
-                # Based on information we decide to which group assign our point
-                if(in_how_many == 1 and in_corrected):
-                    learn_unamb.append(point)
-                elif(in_how_many > 1 and in_corrected):
-                    learn_amb.append(point)
-                else:
-                    learn_not_class.append(point) 
-                    
-            # Save results in confusion matrix
-            confusion_matrix[i].append(round(100 * len(learn_unamb)/len(symbolClasses[i].learning_set), 2))
-            confusion_matrix[i].append(round(100 * len(learn_amb)/len(symbolClasses[i].learning_set), 2))
-            confusion_matrix[i].append(round(100 * len(learn_not_class)/len(symbolClasses[i].learning_set), 2))
+        for point in set_to_test:
+            # Count of clusters to which point belongs
+            in_how_many = 0
+            # Does point belong to the right one ?
+            in_corrected = False
             
-            # Print out results  
-            print("        >> Symbol:", [symbolClasses[i].name])
-            print("           Unambiguous points:                            ",100 * len(learn_unamb)/len(symbolClasses[i].learning_set),"%")
-            print("           Ambiguous points:                              ",100 * len(learn_amb)/len(symbolClasses[i].learning_set),"%")
-            print("           Not Classified points:                         ",100 * len(learn_not_class)/len(symbolClasses[i].learning_set),"%")
-                
-        print()
+            for cl_check in symbolClasses:
+                for check_cluster in cl_check.clusters:
+                    rejected = check_cluster.ellipsoid.is_point_in_ellipsoid([point.characteristicsValues[:]], True)
+                    if(rejected == 0):
+                        in_how_many += 1
+                        if(symbolClasses[i].name == cl_check.name):
+                            in_corrected = True
+                        break
+   
+            # Based on information we decide to which group assign our point
+            group_assigment(radius, i, in_how_many, in_corrected, set_type)
         
-        # TESTING FOREIGN AMBIGUITY
-        foreign_stric_class, foreign_amb_count, foreign_rejected_count = ForeignRejector().
-                                            accuracy_of_rejecting_matrix(foreignClasses, symbolClasses)
-        
-        
-    # DISPLAY CONF MATRIX
-    print("    CONFUSION MATRIX [LEARN SET]\n") 
-    print(11 * " ", end ="")  
-    for r in radiuses:
-        print(r,14 * " ", end ="")
-    print()       
-    for i in range(0,len(confusion_matrix)):
-        print("   ", [i], " ", end="")
-        for value in confusion_matrix[i]:
-            print(value," ", end ="")
-        print()
-        
-def prepare_data(symbolClasses):
-    returnArray = []
-    for cl in symbolClasses:
-        returnArray.append(cl.characteristicsValues)
-    return returnArray
+        # Print out results  
+        results_data.batch(radius).summarization(i, set_type, DataInfo.BASIC)  
+
+def group_assigment(radius, class_n, in_how_many, in_corrected, set_type):
+    if(in_how_many == 1 and in_corrected):
+        results_data.batch(radius).data(1, class_n, DataInfo.SAVE, set_type, DataInfo.BASIC, 
+                 DataInfo.NATIVE_CLASS, class_n)
+    elif(in_how_many > 1 and in_corrected):
+        results_data.batch(radius).data(1, class_n, DataInfo.SAVE, DataInfo.LEARN, DataInfo.BASIC, 
+                 DataInfo.AMB)
+    else:
+        results_data.batch(radius).data(1, class_n, DataInfo.SAVE, DataInfo.LEARN, DataInfo.BASIC, 
+                 DataInfo.NOT_CLASS)

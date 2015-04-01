@@ -10,15 +10,19 @@ subpoint_indent = "        "
 def parse_argv(argv):
     # Gather up flags
     try:                                
-        opts, args = getopt.getopt(argv, "n", ["nonhomo"])
+        opts, args = getopt.getopt(argv, "nc:h:", ["nonhomo","classes=","characteristics="])
+        print(args)
     except getopt.GetoptError:          
         usage()                         
         sys.exit(2)              
     # Perform proper actions           
     for opt, arg in opts:               
         if opt in ("-n", "--nonhomo"):      
-            global_v.NON_HOMO_CLASSES = True    
- 
+            global_v.NON_HOMO_CLASSES = True
+        elif opt in ("-c", "--classes"):      
+            global_v.CLASS_NUM = int(arg)   
+        elif opt in ("-h", "--characteristics"):
+            global_v.CHAR_NUM = int(arg)
 
 def usage():
     print("to be created")
