@@ -103,6 +103,16 @@ class MatricesBatch:
             if(m_type == DataInfo.BASIC):
                 print("CONFUSION MATRIX | LEARNING SET | NON-EUCLID METHOD")
                 self.__print(self.__m_conf_learn)
+            elif(m_type == DataInfo.EUCL):
+                print("CONFUSION MATRIX | LEARNING SET | EUCLID METHOD")
+                self.__print(self.__m_eucl_conf_learn)  
+        if(set_type == DataInfo.TEST):
+            if(m_type == DataInfo.BASIC):
+                print("CONFUSION MATRIX | TEST SET | NON-EUCLID METHOD")
+                self.__print(self.__m_conf_test)
+            elif(m_type == DataInfo.EUCL):
+                print("CONFUSION MATRIX | TEST SET | EUCLID METHOD")
+                self.__print(self.__m_eucl_conf_test)               
     
     def __print(self, matrix):
         for r in range(0, len(matrix)):
