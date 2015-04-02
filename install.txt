@@ -1,4 +1,4 @@
-SHUT DOWN eclipse before installing anything
+0SHUT DOWN eclipse before installing anything
 
 1) Scipy
 http://sourceforge.net/projects/scipy/files/scipy/0.15.1/

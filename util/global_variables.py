@@ -1,12 +1,12 @@
 '''
     Number of different symbol classes.
 '''
-CLASS_NUM = 5
+CLASS_NUM = 10
 
 '''
     Number of characteristics for each symbol class.
 '''
-CHAR_NUM = 3
+CHAR_NUM = 20
 
 '''
     Number of symbol classes displayed on the graph.
@@ -29,12 +29,12 @@ UNIFORM_SCALE = False;
 '''
     Number of points for each characteristic in learning set.
 '''
-N_LEARNING = 100
+N_LEARNING = 1000
 
 '''
     Number of points for each characteristic in test set.
 '''
-N_TEST = 50
+N_TEST = 500
 
 '''
     Number of points which are randomly chose (using gaussian distribution)
@@ -73,7 +73,7 @@ ELLPSD_TRESH = 1.001
     Recommended settings:
     >>    0.00001
 '''
-MVEE_ERR = 0.001
+MVEE_ERR = 0.0001
 
 '''
     Randomized values of all characteristics will be picked from
