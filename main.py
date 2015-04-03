@@ -15,8 +15,8 @@ import loader.loader as loader
 #symbolClasses = loader.read_symbols()
 
 # REDIRECT OUTPUT
-if global_v.REDIRECT_TO_FILE:
-    console.redirect_stdout()
+# if global_v.REDIRECT_TO_FILE:
+#     console.redirect_stdout()
 
 # CHECK ARGUMENTS
 console.parse_argv(sys.argv[1:])
@@ -44,8 +44,9 @@ else:
 #symbolClasses = loader.load_txt('test_samples\native1.txt')
 
 # Print symbol classes to save the generated symbols
-console.write_header("Printing generated Distortions")
-console.print_symbols(symbolClasses)
+if(global_v.PRINT_GENERATED_SYMBOLS):
+    console.write_header("Printing generated Distortions")
+    console.print_symbols(symbolClasses)
 
 # Generating Foreign classes
 console.write_header("Creating Non Homogeneous Foreign")

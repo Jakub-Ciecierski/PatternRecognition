@@ -6,7 +6,7 @@ CLASS_NUM = 10
 '''
     Number of characteristics for each symbol class.
 '''
-CHAR_NUM = 3
+CHAR_NUM = 20
 
 '''
     Number of symbol classes displayed on the graph.
@@ -45,7 +45,7 @@ DIST_DIV = 1
 '''
     Number of clusters per symbol class.
 '''
-K = 5
+K = 4
 
 '''
     Maximum number of iterations of the k-means algorithm to run.
@@ -73,7 +73,7 @@ ELLPSD_TRESH = 1.001
     Recommended settings:
     >>    0.00001
 '''
-MVEE_ERR = 0.0001
+MVEE_ERR = 0.000001
 
 '''
     Randomized values of all characteristics will be picked from
@@ -85,7 +85,7 @@ CHAR_INTERVAL = [0,20]
     Standard deviation for gaussian distribution used for
     generation of based points in the cloud around original value. 
 '''
-HOMO_STD_DEV = 1.5
+HOMO_STD_DEV = 1.0
 
 '''
     Standard deviation for gaussian distribution used for
@@ -113,4 +113,9 @@ LOADING_BARS = True
 '''
     If True Redirects stdout output to file, also turns off loading bars
 '''
-REDIRECT_TO_FILE = True
+REDIRECT_TO_FILE = False
+
+'''
+	If set to true will print generated native symbols 
+'''
+PRINT_GENERATED_SYMBOLS = False
