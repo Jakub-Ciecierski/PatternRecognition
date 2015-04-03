@@ -1,6 +1,6 @@
 import sys
 import getopt
-import src.util.global_variables as global_v
+import util.global_variables as global_v
 import datetime
 #from main import symbolClasses
 
@@ -12,7 +12,7 @@ subpoint_indent = "        "
 def parse_argv(argv):
     # Gather up flags
     try:                                
-        opts, args = getopt.getopt(argv, "nc:h:", ["nonhomo","classes=","characteristics="])
+        opts, args = getopt.getopt(argv, "nc:h:f:", ["nonhomo","classes=","characteristics=","log="])
         print(args)
     except getopt.GetoptError:          
         usage()                         
@@ -25,9 +25,12 @@ def parse_argv(argv):
             global_v.CLASS_NUM = int(arg)   
         elif opt in ("-h", "--characteristics"):
             global_v.CHAR_NUM = int(arg)
+        elif opt in ("-l", "--log"):
+            print(arg, file=sys.stderr)
+            global_v.LOG_FILE_PREFIX_NAME = arg
 
 def usage():
-    print("to be created")
+    print("to be created", file=sys.stderr)
 
 def write_header(text):
     print()

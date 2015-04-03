@@ -1,9 +1,9 @@
 from numpy import random, sqrt, log, sin, cos, pi
 import random
-import src.util.global_variables as global_v
-from src.symbols.symbol_class import SymbolClass
-from src.symbols.symbol_types import SymbolType
-import src.util.console as console
+import util.global_variables as global_v
+from symbols.symbol_class import SymbolClass
+from symbols.symbol_types import SymbolType
+import util.console as console
 
 '''
     Class in charge of creating cloud of N  random 

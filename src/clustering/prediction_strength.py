@@ -1,10 +1,10 @@
-from src.clustering.cluster import Cluster
+from clustering.cluster import Cluster
 from sklearn.cluster import MiniBatchKMeans, KMeans
-import src.util.global_variables as global_v
-from src.gui.plot_3d import Plot3D
+import util.global_variables as global_v
+from gui.plot_3d import Plot3D
 import random
-from src.symbols.symbol_class import SymbolClass
-from src.util.color_chooser import ColorChooser
+from symbols.symbol_class import SymbolClass
+from util.color_chooser import ColorChooser
 
 """
     Computes a cluster evaluation of given data.

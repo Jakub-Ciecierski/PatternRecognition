@@ -123,7 +123,7 @@ REDIRECT_TO_FILE = True
 '''
     The prefix name of log file.
 '''
-LOG_FILE_PREFIX_NAME = "test"
+LOG_FILE_PREFIX_NAME = ""
 
 '''
 	If set to true will print generated native symbols 

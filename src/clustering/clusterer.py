@@ -1,7 +1,7 @@
 import numpy as np
-from src.clustering.cluster import Cluster
+from clustering.cluster import Cluster
 from sklearn.cluster import MiniBatchKMeans, KMeans
-import src.util.global_variables as global_v
+import util.global_variables as global_v
 import sys
 
 """

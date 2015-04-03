@@ -1,26 +1,26 @@
-import src.util.global_variables as global_v
-import src.util.console as console
-import src.data_calculations.synthetic_data_calc as synth_calc
-from src.gui.plot_3d import Plot3D
-from src.clustering.clusterer import Clusterer
-from src.data_calculations.distorter import Distorter
-import src.data_calculations.data_manager as data
+import util.global_variables as global_v
+import util.console as console
+import data_calculations.synthetic_data_calc as synth_calc
+from gui.plot_3d import Plot3D
+from clustering.clusterer import Clusterer
+from data_calculations.distorter import Distorter
+import data_calculations.data_manager as data
 import sys
-import src.symbols.foreign_creator as f_creator
-import src.util.loader as loader
-import src.clustering.prediction_strength as ps
+import symbols.foreign_creator as f_creator
+import util.loader as loader
+import clustering.prediction_strength as ps
 
 # READ XSL FILE
 #print("*" * 10 , "Loading from sample", "*" * 10 )
 #loader =  XslLoader('test_samples\Test_set.xls', 3)
 #symbolClasses = loader.read_symbols()
 
+# CHECK ARGUMENTS
+console.parse_argv(sys.argv[1:])
+
 # REDIRECT OUTPUT
 if global_v.REDIRECT_TO_FILE:
     console.redirect_stdout()
-
-# CHECK ARGUMENTS
-console.parse_argv(sys.argv[1:])
 
 # CREATE CHAR_NUM CHARACTERISTICS
 console.write_header("Creating Characteristics")

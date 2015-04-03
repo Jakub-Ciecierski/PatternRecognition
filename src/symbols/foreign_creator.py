@@ -1,11 +1,11 @@
-from src.symbols.symbol_class import SymbolClass
-from src.util.color_chooser import ColorChooser
-from src.util.random_generator import RandomGenerator
+from symbols.symbol_class import SymbolClass
+from util.color_chooser import ColorChooser
+from util.random_generator import RandomGenerator
 from numpy import sqrt
-import src.util.global_variables as global_v
-from src.symbols.symbol_types import SymbolType
+import util.global_variables as global_v
+from symbols.symbol_types import SymbolType
 import random
-from src.util import global_variables
+from util import global_variables
 
 '''
     For a given n-dimensional point, this method distort  

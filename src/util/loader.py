@@ -1,6 +1,6 @@
 from xlrd import open_workbook
-from src.symbols.symbol_class import SymbolClass
-from src.util.color_chooser import ColorChooser
+from symbols.symbol_class import SymbolClass
+from util.color_chooser import ColorChooser
 from test.test_importlib.extension.util import FILEPATH
 
 '''

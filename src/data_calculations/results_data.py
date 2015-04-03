@@ -1,4 +1,4 @@
-from src.data_calculations.matrices_batch import MatricesBatch
+from data_calculations.matrices_batch import MatricesBatch
 
 class ResultsData:
     def __init__(self, number_of_radiuses):
