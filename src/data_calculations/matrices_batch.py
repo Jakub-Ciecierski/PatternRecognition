@@ -1,4 +1,4 @@
-import util.global_variables as global_v
+import src.util.global_variables as global_v
 from enum import Enum
 '''
     To wrap all confusion matrices in one place,

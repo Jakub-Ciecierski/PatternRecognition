@@ -1,6 +1,6 @@
 import sys
 import getopt
-import util.global_variables as global_v
+import src.util.global_variables as global_v
 import datetime
 #from main import symbolClasses
 
@@ -94,7 +94,7 @@ def write_non_homo(name, group, text1="", text2=""):
 def redirect_stdout():
     global_v.LOADING_BARS = False
     d = datetime.datetime.now().strftime('%Y-%m-%d_%H;%M;%S')
-    file = "log/" + str(d) +".txt"
+    file = "../log/" + global_v.LOG_FILE_PREFIX_NAME + "_" +str(d) +".txt"
     print("Redirecting output to: " + file)
     for i in range(0, len(file)):
         if file[i] == ' ':

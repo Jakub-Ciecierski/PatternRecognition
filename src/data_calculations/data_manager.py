@@ -1,10 +1,10 @@
-from util.random_generator import RandomGenerator
-import util.global_variables as global_v
-from characteristic import Characteristic
-from symbol_class import SymbolClass
-from symbol_types import SymbolType
-from util.color_chooser import ColorChooser
-import console as console
+from src.util.random_generator import RandomGenerator
+import src.util.global_variables as global_v
+from src.symbols.characteristic import Characteristic
+from src.symbols.symbol_class import SymbolClass
+from src.symbols.symbol_types import SymbolType
+from src.util.color_chooser import ColorChooser
+import src.util.console as console
 
 '''
     To make main.py more transparent whole process of initialization

@@ -1,4 +1,4 @@
-from symbol_types import SymbolType
+from src.symbols.symbol_types import SymbolType
 """
     SymbolClass represents a single symbol e.g. 0, 1 or 2
     It contains a list of clusters of its sub-classes obtained by applying

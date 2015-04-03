@@ -1,6 +1,6 @@
 import numpy as np
-from elllipsoid import Ellipsoid
-import util.global_variables as global_v
+from src.clustering.elllipsoid import Ellipsoid
+import src.util.global_variables as global_v
 
 '''
     Structure which holds all needed information about cluster.
@@ -10,8 +10,7 @@ class Cluster:
     This class holds data about single cluster,
     its center and points around it
     """
-    def __init__(self, centroid, points, name, number):
-        self.__info(name, number)
+    def __init__(self, centroid, points, name, number, give_info = True):
         self.center = centroid
         self.points = points
         self.ellipsoid = Ellipsoid(self.points, global_v.SEMI_AXIS_SCALE)
@@ -19,7 +18,9 @@ class Cluster:
             self.rejected_x, self.rejected_y, self.rejected_z = self.ellipsoid.is_point_in_ellipsoid(self.points[:])
         else:
             self.rejected_x, self.rejected_y = self.ellipsoid.is_point_in_ellipsoid(self.points[:])
-        print('        >> points in ellipsoid:',(1- len(self.rejected_x)/len(self.points)) * 100,'%','\n')
+        if give_info:
+            self.__info(name, number)
+            print('        >> points in ellipsoid:',(1- len(self.rejected_x)/len(self.points)) * 100,'%','\n')
 
     '''
         Prints out info about created cluster.

@@ -1,8 +1,5 @@
 from numpy import sqrt
-'''
-    Computes tests of accuracy of rejecting Foreign classes
-'''
-from scipy.spatial.kdtree import distance_matrix
+
 '''
     Computes accuracy of rejecting given set of Foreign classes
     based on the clusters of Native classes.

@@ -1,9 +1,9 @@
 from numpy import random, sqrt, log, sin, cos, pi
 import random
-import util.global_variables as global_v
-from symbol_class import SymbolClass
-from symbol_types import SymbolType
-import console as console
+import src.util.global_variables as global_v
+from src.symbols.symbol_class import SymbolClass
+from src.symbols.symbol_types import SymbolType
+import src.util.console as console
 
 '''
     Class in charge of creating cloud of N  random 
@@ -74,5 +74,39 @@ class Distorter:
             console.write_point_text_number(">> Number of test set points", 
                                             len(cl.test_set))    
             indicator += 0.5
-        
-        
+    
+    '''
+        Distributed the data into obvious k clouds
+        Used to test evaluation of clustering methods
+        and should not be used otherwise. 
+    '''
+    def create_k_clouds(self, k ,symbolClasses):
+        count_in_cloud = int(global_v.N_LEARNING/k)
+        for cl in symbolClasses:
+            for i in range(0, k):
+                for j in range(0, count_in_cloud):
+                    # instance of new symbol
+                    distortedClass = SymbolClass(cl.name, cl.color)
+                    
+                    values = []
+                    for v in range(0,len(cl.characteristicsValues)):
+                        values.append(cl.characteristicsValues[v] + (cl.characteristicsValues[v]*i*5) )
+                    
+                    # randomize position around a given class(based on position)
+                    distortedClass.characteristicsValues = self.__generate_distortion(
+                                                                    values,
+                                                                    global_v.HOMO_STD_DEV)
+                    cl.learning_set.append(distortedClass)
+                for j in range(0, int(count_in_cloud/2)):
+                    # instance of new symbol
+                    distortedClass = SymbolClass(cl.name, cl.color)
+                    
+                    values = []
+                    for v in range(0,len(cl.characteristicsValues)):
+                        values.append(cl.characteristicsValues[v] + (cl.characteristicsValues[v]*i*5) )
+                    
+                    # randomize position around a given class(based on position)
+                    distortedClass.characteristicsValues = self.__generate_distortion(
+                                                                    values,
+                                                                    global_v.HOMO_STD_DEV)
+                    cl.test_set.append(distortedClass)

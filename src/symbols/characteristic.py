@@ -1,6 +1,6 @@
 import random
-from interval import Interval
-import util.global_variables as global_v
+from src.symbols.interval import Interval
+import src.util.global_variables as global_v
 
 class Characteristic:
     def __init__(self):

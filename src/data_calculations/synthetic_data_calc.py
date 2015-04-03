@@ -1,9 +1,9 @@
-from elllipsoid import Ellipsoid
-import util.global_variables as global_v
+from src.clustering.elllipsoid import Ellipsoid
+import src.util.global_variables as global_v
 import numpy as np
-from matrices_batch import DataInfo
-from results_data import ResultsData
-import foreign_rejector as f_rej
+from src.data_calculations.matrices_batch import DataInfo
+from src.data_calculations.results_data import ResultsData
+import src.data_calculations.foreign_rejector as f_rej
 
 radiuses = [1, 0.95, 0.90, 0.85, 0.80]
 results_data = ResultsData(len(radiuses))

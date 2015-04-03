@@ -1,13 +1,14 @@
-import util.global_variables as global_v
-import console as console
-import synthetic_data_calc as synth_calc
-from plot_3d import Plot3D
-from clusterer import Clusterer
-from distorter import Distorter
-import data_manager as data
+import src.util.global_variables as global_v
+import src.util.console as console
+import src.data_calculations.synthetic_data_calc as synth_calc
+from src.gui.plot_3d import Plot3D
+from src.clustering.clusterer import Clusterer
+from src.data_calculations.distorter import Distorter
+import src.data_calculations.data_manager as data
 import sys
-import foreign_creator as f_creator
-import loader.loader as loader
+import src.symbols.foreign_creator as f_creator
+import src.util.loader as loader
+import src.clustering.prediction_strength as ps
 
 # READ XSL FILE
 #print("*" * 10 , "Loading from sample", "*" * 10 )
@@ -15,8 +16,8 @@ import loader.loader as loader
 #symbolClasses = loader.read_symbols()
 
 # REDIRECT OUTPUT
-# if global_v.REDIRECT_TO_FILE:
-#     console.redirect_stdout()
+if global_v.REDIRECT_TO_FILE:
+    console.redirect_stdout()
 
 # CHECK ARGUMENTS
 console.parse_argv(sys.argv[1:])
@@ -39,6 +40,9 @@ else:
     console.write_header("Computing Homogeneus Distortion")
     Distorter().create_homogeneus_cloud(symbolClasses[:])
 
+#console.write_header("Creating 2-cloud Distortion")
+#Distorter().create_k_clouds(2,symbolClasses[:])
+
 #console.write_header("Loading from sample")
 #symbolClasses = loader.load_xsl('test_samples\Test_set.xls', 0, 3)
 #symbolClasses = loader.load_txt('test_samples\native1.txt')
@@ -58,13 +62,17 @@ foreignClassesHomo = f_creator.create_homogeneous_foreign(symbolClasses, charact
 console.write_header("Computing Clusters")
 Clusterer().computeClusters(symbolClasses[:global_v.CLASS_NUM])
 
+# CLUSTER EVALUATION
+console.write_header("Evaluating clustering")
+ps.cluster_evaluation(global_v.MAX_K_CLUS_EVALUATION, symbolClasses)
+
 # TEST SET CHECK
 console.write_header(" Checking Test Set")
 data.cluster_membership_test(symbolClasses[:global_v.CLASS_NUM])
 #data.cluster_membership_test(symbolClasses)
 
 # DISPLAY
-console.write_header(" Displaying Plot")
+#console.write_header(" Displaying Plot")
 #Plot3D().renderPlot(symbolClasses[:global_v.CLASS_NUM])
 #Plot3D().renderPlot(symbolClasses)
 

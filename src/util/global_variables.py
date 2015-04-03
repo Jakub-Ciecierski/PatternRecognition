@@ -1,12 +1,12 @@
 '''
     Number of different symbol classes.
 '''
-CLASS_NUM = 10
+CLASS_NUM = 1
 
 '''
     Number of characteristics for each symbol class.
 '''
-CHAR_NUM = 20
+CHAR_NUM = 3
 
 '''
     Number of symbol classes displayed on the graph.
@@ -29,12 +29,12 @@ UNIFORM_SCALE = False;
 '''
     Number of points for each characteristic in learning set.
 '''
-N_LEARNING = 1000
+N_LEARNING = 100
 
 '''
     Number of points for each characteristic in test set.
 '''
-N_TEST = 500
+N_TEST = 50
 
 '''
     Number of points which are randomly chose (using gaussian distribution)
@@ -45,7 +45,7 @@ DIST_DIV = 1
 '''
     Number of clusters per symbol class.
 '''
-K = 4
+K = 1
 
 '''
     Maximum number of iterations of the k-means algorithm to run.
@@ -56,6 +56,11 @@ CLUS_MAX_ITER = 1000
     The relative increment in the results before declaring convergence.
 '''
 CLUS_TOL = 0.0001
+
+'''
+    The maximum amout of clusters (k) for cluster evaluation
+'''
+MAX_K_CLUS_EVALUATION = 6
 
 '''
     Each ellipsoid's semi-axis will be scaled by this factor.
@@ -73,7 +78,7 @@ ELLPSD_TRESH = 1.001
     Recommended settings:
     >>    0.00001
 '''
-MVEE_ERR = 0.000001
+MVEE_ERR = 0.0001
 
 '''
     Randomized values of all characteristics will be picked from
@@ -108,12 +113,17 @@ FOREIGN_NON_HOMO_CLUSTER_COUNT = 5
 '''
     Turns on/off loading bars.
 '''
-LOADING_BARS = True
+LOADING_BARS = False
 
 '''
     If True Redirects stdout output to file, also turns off loading bars
 '''
-REDIRECT_TO_FILE = False
+REDIRECT_TO_FILE = True
+
+'''
+    The prefix name of log file.
+'''
+LOG_FILE_PREFIX_NAME = "test"
 
 '''
 	If set to true will print generated native symbols 

@@ -1,7 +1,7 @@
 import numpy as np
-from cluster import Cluster
+from src.clustering.cluster import Cluster
 from sklearn.cluster import MiniBatchKMeans, KMeans
-import util.global_variables as global_v
+import src.util.global_variables as global_v
 import sys
 
 """
@@ -60,3 +60,6 @@ class Clusterer:
         centroids, points_labels = self.__computeKMeans(X)
               
         return centroids, points_labels
+    
+    
+    

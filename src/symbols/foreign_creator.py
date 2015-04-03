@@ -1,11 +1,11 @@
-from symbol_class import SymbolClass
-from util.color_chooser import ColorChooser
-from util.random_generator import RandomGenerator
+from src.symbols.symbol_class import SymbolClass
+from src.util.color_chooser import ColorChooser
+from src.util.random_generator import RandomGenerator
 from numpy import sqrt
-import util.global_variables as global_v
-from symbol_types import SymbolType
+import src.util.global_variables as global_v
+from src.symbols.symbol_types import SymbolType
 import random
-from util import global_variables
+from src.util import global_variables
 
 '''
     For a given n-dimensional point, this method distort  
@@ -25,8 +25,6 @@ def __generate_distortion(cloudCenterCoordinates,sigmaSqrt):
     Native classes to make sure that these values do not overlap
 """
 def create_homogeneous_foreign(nativeClasses, characteristics):
-    print("Generating Homogeneous Foreign classes")
-
     # create n Foreign classes
     foreignClasses = []
     for i in range(0,global_v.CLASS_NUM * (global_v.N_LEARNING)):
@@ -50,7 +48,7 @@ def create_homogeneous_foreign(nativeClasses, characteristics):
                 break
         # Add to all classes
         foreignClasses.append(foreignClass)
-    print("Generated:",global_v.CLASS_NUM * (global_v.N_LEARNING)," Homogeneous Foreign classes")
+    print("        >> Generated:",global_v.CLASS_NUM * (global_v.N_LEARNING)," Homogeneous Foreign classes")
     return foreignClasses
 
 '''
@@ -61,7 +59,6 @@ def create_homogeneous_foreign(nativeClasses, characteristics):
         Create a distortion (cloud) around this point.
 '''
 def create_non_homogeneous_foreign(nativeClasses):
-    print("Generating Non Homogeneous Foreign classes")
     foreignClasses = []
     for i in range(0, len(nativeClasses)):
         # take two centers
@@ -82,7 +79,7 @@ def create_non_homogeneous_foreign(nativeClasses):
             foreignClass = SymbolClass("foreign", ColorChooser().getForeignColor(), SymbolType.FOREIGN)
             foreignClass.characteristicsValues = __generate_distortion(midpoint[:] ,global_v.NON_HOMO_STD_DEV)
             foreignClasses.append(foreignClass)
-    print("Generated:", len(foreignClasses) ,"Non Homogeneous Foreign classes")
+    print("        >> Generated:", len(foreignClasses) ,"Non Homogeneous Foreign classes")
     return foreignClasses
 
 '''
