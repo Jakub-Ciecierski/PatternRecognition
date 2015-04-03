@@ -22,6 +22,9 @@ console.parse_argv(sys.argv[1:])
 if global_v.REDIRECT_TO_FILE:
     console.redirect_stdout()
 
+console.write_header("Run configuration")
+console.print_config()
+
 # CREATE CHAR_NUM CHARACTERISTICS
 console.write_header("Creating Characteristics")
 characteristics = []
