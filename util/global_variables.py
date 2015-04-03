@@ -6,7 +6,7 @@ CLASS_NUM = 10
 '''
     Number of characteristics for each symbol class.
 '''
-CHAR_NUM = 20
+CHAR_NUM = 3
 
 '''
     Number of symbol classes displayed on the graph.
@@ -18,7 +18,7 @@ CLASS_DISPLAY_NUM = 3
     If set to True, classes will be distorted in non-homogeneus way.
     Otherwise it will be common gaussian distribution around center.
 '''
-NON_HOMO_CLASSES = False
+NON_HOMO_CLASSES = True
 
 '''
     If true scale of the graph's axes is <0,20>.
@@ -55,7 +55,7 @@ CLUS_MAX_ITER = 1000
 '''
     The relative increment in the results before declaring convergence.
 '''
-CLUS_TOL = 0.00001
+CLUS_TOL = 0.0001
 
 '''
     Each ellipsoid's semi-axis will be scaled by this factor.
@@ -108,7 +108,7 @@ FOREIGN_NON_HOMO_CLUSTER_COUNT = 5
 '''
     Turns on/off loading bars.
 '''
-LOADING_BARS = False
+LOADING_BARS = True
 
 '''
     If True Redirects stdout output to file, also turns off loading bars
