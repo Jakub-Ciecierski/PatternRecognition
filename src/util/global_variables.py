@@ -1,3 +1,5 @@
+from enum import Enum
+
 '''
     Number of different symbol classes.
 '''
@@ -45,7 +47,7 @@ DIST_DIV = 1
 '''
     Number of clusters per symbol class.
 '''
-K = 1
+K = 3
 
 '''
     Maximum number of iterations of the k-means algorithm to run.
@@ -129,3 +131,16 @@ LOG_FILE_PREFIX_NAME = ""
 	If set to true will print generated native symbols 
 '''
 PRINT_GENERATED_SYMBOLS = False
+
+'''
+    To control, which type of test is conducted Pair Enum type and global variable
+    has been created. By default we perform only test1 i.e. homogeneous native symbols
+    and homogeneous foreign symbols.
+'''
+TestType = Enum('TestType','HOMO_NATIVE_HOMO_FOREIGN HOMO_NATIVE_NON_HOMO_FOREIGN GROUPING_ASSESSMENT') 
+TEST_TYPE = TestType.HOMO_NATIVE_HOMO_FOREIGN
+
+'''
+    Global name is useful for referencing a proper directory.
+'''
+DIR_NAME = "temp"

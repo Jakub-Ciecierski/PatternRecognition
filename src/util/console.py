@@ -1,6 +1,7 @@
 import sys
 import getopt
 import util.global_variables as global_v
+import os
 import datetime
 #from main import symbolClasses
 
@@ -12,23 +13,38 @@ subpoint_indent = "        "
 def parse_argv(argv):
     # Gather up flags
     try:                                
-        opts, args = getopt.getopt(argv, "nc:h:f:", ["nonhomo","classes=","characteristics=","log="])
+        opts, args = getopt.getopt(argv, "123c:h:f:t:l:m:", ["test-type-1","test-type-2","test-type-3","classes=","characteristics=","log=","test=","learn=","mvee="])
         print(args)
     except getopt.GetoptError:          
         usage()                         
         sys.exit(2)              
     # Perform proper actions           
     for opt, arg in opts:               
-        if opt in ("-n", "--nonhomo"):      
-            global_v.NON_HOMO_CLASSES = True
-        elif opt in ("-c", "--classes"):      
+        if opt in ("-c", "--classes"):      
             global_v.CLASS_NUM = int(arg)   
         elif opt in ("-h", "--characteristics"):
             global_v.CHAR_NUM = int(arg)
-        elif opt in ("-l", "--log"):
+        elif opt in ("-f", "--log"): 
             print(arg, file=sys.stderr)
             global_v.LOG_FILE_PREFIX_NAME = arg
-
+        elif opt in ("-1", "--test-type-1"):
+            global_v.TEST_TYPE = global_v.TestType.HOMO_NATIVE_HOMO_FOREIGN
+        elif opt in ("-2", "--test-type-2"):
+            global_v.TEST_TYPE = global_v.TestType.HOMO_NATIVE_NON_HOMO_FOREIGN
+        elif opt in ("-3", "--test-type-3"):
+            global_v.TEST_TYPE = global_v.TestType.GROUPING_ASSESSMENT
+        elif opt in ("-t", "--test"):
+            global_v.N_TEST = int(arg)
+        elif opt in ("-l", "--learn"):
+            global_v.N_LEARNING = int(arg)
+        elif opt in ("-m", "--mvee"):
+            global_v.MVEE_ERR = float(arg)
+            
+    # Prepare global filename for further references
+    global_v.DIR_NAME = global_v.TEST_TYPE.name + "_" + datetime.datetime.now().strftime('%Y-%m-%d_%H;%M;%S')
+    # Create directory to save information
+    os.makedirs(os.path.join("..","log",global_v.DIR_NAME), exist_ok=True)
+    
 def usage():
     print("to be created", file=sys.stderr)
 
@@ -144,12 +160,24 @@ def print_symbols(symbolClasses):
             print()
             
 def print_config():
-    print("CLASS_NUM:", global_v.CLASS_NUM)
-    print("CHAR_NUM:", global_v.CHAR_NUM)
-    print("N_LEARNING:", global_v.N_LEARNING)
-    print("N_TEST:", global_v.N_TEST)
-    print("K:", global_v.K)
-    print("ELLPSD_TRESH:", global_v.ELLPSD_TRESH)
-    print("MVEE_ERR:", global_v.MVEE_ERR)
-    print("HOMO_STD_DEV:", global_v.HOMO_STD_DEV)
-    print("NON_HOMO_STD_DEV:", global_v.NON_HOMO_STD_DEV)
+    f = open(os.path.join("..","log",global_v.DIR_NAME,"RUN_CONFIG.txt"), 'w')
+    double_print(point_indent,"TEST_TYPE:        ", global_v.TEST_TYPE, f) 
+    double_print(point_indent,"DIR:              ", global_v.DIR_NAME, f)
+    double_print(point_indent,"CLASS_NUM:        ", global_v.CLASS_NUM, f)
+    double_print(point_indent,"CHAR_NUM:         ", global_v.CHAR_NUM, f)
+    double_print(point_indent,"N_LEARNING:       ", global_v.N_LEARNING, f)
+    double_print(point_indent,"N_TEST:           ", global_v.N_TEST, f)
+    double_print(point_indent, "K:                ", global_v.K, f)
+    double_print(point_indent,"ELLPSD_TRESH:     ", global_v.ELLPSD_TRESH, f)
+    double_print(point_indent,"MVEE_ERR:         ", global_v.MVEE_ERR, f)
+    double_print(point_indent,"HOMO_STD_DEV:     ", global_v.HOMO_STD_DEV, f)
+    double_print(point_indent,"NON_HOMO_STD_DEV: ", global_v.NON_HOMO_STD_DEV, f)
+    f.close()
+
+    
+def double_print(indent, s, var, file):
+    print(indent + s,var)
+    file.write(s + str(var) + '\n')
+  
+    
+    

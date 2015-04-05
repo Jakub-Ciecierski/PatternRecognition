@@ -6,11 +6,11 @@ from enum import Enum
 '''
 class MatricesBatch:
     def __init__(self):
-        self.__m_conf_learn         = self.__m_init(global_v.CLASS_NUM, global_v.CLASS_NUM+2)
-        self.__m_conf_test          = self.__m_init(global_v.CLASS_NUM, global_v.CLASS_NUM+2)
-        self.__m_eucl_conf_learn    = self.__m_init(global_v.CLASS_NUM, global_v.CLASS_NUM+2)
-        self.__m_eucl_conf_test     = self.__m_init(global_v.CLASS_NUM, global_v.CLASS_NUM+2)
-        self.__m_conf_homo_foreign  = self.__m_init(1, global_v.CLASS_NUM+2)
+        self.__m_conf_learn             = self.__m_init(global_v.CLASS_NUM, global_v.CLASS_NUM+2)
+        self.__m_conf_test              = self.__m_init(global_v.CLASS_NUM, global_v.CLASS_NUM+2)
+        self.__m_eucl_conf_learn        = self.__m_init(global_v.CLASS_NUM, global_v.CLASS_NUM+2)
+        self.__m_eucl_conf_test         = self.__m_init(global_v.CLASS_NUM, global_v.CLASS_NUM+2)
+        self.__m_conf_homo_foreign      = self.__m_init(1, global_v.CLASS_NUM+2)
         self.__m_conf_nonhomo_foreign   = self.__m_init(1, global_v.CLASS_NUM+2)
     '''
         Initialize matrix with specified number of rows and columns.
