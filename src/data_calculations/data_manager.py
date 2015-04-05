@@ -4,6 +4,7 @@ from symbols.characteristic import Characteristic
 from symbols.symbol_class import SymbolClass
 from symbols.symbol_types import SymbolType
 from util.color_chooser import ColorChooser
+import os
 import util.console as console
 
 '''
@@ -16,11 +17,13 @@ import util.console as console
     of [0,20]. Uniform distribution is used.
 '''
 def generate_characteristic(characteristics):
+    f = open(os.path.join("..","log",global_v.DIR_NAME,"CHARACTERISTICS_INTERVALS.txt"), 'w')
     for i in range(0,global_v.CHAR_NUM):
         characteristics.append(Characteristic())
-        console.write_interval(i, characteristics[i].interval.lowerBound,
+        console.write_characteristics(f,i, characteristics[i].interval.lowerBound,
                                 characteristics[i].interval.upperBound,
                                 "Characterestic #", "Interval:", "From:", "To:")
+    f.close()
         
 '''
     Initialization of CLASS_NUM symbol classes, each with CHAR_NUM

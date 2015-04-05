@@ -86,9 +86,9 @@ def write_name_number(name,number,text=""):
     sys.stdout.write("{0}{1} {2}:{3}{4}\n".format(point_indent,text,name,"."*(point_length - 2- len(number_str)- len(text)-len(str(name))),number_str ))
     sys.stdout.flush()
     
-def write_interval(name,lower_bound,upper_bound, text1="", text2="",text3="",text4=""):
+def write_characteristics(f,name,lower_bound,upper_bound, text1="", text2="",text3="",text4=""):
     text_l = header_length - 2 * len(point_indent)
-    sys.stdout.write("{0}{1} {2} {3} {4}{5}{6}\n".format(point_indent, 
+    line1 = "{0}{1} {2} {3} {4}{5}{6}\n".format("", 
                                                       text1,
                                                       name, 
                                                       text2, 
@@ -96,13 +96,19 @@ def write_interval(name,lower_bound,upper_bound, text1="", text2="",text3="",tex
                                                       "." * (text_l-
                     (len(text1) + len(str(name))+ len(text2)+len(text3)+len(str(lower_bound))+3)
                                                              ),
-                                                      lower_bound))
-    sys.stdout.write("{0}{1}{2}{3}\n\n".format(" " *(3+len(point_indent)+ len(text1) + len(str(name)) + len(text2)),
+                                                      lower_bound)
+    line2 = "{0}{1}{2}{3}\n\n".format(" " *(3+len("")+ len(text1) + len(str(name)) + len(text2)),
                                         text4,
                                         "." * (text_l-
                     (len(text1) + len(str(name))+ len(text2)+len(text4)+len(str(lower_bound))+3)
                                                              ),
-                                        upper_bound))   
+                                        upper_bound)   
+    
+    sys.stdout.write(point_indent+line1)
+    f.write(line1)
+    sys.stdout.write(point_indent+line2)
+    f.write(line2)    
+    
      
 def write_non_homo(name, group, text1="", text2=""):
     sys.stdout.write("{0}{1}: [{2}] {3}: {4}\n".format(point_indent,text1,name,text2,group ))
@@ -161,7 +167,7 @@ def print_symbols(symbolClasses):
             
 def print_config():
     f = open(os.path.join("..","log",global_v.DIR_NAME,"RUN_CONFIG.txt"), 'w')
-    double_print(point_indent,"TEST_TYPE:        ", global_v.TEST_TYPE, f) 
+    double_print(point_indent,"TEST_TYPE:        ", global_v.TEST_TYPE.name, f) 
     double_print(point_indent,"DIR:              ", global_v.DIR_NAME, f)
     double_print(point_indent,"CLASS_NUM:        ", global_v.CLASS_NUM, f)
     double_print(point_indent,"CHAR_NUM:         ", global_v.CHAR_NUM, f)

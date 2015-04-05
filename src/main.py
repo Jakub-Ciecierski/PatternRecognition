@@ -10,25 +10,17 @@ import symbols.foreign_creator as f_creator
 import util.loader as loader
 import clustering.prediction_strength as ps
 
-# READ XSL FILE
-#print("*" * 10 , "Loading from sample", "*" * 10 )
-#loader =  XslLoader('test_samples\Test_set.xls', 3)
-#symbolClasses = loader.read_symbols()
-
 # CHECK ARGUMENTS
 console.parse_argv(sys.argv[1:])
 
-# # REDIRECT OUTPUT
-# if global_v.REDIRECT_TO_FILE:
-#     console.redirect_stdout()
-
+# RUN CONFIGS
 console.write_header(" Run configuration")
 console.print_config()
 
 # CREATE CHAR_NUM CHARACTERISTICS
-# console.write_header("Creating Characteristics")
-# characteristics = []
-# data.generate_characteristic(characteristics)
+console.write_header("Creating Characteristics")
+characteristics = []
+data.generate_characteristic(characteristics)
 
 # CREATE CLASS_NUM SYMBOL CLASSES
 # console.write_header(" Creating Symbol Classes")
