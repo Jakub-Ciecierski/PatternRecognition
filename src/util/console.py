@@ -63,21 +63,32 @@ def write_point_text_number(text, number):
     sys.stdout.write("{0}{1}{2}{3}\n".format(point_indent,text,"." * (point_length -  len(text) - len(str(number))),number))
     sys.stdout.flush()
     
-def write_point_name(name,text=""):
-    sys.stdout.write("{0}{1} {2}\n".format(point_indent,text,name))
-    sys.stdout.flush()
-def write_point_list(list, text=""):
-    sys.stdout.write("{0}{1} ".format(subpoint_indent, text))
+def write_symbol_classes(f,name,list, text=""):
+    line1 = "{0}{1} {2}\n".format("",text,name)
+    sys.stdout.write(point_indent + line1)
+    f.write(line1)
+    write_point_list(f,list,text)
+    
+def write_point_list(f,list, text=""):
+    line1 = "{0}{1} ".format(subpoint_indent, text)
+    sys.stdout.write(line1)
+    f.write(line1)
     per_line = 0
     for i in range(0, len(list)):
         per_line += 1
-        sys.stdout.write("[{0}] ".format(str(list[i])))
+        line2 = "[{0}] ".format(str(list[i]))
+        sys.stdout.write(line2)
+        f.write(line2)
         if(per_line % 3 == 0 and i != 0):
             sys.stdout.write("\n")
+            f.write("\n")
             if(per_line >= 3):
-                sys.stdout.write("{0} ".format(" " * (len(subpoint_indent) + len(text)) ))
+                line3 = "{0} ".format(" " * (len(subpoint_indent) + len(text)) )
+                sys.stdout.write(line3)
+                f.write(line3)
         
     sys.stdout.write("\n")
+    f.write("\n")
     sys.stdout.flush()
     
 def write_name_number(name,number,text=""):

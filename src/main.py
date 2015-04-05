@@ -23,9 +23,9 @@ characteristics = []
 data.generate_characteristic(characteristics)
 
 # CREATE CLASS_NUM SYMBOL CLASSES
-# console.write_header(" Creating Symbol Classes")
-# symbolClasses = []
-# data.generate_symbol_classes(symbolClasses, characteristics)
+console.write_header(" Creating Symbol Classes")
+symbolClasses = []
+data.generate_symbol_classes(symbolClasses, characteristics)
 
 # DISTORTIONS
 # if(global_v.NON_HOMO_CLASSES):
