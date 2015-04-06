@@ -31,7 +31,7 @@ def parse_argv(argv):
             util.global_variables.TEST_TYPE = util.global_variables.TestType.SYNTHETIC_HOMO_NATIVE
         elif opt in ("-2", "--test-type-2"):
             util.global_variables.TEST_TYPE = util.global_variables.TestType.GROUPING_ASSESSMENT
-        elif opt in ("-2", "--test-type-2"):
+        elif opt in ("-3", "--test-type-3"):
             util.global_variables.TEST_TYPE = util.global_variables.TestType.FULL
         elif opt in ("-t", "--test"):
             util.global_variables.N_TEST = int(arg)

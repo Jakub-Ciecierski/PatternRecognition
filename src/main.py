@@ -68,7 +68,7 @@ if util.global_variables.TEST_TYPE == util.global_variables.TestType.FULL:
         util.global_variables.MAX_K = best_k[0]
         console.write_header("Computing Clusters with K:", str(util.global_variables.MAX_K))
         Clusterer().computeClusters(symbolClasses[c:c+1])
-    
+
     console.write_header("Creating Non Homogeneous Foreign")
     foreignClassesNonHomo = f_creator.create_non_homogeneous_foreign(symbolClasses)
     console.write_header("Creating Homogeneous Foreign")
