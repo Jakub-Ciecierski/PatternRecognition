@@ -17,6 +17,9 @@ def ambiguity_for_different_radiuses(symbolClasses, foreignClassesHomo= [], fore
         #
         # Shrink each ellipsoid
         #
+        path = os.path.join("..","log",global_v.DIR_NAME,"r"+str(radiuses[r]))
+        os.makedirs(path, exist_ok=True)
+        file = open(os.path.join(path,"r" + str(radiuses[r])+"_shrinking.txt"), 'a')  
         print("        SHRINKING ELLIPSOIDS IN EACH CLUSTER")
         for cl in symbolClasses:
             for cluster in cl.clusters:
@@ -27,6 +30,8 @@ def ambiguity_for_different_radiuses(symbolClasses, foreignClassesHomo= [], fore
                 # list of point in current ellipsoid
                 pointsInEllipsoid = cluster.ellipsoid.is_point_in_ellipsoid(cluster.points,False, True)
                 print("           Symbol:",[cl.name]," Points in cluster:                ", 100 * len(pointsInEllipsoid)/len(cluster.points),"%")
+                file.write("Symbol:" + str([cl.name]) + " Points in cluster:                "+ str(100 * len(pointsInEllipsoid)/len(cluster.points))+"%\n")
+        file.close()
                 
         #
         # TESTS FOR DIFFERENT SETS
