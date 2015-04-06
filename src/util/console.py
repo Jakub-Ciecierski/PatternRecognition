@@ -13,7 +13,7 @@ subpoint_indent = "        "
 def parse_argv(argv):
     # Gather up flags
     try:                                
-        opts, args = getopt.getopt(argv, "123c:h:f:t:l:m:", ["test-type-1","test-type-2","test-type-3","classes=","characteristics=","log=","test=","learn=","mvee="])
+        opts, args = getopt.getopt(argv, "12c:h:f:t:l:m:", ["test-type-1","test-type-2","classes=","characteristics=","log=","test=","learn=","mvee="])
         print(args)
     except getopt.GetoptError:          
         usage()                         
@@ -28,10 +28,8 @@ def parse_argv(argv):
             print(arg, file=sys.stderr)
             util.global_variables.LOG_FILE_PREFIX_NAME = arg
         elif opt in ("-1", "--test-type-1"):
-            util.global_variables.TEST_TYPE = util.global_variables.TestType.HOMO_NATIVE_HOMO_FOREIGN
+            util.global_variables.TEST_TYPE = util.global_variables.TestType.SYNTHETIC_HOMO_NATIVE
         elif opt in ("-2", "--test-type-2"):
-            util.global_variables.TEST_TYPE = util.global_variables.TestType.HOMO_NATIVE_NON_HOMO_FOREIGN
-        elif opt in ("-3", "--test-type-3"):
             util.global_variables.TEST_TYPE = util.global_variables.TestType.GROUPING_ASSESSMENT
         elif opt in ("-t", "--test"):
             util.global_variables.N_TEST = int(arg)

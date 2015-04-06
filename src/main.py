@@ -32,7 +32,7 @@ data.generate_symbol_classes(symbolClasses, characteristics)
     Native symbols: synthetic; homogeneous; 
     Foreign symbols: synthetic; homogeneous and non-homogeneous
 '''
-if util.global_variables.TEST_TYPE == util.global_variables.TestType.HOMO_NATIVE_HOMO_FOREIGN:
+if util.global_variables.TEST_TYPE == util.global_variables.TestType.SYNTHETIC_HOMO_NATIVE:
     # Distortion
     console.write_header("Computing Homogeneous Distortion")
     Distorter().create_homogeneus_cloud(symbolClasses)
