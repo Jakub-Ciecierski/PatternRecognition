@@ -1,17 +1,18 @@
-import util.global_variables as global_v
+# CHECK ARGUMENTS
 import util.console as console
+import sys
+console.parse_argv(sys.argv[1:])
+
+import util.global_variables 
 import data_calculations.synthetic_data_calc as synth_calc
 from gui.plot_3d import Plot3D
 from clustering.clusterer import Clusterer
 from data_calculations.distorter import Distorter
 import data_calculations.data_manager as data
-import sys
 import symbols.foreign_creator as f_creator
 import util.loader as loader
 import clustering.prediction_strength as ps
-
-# CHECK ARGUMENTS
-console.parse_argv(sys.argv[1:])
+import data_calculations.matrices_batch as mb
 
 # RUN CONFIGS
 console.write_header(" Run configuration")
@@ -26,6 +27,24 @@ data.generate_characteristic(characteristics)
 console.write_header(" Creating Symbol Classes")
 symbolClasses = []
 data.generate_symbol_classes(symbolClasses, characteristics)
+
+# HOMOGENEUS NATIVE | HOMOGENEOUS FOREIGN
+if util.global_variables.TEST_TYPE == util.global_variables.TestType.HOMO_NATIVE_HOMO_FOREIGN:
+    # Distortion
+    console.write_header("Computing Homogeneous Distortion")
+    Distorter().create_homogeneus_cloud(symbolClasses)
+    # Clustering
+    console.write_header("Computing Clusters")
+    Clusterer().computeClusters(symbolClasses[:util.global_variables.CLASS_NUM])
+    # Plot3D
+    console.write_header(" Displaying Plot")
+    Plot3D().renderPlot(symbolClasses[:util.global_variables.CLASS_NUM])
+    # Homogeneous Foreign
+    console.write_header("Creating Homogeneous Foreign")
+    foreignClassesHomo = f_creator.create_homogeneous_foreign(symbolClasses, characteristics)
+    # Radiuses 
+    console.write_header(" Synthetic Data Calculations")
+    synth_calc.ambiguity_for_different_radiuses(symbolClasses[:], mb.DataInfo.HOMO, foreignClassesHomo)
 
 # DISTORTIONS
 # if(global_v.NON_HOMO_CLASSES):

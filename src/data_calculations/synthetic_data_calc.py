@@ -6,9 +6,9 @@ from data_calculations.results_data import ResultsData
 import data_calculations.foreign_rejector as f_rej
 
 radiuses = [1, 0.95, 0.90, 0.85, 0.80]
-results_data = ResultsData(len(radiuses))
+results_data = ResultsData(radiuses)
 
-def ambiguity_for_different_radiuses(symbolClasses, foreignClassesHomo = [], foreignClassesNonHomo = []):
+def ambiguity_for_different_radiuses(symbolClasses, foreignDataInfo, foreignClasses= []):
 
     for r in range(0,len(radiuses)):
         print("    RADIUS:", radiuses[r])
@@ -38,13 +38,10 @@ def ambiguity_for_different_radiuses(symbolClasses, foreignClassesHomo = [], for
         #
         # Check ambiguity for each foreign set
         #
-        print("\n\n        MEMBERSHIP RESULTS [HOMOGENEOUS FOREIGN SET]")
-        foreign_ambiguity_test(DataInfo.HOMO, r, foreignClassesHomo, symbolClasses)
-        print("\n\n        MEMBERSHIP RESULTS [NON HOMOGENEOUS FOREIGN SET]")
-        foreign_ambiguity_test(DataInfo.NONHOMO, r, foreignClassesNonHomo, symbolClasses)
-        
-        results_data.batch(r).print_matrix(DataInfo.FOREIGN, DataInfo.HOMO)
-        results_data.batch(r).print_matrix(DataInfo.FOREIGN, DataInfo.NONHOMO)
+        print("\n\n        MEMBERSHIP RESULTS [",foreignDataInfo.name,"]")
+        foreign_ambiguity_test(foreignDataInfo, r, foreignClasses, symbolClasses)
+        results_data.batch(r).print_matrix(DataInfo.FOREIGN, foreignDataInfo)
+
 '''
     TODO
 '''
@@ -74,7 +71,8 @@ def ambiguity_test(set_type, radius, symbolClasses):
             group_assigment(radius, i,DataInfo.EUCL, ambiguous_ellipsoids, in_corrected, set_type,point.characteristicsValues[:])
         
         # Print out results  
-        results_data.batch(radius).summarization(i, set_type, DataInfo.BASIC)  
+        results_data.batch(radius).summarization(i, set_type, DataInfo.BASIC) 
+         
     results_data.batch(radius).print_matrix(set_type, DataInfo.BASIC)
     results_data.batch(radius).print_matrix(set_type, DataInfo.EUCL)    
 '''

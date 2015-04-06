@@ -1,13 +1,13 @@
 from data_calculations.matrices_batch import MatricesBatch
 
 class ResultsData:
-    def __init__(self, number_of_radiuses):
-        self.__radiusesData = self.__produce_matrices_batches(number_of_radiuses)
+    def __init__(self, radiuses):
+        self.__radiusesData = self.__produce_matrices_batches(radiuses)
         
-    def __produce_matrices_batches(self, number_of_radiuses):
+    def __produce_matrices_batches(self, radiuses):
         result = []
-        for i in range(0, number_of_radiuses):
-            matrices_batch = MatricesBatch()
+        for radius in radiuses:
+            matrices_batch = MatricesBatch(radius)
             result.append(matrices_batch)
         return result
     

@@ -39,6 +39,11 @@ class Distorter:
                     cl.learning_set.append(distortedClass)
                 else:
                     cl.test_set.append(distortedClass)
+            print(cl.name)        
+            console.write_point_text_number(">> Number of learning set points", 
+                                len(cl.learning_set))
+            console.write_point_text_number(">> Number of test set points", 
+                                            len(cl.test_set))    
                            
     def create_non_homogeneus_cloud(self, symbolClasses):
         indicator = 1.0

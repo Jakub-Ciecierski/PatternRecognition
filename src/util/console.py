@@ -1,6 +1,6 @@
 import sys
 import getopt
-import util.global_variables as global_v
+import util.global_variables 
 import os
 import datetime
 #from main import symbolClasses
@@ -21,29 +21,29 @@ def parse_argv(argv):
     # Perform proper actions           
     for opt, arg in opts:               
         if opt in ("-c", "--classes"):      
-            global_v.CLASS_NUM = int(arg)   
+            util.global_variables.CLASS_NUM = int(arg)   
         elif opt in ("-h", "--characteristics"):
-            global_v.CHAR_NUM = int(arg)
+            util.global_variables.CHAR_NUM = int(arg)
         elif opt in ("-f", "--log"): 
             print(arg, file=sys.stderr)
-            global_v.LOG_FILE_PREFIX_NAME = arg
+            util.global_variables.LOG_FILE_PREFIX_NAME = arg
         elif opt in ("-1", "--test-type-1"):
-            global_v.TEST_TYPE = global_v.TestType.HOMO_NATIVE_HOMO_FOREIGN
+            util.global_variables.TEST_TYPE = util.global_variables.TestType.HOMO_NATIVE_HOMO_FOREIGN
         elif opt in ("-2", "--test-type-2"):
-            global_v.TEST_TYPE = global_v.TestType.HOMO_NATIVE_NON_HOMO_FOREIGN
+            util.global_variables.TEST_TYPE = util.global_variables.TestType.HOMO_NATIVE_NON_HOMO_FOREIGN
         elif opt in ("-3", "--test-type-3"):
-            global_v.TEST_TYPE = global_v.TestType.GROUPING_ASSESSMENT
+            util.global_variables.TEST_TYPE = util.global_variables.TestType.GROUPING_ASSESSMENT
         elif opt in ("-t", "--test"):
-            global_v.N_TEST = int(arg)
+            util.global_variables.N_TEST = int(arg)
         elif opt in ("-l", "--learn"):
-            global_v.N_LEARNING = int(arg)
+            util.global_variables.N_LEARNING = int(arg)
         elif opt in ("-m", "--mvee"):
-            global_v.MVEE_ERR = float(arg)
+            util.global_variables.MVEE_ERR = float(arg)
             
     # Prepare global filename for further references
-    global_v.DIR_NAME = global_v.TEST_TYPE.name + "_" + datetime.datetime.now().strftime('%Y-%m-%d_%H;%M;%S')
+    util.global_variables.DIR_NAME = util.global_variables.TEST_TYPE.name + "_" + datetime.datetime.now().strftime('%Y-%m-%d_%H;%M;%S')
     # Create directory to save information
-    os.makedirs(os.path.join("..","log",global_v.DIR_NAME), exist_ok=True)
+    os.makedirs(os.path.join("..","log",util.global_variables.DIR_NAME), exist_ok=True)
     
 def usage():
     print("to be created", file=sys.stderr)
@@ -128,10 +128,10 @@ def write_non_homo(name, group, text1="", text2=""):
     Redirects stdout to a file with unique name
 '''
 def redirect_stdout():
-    global_v.LOADING_BARS = False
+    util.global_variables.LOADING_BARS = False
     d = datetime.datetime.now().strftime('%Y-%m-%d_%H;%M;%S')
-    if global_v.LOG_FILE_PREFIX_NAME:
-        prefix = global_v.LOG_FILE_PREFIX_NAME + "_"
+    if util.global_variables.LOG_FILE_PREFIX_NAME:
+        prefix = util.global_variables.LOG_FILE_PREFIX_NAME + "_"
     else:
         prefix = ""
     file = "../log/" + prefix +str(d) +".txt"
@@ -156,9 +156,9 @@ def redirect_stdout():
     Next N_TEST lines is the testing set of that symbol
 '''
 def print_symbols(symbolClasses):
-    print("CLASS_NUM:",global_v.CLASS_NUM)
-    print("N_LEARNING:",global_v.N_LEARNING)
-    print("N_TEST:",global_v.N_TEST)
+    print("CLASS_NUM:",util.global_variables.CLASS_NUM)
+    print("N_LEARNING:",util.global_variables.N_LEARNING)
+    print("N_TEST:",util.global_variables.N_TEST)
     for cl in symbolClasses:
         print(cl.name,end=" ",flush=True)
         for value in cl.characteristicsValues:
@@ -177,18 +177,18 @@ def print_symbols(symbolClasses):
             print()
             
 def print_config():
-    f = open(os.path.join("..","log",global_v.DIR_NAME,"RUN_CONFIG.txt"), 'w')
-    double_print(point_indent,"TEST_TYPE:        ", global_v.TEST_TYPE.name, f) 
-    double_print(point_indent,"DIR:              ", global_v.DIR_NAME, f)
-    double_print(point_indent,"CLASS_NUM:        ", global_v.CLASS_NUM, f)
-    double_print(point_indent,"CHAR_NUM:         ", global_v.CHAR_NUM, f)
-    double_print(point_indent,"N_LEARNING:       ", global_v.N_LEARNING, f)
-    double_print(point_indent,"N_TEST:           ", global_v.N_TEST, f)
-    double_print(point_indent, "K:                ", global_v.K, f)
-    double_print(point_indent,"ELLPSD_TRESH:     ", global_v.ELLPSD_TRESH, f)
-    double_print(point_indent,"MVEE_ERR:         ", global_v.MVEE_ERR, f)
-    double_print(point_indent,"HOMO_STD_DEV:     ", global_v.HOMO_STD_DEV, f)
-    double_print(point_indent,"NON_HOMO_STD_DEV: ", global_v.NON_HOMO_STD_DEV, f)
+    f = open(os.path.join("..","log",util.global_variables.DIR_NAME,"RUN_CONFIG.txt"), 'w')
+    double_print(point_indent,"TEST_TYPE:        ", util.global_variables.TEST_TYPE.name, f) 
+    double_print(point_indent,"DIR:              ", util.global_variables.DIR_NAME, f)
+    double_print(point_indent,"CLASS_NUM:        ", util.global_variables.CLASS_NUM, f)
+    double_print(point_indent,"CHAR_NUM:         ", util.global_variables.CHAR_NUM, f)
+    double_print(point_indent,"N_LEARNING:       ", util.global_variables.N_LEARNING, f)
+    double_print(point_indent,"N_TEST:           ", util.global_variables.N_TEST, f)
+    double_print(point_indent, "K:                ", util.global_variables.K, f)
+    double_print(point_indent,"ELLPSD_TRESH:     ", util.global_variables.ELLPSD_TRESH, f)
+    double_print(point_indent,"MVEE_ERR:         ", util.global_variables.MVEE_ERR, f)
+    double_print(point_indent,"HOMO_STD_DEV:     ", util.global_variables.HOMO_STD_DEV, f)
+    double_print(point_indent,"NON_HOMO_STD_DEV: ", util.global_variables.NON_HOMO_STD_DEV, f)
     f.close()
 
     

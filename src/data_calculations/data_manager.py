@@ -18,7 +18,7 @@ import util.console as console
     of [0,20]. Uniform distribution is used.
 '''
 def generate_characteristic(characteristics):
-    f = open(os.path.join("..","log",global_v.DIR_NAME,"CHARACTERISTICS_INTERVALS.txt"), 'w')
+    f = open(os.path.join("..","log",global_v.DIR_NAME,"CHARACTERISTICS.txt"), 'w')
     for i in range(0,global_v.CHAR_NUM):
         characteristics.append(Characteristic())
         console.write_characteristics(f,i, characteristics[i].interval.lowerBound,
@@ -57,7 +57,7 @@ def generate_symbol_classes(symbolClasses, characteristics):
         symbolClasses.append(newSymbol)   
          
     # INFO
-    f = open(os.path.join("..","log",global_v.DIR_NAME,"NATIVE_SYMBOLS_INTERVALS.txt"), 'w')
+    f = open(os.path.join("..","log",global_v.DIR_NAME,"NATIVE_SYMBOLS.txt"), 'w')
     for symbolClass in symbolClasses:
         console.write_symbol_classes(f,symbolClass.name,symbolClass.characteristicsValues,text="Symbol Class:", )
     f.close()
