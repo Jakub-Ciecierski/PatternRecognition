@@ -13,7 +13,7 @@ subpoint_indent = "        "
 def parse_argv(argv):
     # Gather up flags
     try:                                
-        opts, args = getopt.getopt(argv, "123c:h:f:t:l:m:", ["test-type-1","test-type-2","test-type-3","classes=","characteristics=","log=","test=","learn=","mvee=","k-cloud="])
+        opts, args = getopt.getopt(argv, "123c:h:f:t:l:m:s:", ["test-type-1","test-type-2","test-type-3","classes=","characteristics=","log=","test=","learn=","mvee=","k-cloud="])
         print(args)
     except getopt.GetoptError:          
         usage()                         
