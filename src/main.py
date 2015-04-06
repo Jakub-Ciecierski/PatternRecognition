@@ -28,7 +28,10 @@ console.write_header(" Creating Symbol Classes")
 symbolClasses = []
 data.generate_symbol_classes(symbolClasses, characteristics)
 
-# HOMOGENEUS NATIVE | HOMOGENEOUS FOREIGN
+'''
+    Native symbols: synthetic; homogeneous; 
+    Foreign symbols: synthetic; homogeneous and non-homogeneous
+'''
 if util.global_variables.TEST_TYPE == util.global_variables.TestType.HOMO_NATIVE_HOMO_FOREIGN:
     # Distortion
     console.write_header("Computing Homogeneous Distortion")
@@ -39,12 +42,14 @@ if util.global_variables.TEST_TYPE == util.global_variables.TestType.HOMO_NATIVE
     # Plot3D
     console.write_header(" Displaying Plot")
     Plot3D().renderPlot(symbolClasses[:util.global_variables.CLASS_NUM])
-    # Homogeneous Foreign
+    # Generating Foreign classes
+    console.write_header("Creating Non Homogeneous Foreign")
+    foreignClassesNonHomo = f_creator.create_non_homogeneous_foreign(symbolClasses)
     console.write_header("Creating Homogeneous Foreign")
     foreignClassesHomo = f_creator.create_homogeneous_foreign(symbolClasses, characteristics)
     # Radiuses 
     console.write_header(" Synthetic Data Calculations")
-    synth_calc.ambiguity_for_different_radiuses(symbolClasses[:], mb.DataInfo.HOMO, foreignClassesHomo)
+    synth_calc.ambiguity_for_different_radiuses(symbolClasses[:], foreignClassesHomo, foreignClassesNonHomo)
 
 # DISTORTIONS
 # if(global_v.NON_HOMO_CLASSES):

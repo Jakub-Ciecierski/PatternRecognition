@@ -13,7 +13,10 @@ class MatricesBatch:
         self.__m_eucl_conf_test         = self.__m_init(util.global_variables.CLASS_NUM, util.global_variables.CLASS_NUM+2)
         self.__m_conf_homo_foreign      = self.__m_init(1, util.global_variables.CLASS_NUM+2)
         self.__m_conf_nonhomo_foreign   = self.__m_init(1, util.global_variables.CLASS_NUM+2)
-        self.__radius_val = radius
+        self.__radius_val               = radius
+        # Create folder for storing the data
+        self.__path = os.path.join("..","log",util.global_variables.DIR_NAME,"r"+str(self.__radius_val))
+        os.makedirs(self.__path, exist_ok=True)
     '''
         Initialize matrix with specified number of rows and columns.
         This method obviously can be used to specified vectors as well.
@@ -115,41 +118,43 @@ class MatricesBatch:
             
     def summarization(self, class_n, set_type, m_type):
         # Print out results  
-        print("        >> Symbol:", [class_n])
-        print("           Unambiguous points:                            ",
-              self.data(-1, class_n, DataInfo.GET, set_type, m_type, DataInfo.NATIVE_CLASS, class_n),"%")
-        print("           Ambiguous points:                              ",
-              self.data(-1, class_n, DataInfo.GET, set_type, m_type, DataInfo.AMB),"%")
-        print("           Not Classified points:                         ",
-              self.data(-1, class_n, DataInfo.GET, set_type, m_type, DataInfo.NOT_CLASS),"%")
+        f = open(os.path.join(self.__path,"r" + str(self.__radius_val)+"_"+str(set_type.name)+"_summary.txt"), 'a')
+        self.double_print(">> Symbol:", [class_n],f)
+        self.double_print("Unambiguous points:                            ",
+              self.data(-1, class_n, DataInfo.GET, set_type, m_type, DataInfo.NATIVE_CLASS, class_n),f)
+        self.double_print("Ambiguous points:                              ",
+              self.data(-1, class_n, DataInfo.GET, set_type, m_type, DataInfo.AMB),f)
+        self.double_print("Not Classified points:                         ",
+              self.data(-1, class_n, DataInfo.GET, set_type, m_type, DataInfo.NOT_CLASS),f)
+        f.close()
 
     def print_matrix(self, set_type, m_type):
         if(set_type == DataInfo.LEARN):
             if(m_type == DataInfo.BASIC):
-                f = open(os.path.join("..","log",util.global_variables.DIR_NAME,"r"+str(self.__radius_val)+"__m_conf_learning_non_euclid.txt"), 'w')
+                f = open(os.path.join(self.__path,"r" + str(self.__radius_val)+"__m_conf_learning_non_euclid.txt"), 'w')
                 self.__print(f,self.__m_conf_learn)
                 f.close()
             elif(m_type == DataInfo.EUCL):
-                f = open(os.path.join("..","log",util.global_variables.DIR_NAME,"r"+str(self.__radius_val)+"__m_conf_learning_euclid.txt"), 'w')
+                f = open(os.path.join(self.__path,"r" + str(self.__radius_val)+"__m_conf_learning_euclid.txt"), 'w')
                 self.__print(f,self.__m_eucl_conf_learn)  
                 f.close()
         if(set_type == DataInfo.TEST):
             if(m_type == DataInfo.BASIC):
-                f = open(os.path.join("..","log",util.global_variables.DIR_NAME,"r"+str(self.__radius_val)+"__m_conf_test_non_euclid.txt"), 'w')
+                f = open(os.path.join(self.__path,"r" + str(self.__radius_val)+"__m_conf_test_non_euclid.txt"), 'w')
                 self.__print(f,self.__m_conf_test)
                 f.close()
             elif(m_type == DataInfo.EUCL):
-                f = open(os.path.join("..","log",util.global_variables.DIR_NAME,"r"+str(self.__radius_val)+"__m_conf_test_euclid.txt"), 'w')
+                f = open(os.path.join(self.__path,"r" + str(self.__radius_val)+"__m_conf_test_euclid.txt"), 'w')
                 self.__print(f,self.__m_eucl_conf_test)           
                 f.close()    
                 
         if(set_type == DataInfo.FOREIGN):
             if(m_type == DataInfo.HOMO):
-                f = open(os.path.join("..","log",util.global_variables.DIR_NAME,"r"+str(self.__radius_val)+"__m_conf_foreign_homo.txt"), 'w')
+                f = open(os.path.join(self.__path,"r" + str(self.__radius_val)+"__m_conf_foreign_homo.txt"), 'w')
                 self.__print(f,self.__m_conf_homo_foreign, util.global_variables.CLASS_NUM*util.global_variables.N_LEARNING)
                 f.close()
             if(m_type == DataInfo.NONHOMO):
-                f = open(os.path.join("..","log",util.global_variables.DIR_NAME,"r"+str(self.__radius_val)+"__m_conf_foreign_non_homo.txt"), 'w')
+                f = open(os.path.join(self.__path,"r" + str(self.__radius_val)+"__m_conf_foreign_non_homo.txt"), 'w')
                 self.__print(f,self.__m_conf_nonhomo_foreign, util.global_variables.CLASS_NUM*util.global_variables.N_LEARNING)
                 f.close()
     '''
@@ -160,5 +165,8 @@ class MatricesBatch:
             for c in range(0, len(matrix[r])):
                 f.write(str(round(100*matrix[r][c]/divider,2)) +' | ')
             f.write("\n")
-
+    def double_print(self, s, val,f):
+        print("        ",s,val,"%")
+        f.write(s + str(val) + " %\n")
+        
 DataInfo = Enum('DataInfo','TEST LEARN EUCL BASIC AMB NATIVE_CLASS NOT_CLASS SAVE GET FOREIGN HOMO NONHOMO')            

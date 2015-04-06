@@ -50,6 +50,11 @@ DIST_DIV = 1
 K = 3
 
 '''
+    Minimum distance between centers of every symbol(euclidian)
+'''
+EUCL_MIN_D = 1.5
+
+'''
     Maximum number of iterations of the k-means algorithm to run.
 '''
 CLUS_MAX_ITER = 1000
@@ -92,13 +97,13 @@ CHAR_INTERVAL = [0,20]
     Standard deviation for gaussian distribution used for
     generation of based points in the cloud around original value. 
 '''
-HOMO_STD_DEV = 1.0
+HOMO_STD_DEV = 0.6
 
 '''
     Standard deviation for gaussian distribution used for
     generation of points surrounding base points in the cloud around original value. 
 '''
-NON_HOMO_STD_DEV = 0.5
+NON_HOMO_STD_DEV = 0.7
 
 '''
     The distance threshold between properly generated Foreign characteristics
