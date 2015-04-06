@@ -125,7 +125,7 @@ FOREIGN_NON_HOMO_CLUSTER_COUNT = 5
 '''
     Turns on/off loading bars.
 '''
-LOADING_BARS = False
+LOADING_BARS = True
 
 '''
     If True Redirects stdout output to file, also turns off loading bars
@@ -147,7 +147,7 @@ PRINT_GENERATED_SYMBOLS = False
     has been created. By default we perform only test1 i.e. homogeneous native symbols
     and homogeneous foreign symbols.
 '''
-TestType = Enum('TestType','HOMO_NATIVE_HOMO_FOREIGN HOMO_NATIVE_NON_HOMO_FOREIGN GROUPING_ASSESSMENT') 
+TestType = Enum('TestType','SYNTHETIC_HOMO_NATIVE GROUPING_ASSESSMENT') 
 TEST_TYPE = TestType.GROUPING_ASSESSMENT
 
 '''

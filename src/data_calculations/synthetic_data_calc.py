@@ -43,7 +43,7 @@ def ambiguity_for_different_radiuses(symbolClasses, foreignClassesHomo= [], fore
         foreign_ambiguity_test(DataInfo.HOMO, r, foreignClassesHomo, symbolClasses)
         results_data.batch(r).print_matrix(DataInfo.FOREIGN, DataInfo.HOMO)
         print("\n\n        MEMBERSHIP RESULTS [FOREIGN NON-HOMO]")
-        foreign_ambiguity_test(DataInfo.NONHOMO, r, foreignClassesHomo, symbolClasses)
+        foreign_ambiguity_test(DataInfo.NONHOMO, r, foreignClassesNonHomo, symbolClasses)
         results_data.batch(r).print_matrix(DataInfo.FOREIGN, DataInfo.NONHOMO)
 
 '''
