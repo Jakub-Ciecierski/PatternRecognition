@@ -3,6 +3,7 @@ from sklearn.cluster import MiniBatchKMeans, KMeans
 import util.global_variables as global_v
 from gui.plot_3d import Plot3D
 import random
+import os
 from symbols.symbol_class import SymbolClass
 from util.color_chooser import ColorChooser
 
@@ -12,18 +13,24 @@ from util.color_chooser import ColorChooser
     this data set 
 """
 def cluster_evaluation(max_k, symbolClasses):
+    # If directory is not existing - create it. Next, save results to file.
+    path = os.path.join("..","log",global_v.DIR_NAME)
+    os.makedirs(path, exist_ok=True)
+    file = open(os.path.join(path,"prediction_strength_summary.txt"), 'a')
     for cl in symbolClasses:
-        print('\n    SYMBOL:',[cl.name])
+        double_print('SYMBOL:'+str([cl.name])," ", file, ending="")
         data = cl.learning_set
         max = 0
         best_k = 1
         for k in range(1,max_k+1):
             ps = prediction_strength(data, k)
-            print("        >> prediction_strength(",k,") = ", ps)
+            double_print(">> prediction_strength("+str(k)+") = ", ps, file)
             if max < ps:
                 max = ps
                 best_k = k
-    print('        >> The True k:',best_k, "\n")
+    double_print('>> The True k:',best_k, file, ending="")
+    
+    file.close()
     return best_k
 
 """
@@ -182,3 +189,8 @@ def plot_clusters(learningClusters, testClusters):
     Plot3D().renderPlot(symbols)
     symbols = [symbolTest]
     Plot3D().renderPlot(symbols)
+    
+def double_print(s, val, f, ending="%"):
+    print("        ",s,val,ending)
+    f.write(s + str(val) + ending + "\n")
+        
