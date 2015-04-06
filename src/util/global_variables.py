@@ -31,12 +31,12 @@ UNIFORM_SCALE = False;
 '''
     Number of points for each characteristic in learning set.
 '''
-N_LEARNING = 100
+N_LEARNING = 1000
 
 '''
     Number of points for each characteristic in test set.
 '''
-N_TEST = 50
+N_TEST = 500
 
 '''
     Number of points which are randomly chose (using gaussian distribution)
@@ -72,7 +72,7 @@ MAX_K_CLUS_EVALUATION = 5
 '''
     Number of clouds in native distortion
 '''
-K_CLOUD_DISTORTION = 3
+K_CLOUD_DISTORTION = 4
 
 '''
     Each ellipsoid's semi-axis will be scaled by this factor.
@@ -125,7 +125,7 @@ FOREIGN_NON_HOMO_CLUSTER_COUNT = 5
 '''
     Turns on/off loading bars.
 '''
-LOADING_BARS = True
+LOADING_BARS = False
 
 '''
     If True Redirects stdout output to file, also turns off loading bars
