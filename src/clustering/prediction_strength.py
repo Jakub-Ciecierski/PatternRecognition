@@ -18,6 +18,7 @@ def cluster_evaluation(max_k, symbolClasses):
     os.makedirs(path, exist_ok=True)
     file = open(os.path.join(path,"prediction_strength_summary.txt"), 'a')
     start_k = 2
+    best_ks = []
     for cl in symbolClasses:
         prediction_str = []
         double_print('SYMBOL:'+str([cl.name])," ", file, ending="")
@@ -31,14 +32,14 @@ def cluster_evaluation(max_k, symbolClasses):
             if max < ps:
                 max = ps
                 best_k = k
-
+        best_ks.append(best_k)
         '''
         double_print2("\n\n>> SYMBOL:"+str([cl.name]) + " SUMMARY ", file, ending="\n")
         for k in range(0,max_k+1 - start_k):
             double_print(">> prediction_strength("+str(k + start_k)+") = ", prediction_str[k], file, ending="")
         '''
     file.close()
-    return best_k
+    return best_ks
 
 """
     Computes the prediction strength
@@ -155,7 +156,7 @@ def computeClusters(k, data):
             if labels[c] == j:
                 points.append(data[c].characteristicsValues)
 
-        cluster = Cluster(centroids[j],points, data[c].name, j, True)
+        cluster = Cluster(centroids[j],points, data[c].name, j, False)
         clusters.append(cluster)
     return clusters
 

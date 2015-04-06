@@ -31,6 +31,8 @@ def parse_argv(argv):
             util.global_variables.TEST_TYPE = util.global_variables.TestType.SYNTHETIC_HOMO_NATIVE
         elif opt in ("-2", "--test-type-2"):
             util.global_variables.TEST_TYPE = util.global_variables.TestType.GROUPING_ASSESSMENT
+        elif opt in ("-2", "--test-type-2"):
+            util.global_variables.TEST_TYPE = util.global_variables.TestType.FULL
         elif opt in ("-t", "--test"):
             util.global_variables.N_TEST = int(arg)
         elif opt in ("-l", "--learn"):
@@ -48,12 +50,12 @@ def parse_argv(argv):
 def usage():
     print("to be created", file=sys.stderr)
 
-def write_header(text):
+def write_header(text, arg=""):
     print()
     print(header_frame_symbol * header_length )
     print(header_frame_symbol,
         " " * int((header_length- len(text))/2-3),
-          text,
+          text, arg, 
         " " * int((header_length- len(text))/2-3),
           header_frame_symbol )
     print(header_frame_symbol * header_length, '\n')

@@ -57,3 +57,21 @@ if util.global_variables.TEST_TYPE == util.global_variables.TestType.GROUPING_AS
     #Distorter().create_non_homogeneus_cloud(symbolClasses)
     console.write_header("Computing Cluster Evaluation")
     ps.cluster_evaluation(util.global_variables.MAX_K_CLUS_EVALUATION,symbolClasses)
+
+if util.global_variables.TEST_TYPE == util.global_variables.TestType.FULL:
+    console.write_header("Computing Homogeneous Distortion")
+    Distorter().create_homogeneus_cloud(symbolClasses)
+
+    for c in range(0, util.global_variables.CLASS_NUM):
+        console.write_header("Computing Cluster Evaluation")
+        best_k = ps.cluster_evaluation(util.global_variables.MAX_K_CLUS_EVALUATION, symbolClasses[c:c+1])
+        util.global_variables.MAX_K = best_k[0]
+        console.write_header("Computing Clusters with K:", str(util.global_variables.MAX_K))
+        Clusterer().computeClusters(symbolClasses[c:c+1])
+    
+    console.write_header("Creating Non Homogeneous Foreign")
+    foreignClassesNonHomo = f_creator.create_non_homogeneous_foreign(symbolClasses)
+    console.write_header("Creating Homogeneous Foreign")
+    foreignClassesHomo = f_creator.create_homogeneous_foreign(symbolClasses, characteristics)
+    console.write_header(" Synthetic Data Calculations")
+    synth_calc.ambiguity_for_different_radiuses(symbolClasses[:], foreignClassesHomo, foreignClassesNonHomo)
