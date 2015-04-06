@@ -13,7 +13,10 @@ subpoint_indent = "        "
 def parse_argv(argv):
     # Gather up flags
     try:                                
-        opts, args = getopt.getopt(argv, "123c:h:f:t:l:m:", ["test-type-1","test-type-2","test-type-3","classes=","characteristics=","log=","test=","learn=","mvee="])
+        opts, args = getopt.getopt(argv, "123c:h:f:t:l:m:", ["test-type-1","test-type-2","test-type-3",
+                                                             "classes=","characteristics=","log=",
+                                                             "test=","learn=","mvee=",
+                                                             "k-cloud="])
         print(args)
     except getopt.GetoptError:          
         usage()                         
@@ -39,7 +42,9 @@ def parse_argv(argv):
             util.global_variables.N_LEARNING = int(arg)
         elif opt in ("-m", "--mvee"):
             util.global_variables.MVEE_ERR = float(arg)
-            
+        elif opt in ("-s", "--k-cloud"):
+            util.global_variables.K_CLOUD_DISTORTION = int(arg)
+
     # Prepare global filename for further references
     util.global_variables.DIR_NAME = util.global_variables.TEST_TYPE.name + "_" + datetime.datetime.now().strftime('%Y-%m-%d_%H;%M;%S')
     # Create directory to save information

@@ -67,7 +67,7 @@ CLUS_TOL = 0.0001
 '''
     The maximum amout of clusters (k) for cluster evaluation
 '''
-MAX_K_CLUS_EVALUATION = 4
+MAX_K_CLUS_EVALUATION = 5
 
 '''
     Number of clouds in native distortion

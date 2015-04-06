@@ -17,7 +17,7 @@ def cluster_evaluation(max_k, symbolClasses):
         data = cl.learning_set
         max = 0
         best_k = 1
-        for k in range(1,max_k+1):
+        for k in range(2,max_k+1):
             ps = prediction_strength(data, k)
             print("        >> prediction_strength(",k,") = ", ps)
             if max < ps:
