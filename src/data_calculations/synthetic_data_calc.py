@@ -145,7 +145,7 @@ def foreign_ambiguity_test(m_type, radius, foreignClasses, symbolClasses):
                      DataInfo.NATIVE_CLASS, i)
 
     # If directory is not existing - create it. Next, save results to file.
-    path = os.path.join("..","log",global_v.DIR_NAME,"r"+str(radius))
+    path = os.path.join("..","log",global_v.DIR_NAME,"r"+str(radiuses[radius]))
     os.makedirs(path, exist_ok=True)
     file = open(os.path.join(path,"r" + str(radius)+"_"+str(m_type.name)+"_summary.txt"), 'a')
     for f in range(0, len(stric_class)):
