@@ -1,3 +1,5 @@
+from enum import Enum
+
 '''
     Number of different symbol classes.
 '''
@@ -45,7 +47,12 @@ DIST_DIV = 1
 '''
     Number of clusters per symbol class.
 '''
-K = 1
+K = 3
+
+'''
+    Minimum distance between centers of every symbol(euclidian)
+'''
+EUCL_MIN_D = 1.5
 
 '''
     Maximum number of iterations of the k-means algorithm to run.
@@ -90,13 +97,13 @@ CHAR_INTERVAL = [0,20]
     Standard deviation for gaussian distribution used for
     generation of based points in the cloud around original value. 
 '''
-HOMO_STD_DEV = 1.0
+HOMO_STD_DEV = 0.6
 
 '''
     Standard deviation for gaussian distribution used for
     generation of points surrounding base points in the cloud around original value. 
 '''
-NON_HOMO_STD_DEV = 0.5
+NON_HOMO_STD_DEV = 0.7
 
 '''
     The distance threshold between properly generated Foreign characteristics
@@ -113,7 +120,7 @@ FOREIGN_NON_HOMO_CLUSTER_COUNT = 5
 '''
     Turns on/off loading bars.
 '''
-LOADING_BARS = False
+LOADING_BARS = True
 
 '''
     If True Redirects stdout output to file, also turns off loading bars
@@ -129,3 +136,16 @@ LOG_FILE_PREFIX_NAME = ""
 	If set to true will print generated native symbols 
 '''
 PRINT_GENERATED_SYMBOLS = False
+
+'''
+    To control, which type of test is conducted Pair Enum type and global variable
+    has been created. By default we perform only test1 i.e. homogeneous native symbols
+    and homogeneous foreign symbols.
+'''
+TestType = Enum('TestType','HOMO_NATIVE_HOMO_FOREIGN HOMO_NATIVE_NON_HOMO_FOREIGN GROUPING_ASSESSMENT') 
+TEST_TYPE = TestType.HOMO_NATIVE_HOMO_FOREIGN
+
+'''
+    Global name is useful for referencing a proper directory.
+'''
+DIR_NAME = "temp"

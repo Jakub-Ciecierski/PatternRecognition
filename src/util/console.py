@@ -1,6 +1,7 @@
 import sys
 import getopt
-import util.global_variables as global_v
+import util.global_variables 
+import os
 import datetime
 #from main import symbolClasses
 
@@ -12,23 +13,38 @@ subpoint_indent = "        "
 def parse_argv(argv):
     # Gather up flags
     try:                                
-        opts, args = getopt.getopt(argv, "nc:h:f:", ["nonhomo","classes=","characteristics=","log="])
+        opts, args = getopt.getopt(argv, "123c:h:f:t:l:m:", ["test-type-1","test-type-2","test-type-3","classes=","characteristics=","log=","test=","learn=","mvee="])
         print(args)
     except getopt.GetoptError:          
         usage()                         
         sys.exit(2)              
     # Perform proper actions           
     for opt, arg in opts:               
-        if opt in ("-n", "--nonhomo"):      
-            global_v.NON_HOMO_CLASSES = True
-        elif opt in ("-c", "--classes"):      
-            global_v.CLASS_NUM = int(arg)   
+        if opt in ("-c", "--classes"):      
+            util.global_variables.CLASS_NUM = int(arg)   
         elif opt in ("-h", "--characteristics"):
-            global_v.CHAR_NUM = int(arg)
-        elif opt in ("-l", "--log"):
+            util.global_variables.CHAR_NUM = int(arg)
+        elif opt in ("-f", "--log"): 
             print(arg, file=sys.stderr)
-            global_v.LOG_FILE_PREFIX_NAME = arg
-
+            util.global_variables.LOG_FILE_PREFIX_NAME = arg
+        elif opt in ("-1", "--test-type-1"):
+            util.global_variables.TEST_TYPE = util.global_variables.TestType.HOMO_NATIVE_HOMO_FOREIGN
+        elif opt in ("-2", "--test-type-2"):
+            util.global_variables.TEST_TYPE = util.global_variables.TestType.HOMO_NATIVE_NON_HOMO_FOREIGN
+        elif opt in ("-3", "--test-type-3"):
+            util.global_variables.TEST_TYPE = util.global_variables.TestType.GROUPING_ASSESSMENT
+        elif opt in ("-t", "--test"):
+            util.global_variables.N_TEST = int(arg)
+        elif opt in ("-l", "--learn"):
+            util.global_variables.N_LEARNING = int(arg)
+        elif opt in ("-m", "--mvee"):
+            util.global_variables.MVEE_ERR = float(arg)
+            
+    # Prepare global filename for further references
+    util.global_variables.DIR_NAME = util.global_variables.TEST_TYPE.name + "_" + datetime.datetime.now().strftime('%Y-%m-%d_%H;%M;%S')
+    # Create directory to save information
+    os.makedirs(os.path.join("..","log",util.global_variables.DIR_NAME), exist_ok=True)
+    
 def usage():
     print("to be created", file=sys.stderr)
 
@@ -47,21 +63,32 @@ def write_point_text_number(text, number):
     sys.stdout.write("{0}{1}{2}{3}\n".format(point_indent,text,"." * (point_length -  len(text) - len(str(number))),number))
     sys.stdout.flush()
     
-def write_point_name(name,text=""):
-    sys.stdout.write("{0}{1} {2}\n".format(point_indent,text,name))
-    sys.stdout.flush()
-def write_point_list(list, text=""):
-    sys.stdout.write("{0}{1} ".format(subpoint_indent, text))
+def write_symbol_classes(f,name,list, text=""):
+    line1 = "{0}{1} {2}\n".format("",text,name)
+    sys.stdout.write(point_indent + line1)
+    f.write(line1)
+    write_point_list(f,list,text)
+    
+def write_point_list(f,list, text=""):
+    line1 = "{0}{1} ".format(subpoint_indent, text)
+    sys.stdout.write(line1)
+    f.write(line1)
     per_line = 0
     for i in range(0, len(list)):
         per_line += 1
-        sys.stdout.write("[{0}] ".format(str(list[i])))
+        line2 = "[{0}] ".format(str(list[i]))
+        sys.stdout.write(line2)
+        f.write(line2)
         if(per_line % 3 == 0 and i != 0):
             sys.stdout.write("\n")
+            f.write("\n")
             if(per_line >= 3):
-                sys.stdout.write("{0} ".format(" " * (len(subpoint_indent) + len(text)) ))
+                line3 = "{0} ".format(" " * (len(subpoint_indent) + len(text)) )
+                sys.stdout.write(line3)
+                f.write(line3)
         
     sys.stdout.write("\n")
+    f.write("\n")
     sys.stdout.flush()
     
 def write_name_number(name,number,text=""):
@@ -70,9 +97,9 @@ def write_name_number(name,number,text=""):
     sys.stdout.write("{0}{1} {2}:{3}{4}\n".format(point_indent,text,name,"."*(point_length - 2- len(number_str)- len(text)-len(str(name))),number_str ))
     sys.stdout.flush()
     
-def write_interval(name,lower_bound,upper_bound, text1="", text2="",text3="",text4=""):
+def write_characteristics(f,name,lower_bound,upper_bound, text1="", text2="",text3="",text4=""):
     text_l = header_length - 2 * len(point_indent)
-    sys.stdout.write("{0}{1} {2} {3} {4}{5}{6}\n".format(point_indent, 
+    line1 = "{0}{1} {2} {3} {4}{5}{6}\n".format("", 
                                                       text1,
                                                       name, 
                                                       text2, 
@@ -80,13 +107,19 @@ def write_interval(name,lower_bound,upper_bound, text1="", text2="",text3="",tex
                                                       "." * (text_l-
                     (len(text1) + len(str(name))+ len(text2)+len(text3)+len(str(lower_bound))+3)
                                                              ),
-                                                      lower_bound))
-    sys.stdout.write("{0}{1}{2}{3}\n\n".format(" " *(3+len(point_indent)+ len(text1) + len(str(name)) + len(text2)),
+                                                      lower_bound)
+    line2 = "{0}{1}{2}{3}\n\n".format(" " *(3+len("")+ len(text1) + len(str(name)) + len(text2)),
                                         text4,
                                         "." * (text_l-
                     (len(text1) + len(str(name))+ len(text2)+len(text4)+len(str(lower_bound))+3)
                                                              ),
-                                        upper_bound))   
+                                        upper_bound)   
+    
+    sys.stdout.write(point_indent+line1)
+    f.write(line1)
+    sys.stdout.write(point_indent+line2)
+    f.write(line2)    
+    
      
 def write_non_homo(name, group, text1="", text2=""):
     sys.stdout.write("{0}{1}: [{2}] {3}: {4}\n".format(point_indent,text1,name,text2,group ))
@@ -95,10 +128,10 @@ def write_non_homo(name, group, text1="", text2=""):
     Redirects stdout to a file with unique name
 '''
 def redirect_stdout():
-    global_v.LOADING_BARS = False
+    util.global_variables.LOADING_BARS = False
     d = datetime.datetime.now().strftime('%Y-%m-%d_%H;%M;%S')
-    if global_v.LOG_FILE_PREFIX_NAME:
-        prefix = global_v.LOG_FILE_PREFIX_NAME + "_"
+    if util.global_variables.LOG_FILE_PREFIX_NAME:
+        prefix = util.global_variables.LOG_FILE_PREFIX_NAME + "_"
     else:
         prefix = ""
     file = "../log/" + prefix +str(d) +".txt"
@@ -123,9 +156,9 @@ def redirect_stdout():
     Next N_TEST lines is the testing set of that symbol
 '''
 def print_symbols(symbolClasses):
-    print("CLASS_NUM:",global_v.CLASS_NUM)
-    print("N_LEARNING:",global_v.N_LEARNING)
-    print("N_TEST:",global_v.N_TEST)
+    print("CLASS_NUM:",util.global_variables.CLASS_NUM)
+    print("N_LEARNING:",util.global_variables.N_LEARNING)
+    print("N_TEST:",util.global_variables.N_TEST)
     for cl in symbolClasses:
         print(cl.name,end=" ",flush=True)
         for value in cl.characteristicsValues:
@@ -144,12 +177,24 @@ def print_symbols(symbolClasses):
             print()
             
 def print_config():
-    print("CLASS_NUM:", global_v.CLASS_NUM)
-    print("CHAR_NUM:", global_v.CHAR_NUM)
-    print("N_LEARNING:", global_v.N_LEARNING)
-    print("N_TEST:", global_v.N_TEST)
-    print("K:", global_v.K)
-    print("ELLPSD_TRESH:", global_v.ELLPSD_TRESH)
-    print("MVEE_ERR:", global_v.MVEE_ERR)
-    print("HOMO_STD_DEV:", global_v.HOMO_STD_DEV)
-    print("NON_HOMO_STD_DEV:", global_v.NON_HOMO_STD_DEV)
+    f = open(os.path.join("..","log",util.global_variables.DIR_NAME,"RUN_CONFIG.txt"), 'w')
+    double_print(point_indent,"TEST_TYPE:        ", util.global_variables.TEST_TYPE.name, f) 
+    double_print(point_indent,"DIR:              ", util.global_variables.DIR_NAME, f)
+    double_print(point_indent,"CLASS_NUM:        ", util.global_variables.CLASS_NUM, f)
+    double_print(point_indent,"CHAR_NUM:         ", util.global_variables.CHAR_NUM, f)
+    double_print(point_indent,"N_LEARNING:       ", util.global_variables.N_LEARNING, f)
+    double_print(point_indent,"N_TEST:           ", util.global_variables.N_TEST, f)
+    double_print(point_indent, "K:                ", util.global_variables.K, f)
+    double_print(point_indent,"ELLPSD_TRESH:     ", util.global_variables.ELLPSD_TRESH, f)
+    double_print(point_indent,"MVEE_ERR:         ", util.global_variables.MVEE_ERR, f)
+    double_print(point_indent,"HOMO_STD_DEV:     ", util.global_variables.HOMO_STD_DEV, f)
+    double_print(point_indent,"NON_HOMO_STD_DEV: ", util.global_variables.NON_HOMO_STD_DEV, f)
+    f.close()
+
+    
+def double_print(indent, s, var, file):
+    print(indent + s,var)
+    file.write(s + str(var) + '\n')
+  
+    
+    

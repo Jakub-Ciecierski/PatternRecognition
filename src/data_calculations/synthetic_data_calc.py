@@ -4,11 +4,12 @@ import numpy as np
 from data_calculations.matrices_batch import DataInfo
 from data_calculations.results_data import ResultsData
 import data_calculations.foreign_rejector as f_rej
+import os
 
 radiuses = [1, 0.95, 0.90, 0.85, 0.80]
-results_data = ResultsData(len(radiuses))
+results_data = ResultsData(radiuses)
 
-def ambiguity_for_different_radiuses(symbolClasses, foreignClassesHomo = [], foreignClassesNonHomo = []):
+def ambiguity_for_different_radiuses(symbolClasses, foreignClassesHomo= [], foreignClassesNonHomo= []):
 
     for r in range(0,len(radiuses)):
         print("    RADIUS:", radiuses[r])
@@ -38,13 +39,13 @@ def ambiguity_for_different_radiuses(symbolClasses, foreignClassesHomo = [], for
         #
         # Check ambiguity for each foreign set
         #
-        print("\n\n        MEMBERSHIP RESULTS [HOMOGENEOUS FOREIGN SET]")
+        print("\n\n        MEMBERSHIP RESULTS [FOREIGN HOMO]")
         foreign_ambiguity_test(DataInfo.HOMO, r, foreignClassesHomo, symbolClasses)
-        print("\n\n        MEMBERSHIP RESULTS [NON HOMOGENEOUS FOREIGN SET]")
-        foreign_ambiguity_test(DataInfo.NONHOMO, r, foreignClassesNonHomo, symbolClasses)
-        
         results_data.batch(r).print_matrix(DataInfo.FOREIGN, DataInfo.HOMO)
+        print("\n\n        MEMBERSHIP RESULTS [FOREIGN NON-HOMO]")
+        foreign_ambiguity_test(DataInfo.NONHOMO, r, foreignClassesHomo, symbolClasses)
         results_data.batch(r).print_matrix(DataInfo.FOREIGN, DataInfo.NONHOMO)
+
 '''
     TODO
 '''
@@ -74,7 +75,8 @@ def ambiguity_test(set_type, radius, symbolClasses):
             group_assigment(radius, i,DataInfo.EUCL, ambiguous_ellipsoids, in_corrected, set_type,point.characteristicsValues[:])
         
         # Print out results  
-        results_data.batch(radius).summarization(i, set_type, DataInfo.BASIC)  
+        results_data.batch(radius).summarization(i, set_type, DataInfo.BASIC) 
+         
     results_data.batch(radius).print_matrix(set_type, DataInfo.BASIC)
     results_data.batch(radius).print_matrix(set_type, DataInfo.EUCL)    
 '''
@@ -142,8 +144,12 @@ def foreign_ambiguity_test(m_type, radius, foreignClasses, symbolClasses):
         results_data.batch(radius).data(stric_class[i], 0, DataInfo.SAVE, DataInfo.FOREIGN, m_type, 
                      DataInfo.NATIVE_CLASS, i)
 
-    # TODO remove this print
+    # If directory is not existing - create it. Next, save results to file.
+    path = os.path.join("..","log",global_v.DIR_NAME,"r"+str(radius))
+    os.makedirs(path, exist_ok=True)
+    file = open(os.path.join(path,"r" + str(radius)+"_"+str(m_type.name)+"_summary.txt"), 'a')
     for f in range(0, len(stric_class)):
-        print("        >> Symbol[",f,"]:                " , (stric_class[f] / len(foreignClasses))*100, "%")
-    print("        >> Ambiguous:                    " , (amb_count / len(foreignClasses))*100, "%")
-    print("        >> Rejected:                     " , (rejected_count / len(foreignClasses))*100, "% \n")
+        results_data.batch(radius).double_print(">> Symbol["+str(f)+"]:                " , (stric_class[f] / len(foreignClasses))*100,file)
+    results_data.batch(radius).double_print(">> Ambiguous:                " , (amb_count / len(foreignClasses))*100,file)
+    results_data.batch(radius).double_print(">> Rejected:                " , (rejected_count / len(foreignClasses))*100,file)
+    file.close()
