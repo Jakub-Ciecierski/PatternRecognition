@@ -189,6 +189,9 @@ def print_config():
     double_print(point_indent,"MVEE_ERR:         ", util.global_variables.MVEE_ERR, f)
     double_print(point_indent,"HOMO_STD_DEV:     ", util.global_variables.HOMO_STD_DEV, f)
     double_print(point_indent,"NON_HOMO_STD_DEV: ", util.global_variables.NON_HOMO_STD_DEV, f)
+    double_print(point_indent,"MAX_K_CLUS_EVALUATION:     ", util.global_variables.MAX_K_CLUS_EVALUATION, f)
+    double_print(point_indent,"K_CLOUD_DISTORTION: ", util.global_variables.K_CLOUD_DISTORTION, f)
+
     f.close()
 
     

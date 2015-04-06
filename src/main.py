@@ -51,56 +51,8 @@ if util.global_variables.TEST_TYPE == util.global_variables.TestType.HOMO_NATIVE
     console.write_header(" Synthetic Data Calculations")
     synth_calc.ambiguity_for_different_radiuses(symbolClasses[:], foreignClassesHomo, foreignClassesNonHomo)
 
-# DISTORTIONS
-# if(global_v.NON_HOMO_CLASSES):
-#     console.write_header("Computing Non-Homogeneus Distortion")
-#     Distorter().create_non_homogeneus_cloud(symbolClasses[:])
-# else:
-#     console.write_header("Computing Homogeneus Distortion")
-#     Distorter().create_homogeneus_cloud(symbolClasses[:])
-
-#console.write_header("Creating 2-cloud Distortion")
-#Distorter().create_k_clouds(2,symbolClasses[:])
-
-#console.write_header("Loading from sample")
-#symbolClasses = loader.load_xsl('test_samples\Test_set.xls', 0, 3)
-#symbolClasses = loader.load_txt('test_samples\native1.txt')
-
-# Print symbol classes to save the generated symbols
-# if(global_v.PRINT_GENERATED_SYMBOLS):
-#     console.write_header("Printing generated Distortions")
-#     console.print_symbols(symbolClasses)
-
-# Generating Foreign classes
-# console.write_header("Creating Non Homogeneous Foreign")
-# foreignClassesNonHomo = f_creator.create_non_homogeneous_foreign(symbolClasses)
-# console.write_header("Creating Homogeneous Foreign")
-# foreignClassesHomo = f_creator.create_homogeneous_foreign(symbolClasses, characteristics)
-
-# CLUSTERING
-# console.write_header("Computing Clusters")
-# Clusterer().computeClusters(symbolClasses[:global_v.CLASS_NUM])
-
-# CLUSTER EVALUATION
-# console.write_header("Evaluating clustering")
-# ps.cluster_evaluation(global_v.MAX_K_CLUS_EVALUATION, symbolClasses)
-
-# TEST SET CHECK
-# console.write_header(" Checking Test Set")
-# data.cluster_membership_test(symbolClasses[:global_v.CLASS_NUM])
-#data.cluster_membership_test(symbolClasses)
-
-# DISPLAY
-#console.write_header(" Displaying Plot")
-#Plot3D().renderPlot(symbolClasses[:global_v.CLASS_NUM])
-#Plot3D().renderPlot(symbolClasses)
-
-# SYNTETIC DATA CALCULATIONS
-# console.write_header(" Synthetic Data Calculations")
-# synth_calc.ambiguity_for_different_radiuses(symbolClasses[:], foreignClassesHomo, foreignClassesNonHomo)
-
-#console.write_header("Displaying plot with Non Homogeneous Foreign symbols")
-#Plot3D().renderPlot(symbolClasses, foreignClassesNonHomo)
-
-#console.write_header("Displaying plot with Homogeneous Foreign symbols")
-#Plot3D().renderPlot(symbolClasses, foreignClassesHomo)
+if util.global_variables.TEST_TYPE == util.global_variables.TestType.GROUPING_ASSESSMENT:
+    console.write_header("Computing K cloud Distortion")
+    Distorter().create_k_clouds(util.global_variables.K_CLOUD_DISTORTION,symbolClasses)
+    console.write_header("Computing Cluster Evaluation")
+    ps.cluster_evaluation(util.global_variables.MAX_K_CLUS_EVALUATION,symbolClasses)

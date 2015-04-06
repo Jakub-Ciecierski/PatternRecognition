@@ -67,7 +67,12 @@ CLUS_TOL = 0.0001
 '''
     The maximum amout of clusters (k) for cluster evaluation
 '''
-MAX_K_CLUS_EVALUATION = 6
+MAX_K_CLUS_EVALUATION = 4
+
+'''
+    Number of clouds in native distortion
+'''
+K_CLOUD_DISTORTION = 3
 
 '''
     Each ellipsoid's semi-axis will be scaled by this factor.
@@ -120,7 +125,7 @@ FOREIGN_NON_HOMO_CLUSTER_COUNT = 5
 '''
     Turns on/off loading bars.
 '''
-LOADING_BARS = True
+LOADING_BARS = False
 
 '''
     If True Redirects stdout output to file, also turns off loading bars
@@ -143,7 +148,7 @@ PRINT_GENERATED_SYMBOLS = False
     and homogeneous foreign symbols.
 '''
 TestType = Enum('TestType','HOMO_NATIVE_HOMO_FOREIGN HOMO_NATIVE_NON_HOMO_FOREIGN GROUPING_ASSESSMENT') 
-TEST_TYPE = TestType.HOMO_NATIVE_HOMO_FOREIGN
+TEST_TYPE = TestType.GROUPING_ASSESSMENT
 
 '''
     Global name is useful for referencing a proper directory.
