@@ -5,7 +5,7 @@ from symbols.symbol_class import SymbolClass
 from symbols.symbol_types import SymbolType
 from util.color_chooser import ColorChooser
 import util.console as console
-
+import sys
 '''
     To make main.py more transparent whole process of initialization
     starting data and performing tests on generated sets takes place here.
@@ -40,6 +40,7 @@ def generate_symbol_classes(symbolClasses, characteristics):
     for symbolClass in symbolClasses:
         console.write_point_name(symbolClass.name,text="Symbol Class:", )
         console.write_point_list(symbolClass.characteristicsValues, "Characteristics:")
+        sys.stdout.flush()
 #
 '''
     Using provided subset of generated distorted classes function performs

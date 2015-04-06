@@ -6,6 +6,7 @@ import util.global_variables as global_v
 from symbols.symbol_types import SymbolType
 import random
 from util import global_variables
+import sys
 
 '''
     For a given n-dimensional point, this method distort  
@@ -25,6 +26,7 @@ def __generate_distortion(cloudCenterCoordinates,sigmaSqrt):
     Native classes to make sure that these values do not overlap
 """
 def create_homogeneous_foreign(nativeClasses, characteristics):
+    sys.stdout.flush()
     # create n Foreign classes
     foreignClasses = []
     for i in range(0,global_v.CLASS_NUM * (global_v.N_LEARNING)):
@@ -59,6 +61,7 @@ def create_homogeneous_foreign(nativeClasses, characteristics):
         Create a distortion (cloud) around this point.
 '''
 def create_non_homogeneous_foreign(nativeClasses):
+    sys.stdout.flush()
     foreignClasses = []
     for i in range(0, len(nativeClasses)):
         # take two centers
@@ -80,6 +83,7 @@ def create_non_homogeneous_foreign(nativeClasses):
             foreignClass.characteristicsValues = __generate_distortion(midpoint[:] ,global_v.NON_HOMO_STD_DEV)
             foreignClasses.append(foreignClass)
     print("        >> Generated:", len(foreignClasses) ,"Non Homogeneous Foreign classes")
+    sys.stdout.flush()
     return foreignClasses
 
 '''
