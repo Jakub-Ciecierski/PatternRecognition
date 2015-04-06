@@ -17,19 +17,26 @@ def cluster_evaluation(max_k, symbolClasses):
     path = os.path.join("..","log",global_v.DIR_NAME)
     os.makedirs(path, exist_ok=True)
     file = open(os.path.join(path,"prediction_strength_summary.txt"), 'a')
+    start_k = 2
     for cl in symbolClasses:
+        prediction_str = []
         double_print('SYMBOL:'+str([cl.name])," ", file, ending="")
         data = cl.learning_set
         max = 0
         best_k = 1
-        for k in range(1,max_k+1):
+        for k in range(start_k,max_k+1):
             ps = prediction_strength(data, k)
-            double_print(">> prediction_strength("+str(k)+") = ", ps, file)
+            prediction_str.append(ps)
+            double_print(">> prediction_strength("+str(k)+") = ", ps, file, ending="\n")
             if max < ps:
                 max = ps
                 best_k = k
-    double_print('>> The True k:',best_k, file, ending="")
-    
+
+        '''
+        double_print2("\n\n>> SYMBOL:"+str([cl.name]) + " SUMMARY ", file, ending="\n")
+        for k in range(0,max_k+1 - start_k):
+            double_print(">> prediction_strength("+str(k + start_k)+") = ", prediction_str[k], file, ending="")
+        '''
     file.close()
     return best_k
 
@@ -148,7 +155,7 @@ def computeClusters(k, data):
             if labels[c] == j:
                 points.append(data[c].characteristicsValues)
 
-        cluster = Cluster(centroids[j],points, data[c].name, j, False)
+        cluster = Cluster(centroids[j],points, data[c].name, j, True)
         clusters.append(cluster)
     return clusters
 
@@ -193,4 +200,7 @@ def plot_clusters(learningClusters, testClusters):
 def double_print(s, val, f, ending="%"):
     print("        ",s,val,ending)
     f.write(s + str(val) + ending + "\n")
-        
+
+def double_print2(s, f, ending="%"):
+    print("        ",s,ending)
+    f.write(s + ending + "\n")

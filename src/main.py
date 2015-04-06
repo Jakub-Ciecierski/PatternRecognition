@@ -54,5 +54,6 @@ if util.global_variables.TEST_TYPE == util.global_variables.TestType.SYNTHETIC_H
 if util.global_variables.TEST_TYPE == util.global_variables.TestType.GROUPING_ASSESSMENT:
     console.write_header("Computing K cloud Distortion")
     Distorter().create_k_clouds(util.global_variables.K_CLOUD_DISTORTION,symbolClasses)
+    #Distorter().create_non_homogeneus_cloud(symbolClasses)
     console.write_header("Computing Cluster Evaluation")
     ps.cluster_evaluation(util.global_variables.MAX_K_CLUS_EVALUATION,symbolClasses)
