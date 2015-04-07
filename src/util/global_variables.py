@@ -70,6 +70,12 @@ CLUS_TOL = 0.0001
 MAX_K_CLUS_EVALUATION = 5
 
 '''
+    The number of iteration that cluster evaluation for each k should
+    be repeated.
+'''
+MAX_ITER_CLUS_EVALUATION = 4
+
+'''
     Number of clouds in native distortion
 '''
 K_CLOUD_DISTORTION = 4

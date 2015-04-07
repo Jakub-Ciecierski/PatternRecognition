@@ -4,6 +4,7 @@ import util.global_variables as global_v
 from gui.plot_3d import Plot3D
 import random
 import os
+from numpy import sqrt
 from symbols.symbol_class import SymbolClass
 from util.color_chooser import ColorChooser
 
@@ -21,23 +22,29 @@ def cluster_evaluation(max_k, symbolClasses):
     best_ks = []
     for cl in symbolClasses:
         prediction_str = []
-        double_print('SYMBOL:'+str([cl.name])," ", file, ending="")
         data = cl.learning_set
-        max = 0
+
+        double_print('SYMBOL:'+str([cl.name])," ", file, ending="")
+
+        max_ps = 0
         best_k = 1
+
         for k in range(start_k,max_k+1):
-            ps = prediction_strength(data, k)
-            prediction_str.append(ps)
-            double_print(">> prediction_strength("+str(k)+") = ", ps, file, ending="\n")
-            if max < ps:
-                max = ps
+            avg_ps = 0
+            for j in range(0,global_v.MAX_ITER_CLUS_EVALUATION):
+                ps = prediction_strength(data, k)
+                avg_ps += ps
+                prediction_str.append(ps)
+
+            avg_ps /= global_v.MAX_ITER_CLUS_EVALUATION
+            double_print(">> prediction_strength("+str(k)+") = ", avg_ps, file, ending="\n")
+
+            if max_ps < avg_ps:
+                max_ps = avg_ps
                 best_k = k
+
         best_ks.append(best_k)
-        '''
-        double_print2("\n\n>> SYMBOL:"+str([cl.name]) + " SUMMARY ", file, ending="\n")
-        for k in range(0,max_k+1 - start_k):
-            double_print(">> prediction_strength("+str(k + start_k)+") = ", prediction_str[k], file, ending="")
-        '''
+
     file.close()
     return best_ks
 
@@ -92,13 +99,19 @@ def prediction_strength(data, k):
         divider = n*(n-1)
         strength = sum / divider
         strengths.append(strength)
-    
+
     # Find the minimal strength
     min = strengths[0]
     for i in range(0,len(strengths)):
         if min > strengths[i]:
             min = strengths[i]
-
+    '''
+    # find avg
+    avg = 0
+    for i in range(0,len(strengths)):
+        avg += strengths[i]
+    avg /= len(strengths)
+    '''
     return min
 
 '''
@@ -109,6 +122,25 @@ def prediction_strength(data, k):
     The clusters and data can come from different samples (of the same population) 
 '''
 def co_membership(clusters, data):
+    # creating co_membership matrix
+    m = [[0 for x in range(len(data))] for x in range(len(data))]
+    
+    # check if each pair of points belong
+    # to the same cluster
+    for i in range(0,len(data)):
+        for j in range(0,len(data)):
+            if(i != j):
+                cluster_index_i = __find_closest_cluster(data[i], clusters)
+
+                cluster_index_j = __find_closest_cluster(data[j], clusters)
+                
+                if(cluster_index_i == cluster_index_j):
+                    m[i][j] = 1
+                else:
+                    m[i][j] = 0
+    return m
+
+def co_membership2(clusters, data):
     # creating co_membership matrix
     m = [[0 for x in range(len(data))] for x in range(len(data))]
     
@@ -186,6 +218,26 @@ def __computeClusters(k, distortedClasses):
     centroids, points_labels = __computeKMeans(k, X)
           
     return centroids, points_labels
+
+def __find_closest_cluster(foreignPoint, clusters):
+    min_dist = 0
+    min_cluster = clusters[0]
+    min_i = 0
+    for i in range(len(clusters[0].center)):
+        min_dist += (clusters[0].center[i] - foreignPoint[i])**2
+    min_dist = sqrt(min_dist)
+
+    for i in range(0,len(clusters)):
+        distance = 0
+        for j in range(len(clusters[i].center)):
+            center = clusters[i].center
+            distance += (center[j] - foreignPoint[j])**2
+        distance = sqrt(distance)
+        if min_dist > distance:
+            min_dist = distance
+            min_cluster = clusters[i]
+            min_i = i
+    return min_i
 
 def plot_clusters(learningClusters, testClusters):
     symbolLearn = SymbolClass("0", ColorChooser().get_color())
