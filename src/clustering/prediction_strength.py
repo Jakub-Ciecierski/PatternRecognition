@@ -188,7 +188,7 @@ def computeClusters(k, data):
             if labels[c] == j:
                 points.append(data[c].characteristicsValues)
 
-        cluster = Cluster(centroids[j],points, data[c].name, j, False)
+        cluster = Cluster(centroids[j],points, data[c].name, j, give_info = False, do_ellipsoid=False)
         clusters.append(cluster)
     return clusters
 
