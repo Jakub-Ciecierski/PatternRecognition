@@ -42,9 +42,9 @@ def parse_argv(argv):
         elif opt in ("-s", "--k-cloud"):
             util.global_variables.K_CLOUD_DISTORTION = int(arg)
         elif opt in ("-d", "--homo-std"):
-            util.global_variables.HOMO_STD_DEV = int(arg)
+            util.global_variables.HOMO_STD_DEV = float(arg)
         elif opt in ("-e", "--eucl-min"):
-            util.global_variables.EUCL_MIN_D = int(arg)
+            util.global_variables.EUCL_MIN_D = float(arg)
             
 
     # Prepare global filename for further references
