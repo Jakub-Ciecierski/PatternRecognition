@@ -65,8 +65,8 @@ if util.global_variables.TEST_TYPE == util.global_variables.TestType.FULL:
     for c in range(0, util.global_variables.CLASS_NUM):
         console.write_header("Computing Cluster Evaluation")
         best_k = ps.cluster_evaluation(util.global_variables.MAX_K_CLUS_EVALUATION, symbolClasses[c:c+1])
-        util.global_variables.MAX_K = best_k[0]
-        console.write_header("Computing Clusters with K:", str(util.global_variables.MAX_K))
+        util.global_variables.K = best_k[0]
+        console.write_header("Computing Clusters with K:", str(util.global_variables.K))
         Clusterer().computeClusters(symbolClasses[c:c+1])
 
     console.write_header("Creating Non Homogeneous Foreign")
