@@ -13,7 +13,7 @@ subpoint_indent = "        "
 def parse_argv(argv):
     # Gather up flags
     try:                                
-        opts, args = getopt.getopt(argv, "123c:h:f:t:l:m:s:", ["test-type-1","test-type-2","test-type-3","classes=","characteristics=","log=","test=","learn=","mvee=","k-cloud="])
+        opts, args = getopt.getopt(argv, "123c:h:f:t:l:m:s:d:e:", ["test-type-1","test-type-2","test-type-3","classes=","characteristics=","log=","test=","learn=","mvee=","k-cloud=","homo-std=","eucl-min="])
         print(args)
     except getopt.GetoptError:          
         usage()                         
@@ -41,6 +41,11 @@ def parse_argv(argv):
             util.global_variables.MVEE_ERR = float(arg)
         elif opt in ("-s", "--k-cloud"):
             util.global_variables.K_CLOUD_DISTORTION = int(arg)
+        elif opt in ("-d", "--homo-std"):
+            util.global_variables.HOMO_STD_DEV = int(arg)
+        elif opt in ("-e", "--eucl-min"):
+            util.global_variables.EUCL_MIN_D = int(arg)
+            
 
     # Prepare global filename for further references
     util.global_variables.DIR_NAME = util.global_variables.TEST_TYPE.name + "_" + datetime.datetime.now().strftime('%Y-%m-%d_%H;%M;%S')
@@ -188,6 +193,7 @@ def print_config():
     double_print(point_indent,"N_TEST:           ", util.global_variables.N_TEST, f)
     double_print(point_indent, "K:                ", util.global_variables.K, f)
     double_print(point_indent,"ELLPSD_TRESH:     ", util.global_variables.ELLPSD_TRESH, f)
+    double_print(point_indent,"EUCL_MIN_D:     ", util.global_variables.EUCL_MIN_D, f)
     double_print(point_indent,"MVEE_ERR:         ", util.global_variables.MVEE_ERR, f)
     double_print(point_indent,"HOMO_STD_DEV:     ", util.global_variables.HOMO_STD_DEV, f)
     double_print(point_indent,"NON_HOMO_STD_DEV: ", util.global_variables.NON_HOMO_STD_DEV, f)
