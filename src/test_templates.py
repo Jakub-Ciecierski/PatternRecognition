@@ -96,12 +96,7 @@ def real_data():
     symbolClasses = loader.load_native_xls()
     console.write_header("Loading Foreign symbols")
     foreignClasses = loader.load_foreign_xls()
-    points = []
-    for fc in foreignClasses:
-        # get its point
 
-        points.append(fc.characteristicsValues)
-    
     util.global_variables.CLASS_NUM = len(symbolClasses)
     util.global_variables.CHAR_NUM = len(symbolClasses[0].learning_set[0].characteristicsValues)
     
@@ -109,6 +104,25 @@ def real_data():
         console.write_header("Computing Cluster Evaluation")
         best_k = ps.cluster_evaluation(util.global_variables.MAX_K_CLUS_EVALUATION, symbolClasses[c:c+1])
         util.global_variables.K = best_k[0]
+        console.write_header("Computing Clusters with K:", str(util.global_variables.K))
+        Clusterer().computeClusters(symbolClasses[c:c+1])
+        
+    console.write_header(" Synthetic Data Calculations")
+    synth_calc.ambiguity_for_different_radiuses_real_data(symbolClasses[:], foreignClasses)
+
+
+def real_data_static_k():
+    console.write_header("Loading Native symbols")
+    symbolClasses = loader.load_native_xls()
+    console.write_header("Loading Foreign symbols")
+    foreignClasses = loader.load_foreign_xls()
+
+    util.global_variables.CLASS_NUM = len(symbolClasses)
+    util.global_variables.CHAR_NUM = len(symbolClasses[0].learning_set[0].characteristicsValues)
+    
+    for c in range(0, util.global_variables.CLASS_NUM):
+        console.write_header("Computing Cluster Evaluation")
+        best_k = ps.cluster_evaluation(util.global_variables.MAX_K_CLUS_EVALUATION, symbolClasses[c:c+1])
         console.write_header("Computing Clusters with K:", str(util.global_variables.K))
         Clusterer().computeClusters(symbolClasses[c:c+1])
         

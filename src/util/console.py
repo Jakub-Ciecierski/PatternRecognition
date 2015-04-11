@@ -13,12 +13,13 @@ subpoint_indent = "        "
 def parse_argv(argv):
     # Gather up flags
     try:                                
-        opts, args = getopt.getopt(argv, "1234c:h:f:t:l:m:s:d:e:b:g:x:z:", ["test-type-1","test-type-2",
+        opts, args = getopt.getopt(argv, "12345c:h:f:t:l:m:s:d:e:b:g:x:z:k:", ["test-type-1","test-type-2",
                                                                           "test-type-3","test-type-4",
+                                                                          "test-type-5",
                                                                    "classes=","characteristics=","log=","test=",
                                                                    "learn=","mvee=","k-cloud=","homo-std=",
                                                                    "eucl-min=", "n-file=", "f-file=",
-                                                                   "xls-start-r=","xls-max-c="])
+                                                                   "xls-start-r=","xls-max-c=","k-clusters="])
         print(args)
     except getopt.GetoptError:          
         usage()                         
@@ -40,6 +41,8 @@ def parse_argv(argv):
             util.global_variables.TEST_TYPE = util.global_variables.TestType.FULL
         elif opt in ("-4", "--test-type-4"):
             util.global_variables.TEST_TYPE = util.global_variables.TestType.REAL_DATA
+        elif opt in ("-5", "--test-type-5"):
+            util.global_variables.TEST_TYPE = util.global_variables.TestType.REAL_DATA_STATIC_K
         elif opt in ("-t", "--test"):
             util.global_variables.N_TEST = int(arg)
         elif opt in ("-l", "--learn"):
@@ -60,6 +63,8 @@ def parse_argv(argv):
             util.global_variables.XLS_START_ROW = int(arg)
         elif opt in ("-z", "--xls-max-c"):
             util.global_variables.XLS_MAX_COL = int(arg)
+        elif opt in ("-k", "--k-clusters"):
+            util.global_variables.K = int(arg)
 
     # Prepare global filename for further references
     util.global_variables.DIR_NAME = util.global_variables.TEST_TYPE.name + "_" + datetime.datetime.now().strftime('%Y-%m-%d_%H;%M;%S')

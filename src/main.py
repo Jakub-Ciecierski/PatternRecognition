@@ -25,3 +25,6 @@ if util.global_variables.TEST_TYPE == util.global_variables.TestType.FULL:
     
 if util.global_variables.TEST_TYPE == util.global_variables.TestType.REAL_DATA:
     tests.real_data()
+
+if util.global_variables.TEST_TYPE == util.global_variables.TestType.REAL_DATA_STATIC_K:
+    tests.real_data_static_k()

@@ -73,7 +73,7 @@ MAX_K_CLUS_EVALUATION = 7
     The number of iteration that cluster evaluation for each k should
     be repeated.
 '''
-MAX_ITER_CLUS_EVALUATION = 8
+MAX_ITER_CLUS_EVALUATION = 10
 
 '''
     Number of clouds in native distortion
@@ -153,7 +153,7 @@ PRINT_GENERATED_SYMBOLS = False
     has been created. By default we perform only test1 i.e. homogeneous native symbols
     and homogeneous foreign symbols.
 '''
-TestType = Enum('TestType','SYNTHETIC_HOMO_NATIVE GROUPING_ASSESSMENT FULL REAL_DATA') 
+TestType = Enum('TestType','SYNTHETIC_HOMO_NATIVE GROUPING_ASSESSMENT FULL REAL_DATA REAL_DATA_STATIC_K') 
 TEST_TYPE = TestType.REAL_DATA
 
 '''
