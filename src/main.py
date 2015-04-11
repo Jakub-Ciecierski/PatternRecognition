@@ -1,10 +1,10 @@
 import util.console as console
-import util.global_variables 
-import test_templates as tests
 import sys
-
 # CHECK ARGUMENTS
 console.parse_argv(sys.argv[1:])
+
+import util.global_variables 
+import test_templates as tests
 
 # RUN CONFIGS
 console.write_header("Run configuration")

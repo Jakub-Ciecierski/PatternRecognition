@@ -98,6 +98,7 @@ def real_data():
     foreignClasses = loader.load_foreign_xls()
     
     util.global_variables.CLASS_NUM = len(symbolClasses)
+    util.global_variables.CHAR_NUM = len(symbolClasses[0].learning_set[0].characteristicsValues)
     
     for c in range(0, util.global_variables.CLASS_NUM):
         console.write_header("Computing Cluster Evaluation")

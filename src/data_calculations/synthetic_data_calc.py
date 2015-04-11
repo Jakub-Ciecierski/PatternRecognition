@@ -6,10 +6,17 @@ from data_calculations.results_data import ResultsData
 import data_calculations.foreign_rejector as f_rej
 import os
 
+def init():
+    return ResultsData(radiuses)
+
 radiuses = [1, 0.95, 0.90, 0.85, 0.80]
-results_data = ResultsData(radiuses)
+results_data = init()
 
 def ambiguity_for_different_radiuses(symbolClasses, foreignClassesHomo= [], foreignClassesNonHomo= []):
+    global results_data 
+    results_data = init() 
+
+    print("LOLOLOL", results_data)
 
     for r in range(0,len(radiuses)):
         print("    RADIUS:", radiuses[r])
@@ -53,6 +60,10 @@ def ambiguity_for_different_radiuses(symbolClasses, foreignClassesHomo= [], fore
 
 
 def ambiguity_for_different_radiuses_real_data(symbolClasses, foreignClasses):
+    global results_data 
+    results_data = init() 
+
+    print("LOLOLOL", results_data)
 
     for r in range(0,len(radiuses)):
         print("    RADIUS:", radiuses[r])

@@ -67,13 +67,13 @@ CLUS_TOL = 0.0001
 '''
     The maximum amout of clusters (k) for cluster evaluation
 '''
-MAX_K_CLUS_EVALUATION = 5
+MAX_K_CLUS_EVALUATION = 2
 
 '''
     The number of iteration that cluster evaluation for each k should
     be repeated.
 '''
-MAX_ITER_CLUS_EVALUATION = 2
+MAX_ITER_CLUS_EVALUATION = 1
 
 '''
     Number of clouds in native distortion
@@ -96,7 +96,7 @@ ELLPSD_TRESH = 1.001
     Recommended settings:
     >>    0.00001
 '''
-MVEE_ERR = 0.0001
+MVEE_ERR = 0.001
 
 '''
     Randomized values of all characteristics will be picked from

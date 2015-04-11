@@ -32,7 +32,7 @@ def load_native_xls():
                 if maxColumns > 0 and col == maxColumns + 1:
                     break
 
-                currentValue = s.cell(row,col).value
+                currentValue = float(str(s.cell(row,col).value).replace(',','.'))
                 # create new symbol class
                 if  (
                         (row != startRow and col == 0 and 
@@ -68,7 +68,7 @@ def load_foreign_xls():
                 if col == maxColumns + 1:
                     break
 
-                currentValue = s.cell(row,col).value
+                currentValue = float(str(s.cell(row,col).value).replace(',','.'))
                 if col == 0:
                     continue
                 characteristics.append(currentValue)
