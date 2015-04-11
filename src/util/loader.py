@@ -1,6 +1,7 @@
 from xlrd import open_workbook
 from symbols.symbol_class import SymbolClass
 from util.color_chooser import ColorChooser
+import util.global_variables as global_v
 from test.test_importlib.extension.util import FILEPATH
 
 '''
@@ -16,23 +17,27 @@ from test.test_importlib.extension.util import FILEPATH
     startRow - which row to start reading from
     maxColumns - how many characteristics we want to read at most
 '''
-def load_xsl(filepath, startRow, maxColumns):
+def load_native_xls():
+    startRow = global_v.XLS_START_ROW
+    maxColumns = global_v.XLS_MAX_COL
+    
     symbolClasses = []
-    print("Opening file:", filepath)
-    wb = open_workbook(filepath)
+    
+    print("Opening file:", global_v.NATIVE_FILE_PATH)
+    wb = open_workbook(global_v.NATIVE_FILE_PATH)
     for s in wb.sheets():
         for row in range(startRow, s.nrows):
             characteristics = []
             for col in range(s.ncols):
-                if col == maxColumns + 1:
+                if maxColumns > 0 and col == maxColumns + 1:
                     break
 
                 currentValue = s.cell(row,col).value
                 # create new symbol class
                 if  (
-                        (row != 0 and col == 0 and 
+                        (row != startRow and col == 0 and 
                             currentValue != symbolClasses[len(symbolClasses)-1].name) or
-                        (row == 0 and col == 0)
+                        (row == startRow and col == 0)
                     ):
                     symbolClass = SymbolClass(currentValue, ColorChooser().get_color())
                     symbolClasses.append(symbolClass)
@@ -45,6 +50,34 @@ def load_xsl(filepath, startRow, maxColumns):
 
             #symbolClasses.append(symbolClass)
     return symbolClasses
+
+
+def load_foreign_xls():
+    startRow = global_v.XLS_START_ROW
+    maxColumns = global_v.XLS_MAX_COL
+
+    foreignClasses = []
+    print("Opening file:", global_v.FOREIGN_FILE_PATH)
+    
+    path = ""
+    wb = open_workbook(global_v.FOREIGN_FILE_PATH)
+    for s in wb.sheets():
+        for row in range(startRow, s.nrows):
+            characteristics = []
+            for col in range(s.ncols):
+                if col == maxColumns + 1:
+                    break
+
+                currentValue = s.cell(row,col).value
+                if col == 0:
+                    continue
+                characteristics.append(currentValue)
+            foreignClass = SymbolClass('foreign', ColorChooser().getForeignColor)
+            foreignClass.characteristicsValues = characteristics
+            foreignClasses.append(foreignClass)
+
+    return foreignClasses
+
 
 '''
     TODO have to change global variables

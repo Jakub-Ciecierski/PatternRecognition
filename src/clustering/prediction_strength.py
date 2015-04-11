@@ -18,7 +18,7 @@ def cluster_evaluation(max_k, symbolClasses):
     path = os.path.join("..","log",global_v.DIR_NAME)
     os.makedirs(path, exist_ok=True)
     file = open(os.path.join(path,"prediction_strength_summary.txt"), 'a')
-    start_k = 2
+    start_k = 1
     best_ks = []
     for cl in symbolClasses:
         prediction_str = []
@@ -39,7 +39,7 @@ def cluster_evaluation(max_k, symbolClasses):
             avg_ps /= global_v.MAX_ITER_CLUS_EVALUATION
             double_print(">> prediction_strength("+str(k)+") = ", avg_ps, file, ending="\n")
 
-            if max_ps < avg_ps:
+            if max_ps <= avg_ps:
                 max_ps = avg_ps
                 best_k = k
 

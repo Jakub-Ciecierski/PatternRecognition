@@ -13,7 +13,12 @@ subpoint_indent = "        "
 def parse_argv(argv):
     # Gather up flags
     try:                                
-        opts, args = getopt.getopt(argv, "123c:h:f:t:l:m:s:d:e:", ["test-type-1","test-type-2","test-type-3","classes=","characteristics=","log=","test=","learn=","mvee=","k-cloud=","homo-std=","eucl-min="])
+        opts, args = getopt.getopt(argv, "1234c:h:f:t:l:m:s:d:e:b:g:x:z:", ["test-type-1","test-type-2",
+                                                                          "test-type-3","test-type-4",
+                                                                   "classes=","characteristics=","log=","test=",
+                                                                   "learn=","mvee=","k-cloud=","homo-std=",
+                                                                   "eucl-min=", "n-file=", "f-file=",
+                                                                   "xls-start-r=","xls-max-c="])
         print(args)
     except getopt.GetoptError:          
         usage()                         
@@ -33,6 +38,8 @@ def parse_argv(argv):
             util.global_variables.TEST_TYPE = util.global_variables.TestType.GROUPING_ASSESSMENT
         elif opt in ("-3", "--test-type-3"):
             util.global_variables.TEST_TYPE = util.global_variables.TestType.FULL
+        elif opt in ("-4", "--test-type-4"):
+            util.global_variables.TEST_TYPE = util.global_variables.TestType.REAL_DATA
         elif opt in ("-t", "--test"):
             util.global_variables.N_TEST = int(arg)
         elif opt in ("-l", "--learn"):
@@ -45,7 +52,14 @@ def parse_argv(argv):
             util.global_variables.HOMO_STD_DEV = float(arg)
         elif opt in ("-e", "--eucl-min"):
             util.global_variables.EUCL_MIN_D = float(arg)
-            
+        elif opt in ("-b", "--n-file"):
+            util.global_variables.NATIVE_FILE_PATH = arg
+        elif opt in ("-g", "--f-file"):
+            util.global_variables.FOREIGN_FILE_PATH = arg
+        elif opt in ("-x", "--xls-start-r"):
+            util.global_variables.XLS_START_ROW = int(arg)
+        elif opt in ("-z", "--xls-max-c"):
+            util.global_variables.XLS_MAX_COL = int(arg)
 
     # Prepare global filename for further references
     util.global_variables.DIR_NAME = util.global_variables.TEST_TYPE.name + "_" + datetime.datetime.now().strftime('%Y-%m-%d_%H;%M;%S')
@@ -199,6 +213,8 @@ def print_config():
     double_print(point_indent,"NON_HOMO_STD_DEV: ", util.global_variables.NON_HOMO_STD_DEV, f)
     double_print(point_indent,"MAX_K_CLUS_EVALUATION:     ", util.global_variables.MAX_K_CLUS_EVALUATION, f)
     double_print(point_indent,"K_CLOUD_DISTORTION: ", util.global_variables.K_CLOUD_DISTORTION, f)
+    double_print(point_indent,"NATIVE_FILE_PATH: ", util.global_variables.NATIVE_FILE_PATH, f)
+    double_print(point_indent,"FOREIGN_FILE_PATH: ", util.global_variables.FOREIGN_FILE_PATH, f)
 
     f.close()
 
