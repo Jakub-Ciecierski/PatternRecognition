@@ -73,7 +73,7 @@ MAX_K_CLUS_EVALUATION = 7
     The number of iteration that cluster evaluation for each k should
     be repeated.
 '''
-MAX_ITER_CLUS_EVALUATION = 2
+MAX_ITER_CLUS_EVALUATION = 8
 
 '''
     Number of clouds in native distortion
@@ -179,4 +179,4 @@ XLS_START_ROW = 2
 '''
     How many columns to read, values bellow 0 means all column will be read
 '''
-XLS_MAX_COL= -1
+XLS_MAX_COL = -1
