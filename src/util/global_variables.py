@@ -179,4 +179,4 @@ XLS_START_ROW = 2
 '''
     How many columns to read, values bellow 0 means all column will be read
 '''
-XLS_MAX_COL= 3
+XLS_MAX_COL= -1
