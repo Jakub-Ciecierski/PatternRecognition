@@ -96,6 +96,11 @@ def real_data():
     symbolClasses = loader.load_native_xls()
     console.write_header("Loading Foreign symbols")
     foreignClasses = loader.load_foreign_xls()
+    points = []
+    for fc in foreignClasses:
+        # get its point
+
+        points.append(fc.characteristicsValues)
     
     util.global_variables.CLASS_NUM = len(symbolClasses)
     util.global_variables.CHAR_NUM = len(symbolClasses[0].learning_set[0].characteristicsValues)

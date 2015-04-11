@@ -63,8 +63,6 @@ def ambiguity_for_different_radiuses_real_data(symbolClasses, foreignClasses):
     global results_data 
     results_data = init() 
 
-    print("LOLOLOL", results_data)
-
     for r in range(0,len(radiuses)):
         print("    RADIUS:", radiuses[r])
         

@@ -65,13 +65,14 @@ def load_foreign_xls():
         for row in range(startRow, s.nrows):
             characteristics = []
             for col in range(s.ncols):
-                if col == maxColumns + 1:
+                if maxColumns > 0 and col == maxColumns + 1:
                     break
 
                 currentValue = float(str(s.cell(row,col).value).replace(',','.'))
                 if col == 0:
                     continue
                 characteristics.append(currentValue)
+            
             foreignClass = SymbolClass('foreign', ColorChooser().getForeignColor)
             foreignClass.characteristicsValues = characteristics
             foreignClasses.append(foreignClass)
