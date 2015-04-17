@@ -15,7 +15,7 @@ class Ellipsoid:
         Matrices of Singular Value Decomposition operation are saved for 
         further usage.
     '''
-    def __init__(self, points, ratio):
+    def __init__(self, points, ratio=1):
         # (x-c).T * A * (x-c) <= 1 with min(log(det A))
         self.M, self.center = self.__mvee(np.array(points))
         
@@ -104,7 +104,7 @@ class Ellipsoid:
         if(global_v.CHAR_NUM == 3):
             pointsOutZ = []
         
-        R = np.matrix(self.V[:])
+        #R = np.matrix(self.V[:])
         c = np.matrix(self.center[:]) 
         n_A = np.matrix(self.M[:]) 
         

@@ -10,6 +10,9 @@ import symbols.foreign_creator as f_creator
 import util.loader as loader
 import clustering.prediction_strength as ps
 import data_calculations.matrices_batch as mb
+from data_calculations.basic_membership import BasicMembership
+
+
 
 '''
     Native symbols: synthetic; homogeneous; 
@@ -128,3 +131,51 @@ def real_data_static_k():
         
     console.write_header(" Synthetic Data Calculations")
     synth_calc.ambiguity_for_different_radiuses_real_data(symbolClasses[:], foreignClasses)
+    
+'''
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % SYNTHETIC TEST FOR PAPER 1 %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    1) Generate characteristics with random intervals(uniform distribution)
+    2) Generate 10 class with 1500 elements in each(Training set - 1000, Testing set - 5000)
+       (classes - uniform distribution; 1500 distorted elements - normal distribution)
+    3) Generate 10 000 homogeneous foreign elements
+    4) Generate 10 000 non-homogeneous foreign elements
+    5) For each Training set create an ellipsoid
+    6) For each Training set create a cuboid
+    7) For 6 times:
+        >> For each ellipsoid:
+            >> Check how many homogeneous foreign are outside
+            >> Check how many non-homogeneous foreign are outside
+        >> For each cuboid:
+            >> Check how many homogeneous foreign are outside
+            >> Check how many non-homogeneous foreign are outside
+        if(it is not 6th time)
+            >> Remove 5% of points in Testing set
+            >> Create new(smaller) ellipsoid
+            >> Create new(smaller) cuboid
+        else
+            >> break
+'''    
+def synthetic_test_paper_1():
+    # CREATE CHAR_NUM CHARACTERISTICS
+    console.write_header("Creating Characteristics")
+    characteristics = []
+    data.generate_characteristic(characteristics)
+    
+    # CREATE CLASS_NUM SYMBOL CLASSES
+    console.write_header(" Creating Symbol Classes")
+    symbolClasses = []
+    data.generate_symbol_classes(symbolClasses, characteristics)
+    
+    # DISTORTION (UNIFORM)
+    console.write_header("Computing Homogeneous Distortion")
+    Distorter().create_homogeneus_cloud(symbolClasses)
+    
+    # CREATE ELLIPSOIDS AND CUBOIDS
+    console.write_header("Generating Convex and Compact Sets")
+    membership = BasicMembership(symbolClasses)
+    
+    
+    

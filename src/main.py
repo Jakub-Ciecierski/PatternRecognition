@@ -28,3 +28,6 @@ if util.global_variables.TEST_TYPE == util.global_variables.TestType.REAL_DATA:
 
 if util.global_variables.TEST_TYPE == util.global_variables.TestType.REAL_DATA_STATIC_K:
     tests.real_data_static_k()
+    
+if util.global_variables.TEST_TYPE == util.global_variables.TestType.SYNTHETIC_PAPER_1:
+    tests.synthetic_test_paper_1()
