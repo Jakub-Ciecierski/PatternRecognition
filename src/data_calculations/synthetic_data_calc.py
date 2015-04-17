@@ -6,10 +6,17 @@ from data_calculations.results_data import ResultsData
 import data_calculations.foreign_rejector as f_rej
 import os
 
+def init():
+    return ResultsData(radiuses)
+
 radiuses = [1, 0.95, 0.90, 0.85, 0.80]
-results_data = ResultsData(radiuses)
+results_data = init()
 
 def ambiguity_for_different_radiuses(symbolClasses, foreignClassesHomo= [], foreignClassesNonHomo= []):
+    global results_data 
+    results_data = init() 
+
+    print("LOLOLOL", results_data)
 
     for r in range(0,len(radiuses)):
         print("    RADIUS:", radiuses[r])
@@ -51,6 +58,49 @@ def ambiguity_for_different_radiuses(symbolClasses, foreignClassesHomo= [], fore
         foreign_ambiguity_test(DataInfo.NONHOMO, r, foreignClassesNonHomo, symbolClasses)
         results_data.batch(r).print_matrix(DataInfo.FOREIGN, DataInfo.NONHOMO)
 
+
+def ambiguity_for_different_radiuses_real_data(symbolClasses, foreignClasses):
+    global results_data 
+    results_data = init() 
+
+    for r in range(0,len(radiuses)):
+        print("    RADIUS:", radiuses[r])
+        
+        #
+        # Shrink each ellipsoid
+        #
+        path = os.path.join("..","log",global_v.DIR_NAME,"r"+str(radiuses[r]))
+        os.makedirs(path, exist_ok=True)
+        file = open(os.path.join(path,"r" + str(radiuses[r])+"_shrinking.txt"), 'a')  
+        print("        SHRINKING ELLIPSOIDS IN EACH CLUSTER")
+        for cl in symbolClasses:
+            for cluster in cl.clusters:
+                # Check if there is need to recalculate
+                if(radiuses[r] != global_v.SEMI_AXIS_SCALE):
+                    cluster.ellipsoid = Ellipsoid(cluster.points,radiuses[r])
+                    
+                # list of point in current ellipsoid
+                pointsInEllipsoid = cluster.ellipsoid.is_point_in_ellipsoid(cluster.points,False, True)
+                print("           Symbol:",[cl.name]," Points in cluster:                ", 100 * len(pointsInEllipsoid)/len(cluster.points),"%")
+                file.write("Symbol:" + str([cl.name]) + " Points in cluster:                "+ str(100 * len(pointsInEllipsoid)/len(cluster.points))+"%\n")
+        file.close()
+                
+        #
+        # TESTS FOR DIFFERENT SETS
+        #
+        print("\n        MEMBERSHIP RESULTS [LEARN SET]")   
+        ambiguity_test(DataInfo.LEARN, r, symbolClasses)
+        print("\n        MEMBERSHIP RESULTS [TEST SET]")   
+        #ambiguity_test(DataInfo.TEST, r, symbolClasses)
+
+        #
+        # Check ambiguity for each foreign set
+        #
+        print("\n\n        MEMBERSHIP RESULTS [FOREIGN HOMO]")
+        foreign_ambiguity_test(DataInfo.HOMO, r, foreignClasses, symbolClasses)
+        results_data.batch(r).print_matrix(DataInfo.FOREIGN, DataInfo.HOMO)
+
+
 '''
     TODO
 '''
@@ -58,8 +108,10 @@ def ambiguity_test(set_type, radius, symbolClasses):
     for i in range(0, len(symbolClasses)):
         if(set_type == DataInfo.LEARN):
             set_to_test = symbolClasses[i].learning_set
+            global_v.N_LEARNING = len(symbolClasses[i].learning_set)
         if(set_type == DataInfo.TEST):
             set_to_test = symbolClasses[i].test_set
+            global_v.N_TEST = len(symbolClasses[i].test_set)
             
         for point in set_to_test:
             # Does point belong to the right one ?

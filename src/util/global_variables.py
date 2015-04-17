@@ -67,13 +67,13 @@ CLUS_TOL = 0.0001
 '''
     The maximum amout of clusters (k) for cluster evaluation
 '''
-MAX_K_CLUS_EVALUATION = 5
+MAX_K_CLUS_EVALUATION = 7
 
 '''
     The number of iteration that cluster evaluation for each k should
     be repeated.
 '''
-MAX_ITER_CLUS_EVALUATION = 4
+MAX_ITER_CLUS_EVALUATION = 10
 
 '''
     Number of clouds in native distortion
@@ -96,7 +96,7 @@ ELLPSD_TRESH = 1.001
     Recommended settings:
     >>    0.00001
 '''
-MVEE_ERR = 0.0001
+MVEE_ERR = 0.001
 
 '''
     Randomized values of all characteristics will be picked from
@@ -153,10 +153,30 @@ PRINT_GENERATED_SYMBOLS = False
     has been created. By default we perform only test1 i.e. homogeneous native symbols
     and homogeneous foreign symbols.
 '''
-TestType = Enum('TestType','SYNTHETIC_HOMO_NATIVE GROUPING_ASSESSMENT FULL') 
-TEST_TYPE = TestType.GROUPING_ASSESSMENT
+TestType = Enum('TestType','SYNTHETIC_HOMO_NATIVE GROUPING_ASSESSMENT FULL REAL_DATA REAL_DATA_STATIC_K') 
+TEST_TYPE = TestType.REAL_DATA
 
 '''
     Global name is useful for referencing a proper directory.
 '''
 DIR_NAME = "temp"
+
+'''
+    The path to native symbols sample
+'''
+NATIVE_FILE_PATH = ""
+
+'''
+    The path to foreign symbols sample
+'''
+FOREIGN_FILE_PATH = ""
+
+'''
+    Which row to start from
+'''
+XLS_START_ROW = 2
+
+'''
+    How many columns to read, values bellow 0 means all column will be read
+'''
+XLS_MAX_COL = -1
