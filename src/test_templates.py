@@ -168,14 +168,24 @@ def synthetic_test_paper_1():
     console.write_header(" Creating Symbol Classes")
     symbolClasses = []
     data.generate_symbol_classes(symbolClasses, characteristics)
-    
+
     # DISTORTION (UNIFORM)
     console.write_header("Computing Homogeneous Distortion")
     Distorter().create_homogeneus_cloud(symbolClasses)
     
-    # CREATE ELLIPSOIDS AND CUBOIDS
+    # FOREIGN HOMOGENEOUS
+    console.write_header("Creating Homogeneous Foreign")
+    foreignClassesHomo = f_creator.create_homogeneous_foreign(symbolClasses, characteristics)
+    
+    # FOREIGN NON-HOMOGENEOUS
+    console.write_header("Creating Non Homogeneous Foreign")
+    foreignClassesNonHomo = f_creator.create_non_homogeneous_foreign(symbolClasses)
+    
+    # CREATE ELLIPSOIDS AND CUBOIDS FOR EACH LEARNING SET
     console.write_header("Generating Convex and Compact Sets")
     membership = BasicMembership(symbolClasses)
+    
+    
     
     
     

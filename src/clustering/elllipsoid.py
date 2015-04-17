@@ -150,7 +150,7 @@ class Ellipsoid:
     def __mvee(self, points, tol = global_v.MVEE_ERR):
         if(global_v.LOADING_BARS):
             percentage = 0
-        i = global_v.MVEE_ERR * 100
+            i = global_v.MVEE_ERR * 100
         N_LEARN, d = points.shape
         Q = np.column_stack((points, np.ones(N_LEARN))).T
         err = tol+1.0
