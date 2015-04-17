@@ -180,11 +180,23 @@ def synthetic_test_paper_1():
     # FOREIGN NON-HOMOGENEOUS
     console.write_header("Creating Non Homogeneous Foreign")
     foreignClassesNonHomo = f_creator.create_non_homogeneous_foreign(symbolClasses)
-    
+
     # CREATE ELLIPSOIDS AND CUBOIDS FOR EACH LEARNING SET
     console.write_header("Generating Convex and Compact Sets")
     membership = BasicMembership(symbolClasses)
-    
+     
+    for i in range(0,6):
+        # Check foreign
+        membership.check_foreign_ellipsoid(foreignClassesHomo)
+        membership.check_foreign_ellipsoid(foreignClassesNonHomo)
+        # Shrink
+        if(i != 5):
+            membership.shrink_ellipsoids(5)
+            membership.shrink_cuboids(5)
+            print("        >> Number of points per ellipsoid after shrinking:", len(membership.ellipsoids[0].points))
+            print("        >> Number of points per cuboid after shrinking:", len(membership.cuboids[0].points))
+            membership.recalculate_ellipsoids()
+            membership.recalculate_cuboids()    
     
     
     

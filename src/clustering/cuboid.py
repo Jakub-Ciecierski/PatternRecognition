@@ -12,7 +12,7 @@ class Cuboid:
     def __calculate_center(self):
         center =[] 
         for dim in self.__dimensions:
-            dim_center = dim.lowerBound + (dim.upperBound - dim.lowerBound)/2
+            dim_center = (dim.upperBound + dim.lowerBound)/2
             center.append(dim_center)
         return center
         
