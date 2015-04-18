@@ -210,6 +210,7 @@ def print_config():
     f = open(os.path.join("..","log",util.global_variables.DIR_NAME,"RUN_CONFIG.txt"), 'w')
     double_print(point_indent,"TEST_TYPE:        ", util.global_variables.TEST_TYPE.name, f) 
     double_print(point_indent,"DIR:              ", util.global_variables.DIR_NAME, f)
+    
     double_print(point_indent,"CLASS_NUM:        ", util.global_variables.CLASS_NUM, f)
     double_print(point_indent,"CHAR_NUM:         ", util.global_variables.CHAR_NUM, f)
     double_print(point_indent,"N_LEARNING:       ", util.global_variables.N_LEARNING, f)

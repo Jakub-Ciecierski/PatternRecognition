@@ -186,22 +186,22 @@ def synthetic_test_paper_1():
     # CREATE ELLIPSOIDS AND CUBOIDS FOR EACH LEARNING SET
     console.write_header("Generating Convex and Compact Sets")
     membership = BasicMembership(symbolClasses)
-     
-    for i in range(0,5): 
-        # Check foreign
-        membership.check_foreign_ellipsoid(foreignClassesHomo)
-        membership.check_foreign_ellipsoid(foreignClassesNonHomo)
-        membership.check_foreign_cuboids(foreignClassesHomo)
-        membership.check_foreign_cuboids(foreignClassesNonHomo)
-        # Shrink
-        if(i != 4):
-            membership.shrink_ellipsoids(5)
-            membership.shrink_cuboids(5)
-            print("        >> Number of points per ellipsoid after shrinking:", len(membership.ellipsoids[0].points))
-            print("        >> Number of points per cuboid after shrinking:", len(membership.cuboids[0].points))
-            membership.recalculate_ellipsoids()
-            membership.recalculate_cuboids()    
+    membership.shrink_objects(0)  # just to write to he file
     
+    for i in range(0,5):
+        # Check native
+        membership.check_natives_ellipsoid(symbolClasses[:],"foreign_homo","foreign_non_homo") 
+        membership.check_natives_cuboid(symbolClasses[:],"foreign_homo","foreign_non_homo") 
+        # Check foreign
+        membership.check_foreign_ellipsoid(foreignClassesHomo,      "foreign_homo")
+        membership.check_foreign_ellipsoid(foreignClassesNonHomo,   "foreign_non_homo")
+        membership.check_foreign_cuboids(foreignClassesHomo,        "foreign_homo")
+        membership.check_foreign_cuboids(foreignClassesNonHomo,     "foreign_non_homo")
+        # Shrink
+        if i != 4:
+            membership.shrink_objects(5)
+
+
     
     
 def semisynthetic_test_paper_1():
@@ -215,17 +215,16 @@ def semisynthetic_test_paper_1():
     
     # CREATE ELLIPSOIDS AND CUBOIDS FOR EACH LEARNING SET
     console.write_header("Generating Convex and Compact Sets")
-    membership = BasicMembership(symbolClasses)
+    membership = BasicMembership(symbolClasses, False)
+    membership.shrink_objects(0)  # just to write to he file
     
-    for i in range(0,5): 
+    for i in range(0,5):
+        # Check native
+        membership.check_natives_ellipsoid(symbolClasses[:],"foreign_REAL","foreign_REAL") 
+        membership.check_natives_cuboid(symbolClasses[:],"foreign_REAL","foreign_REAL") 
         # Check foreign
-        membership.check_foreign_ellipsoid(foreignClasses)
-        membership.check_foreign_cuboids(foreignClasses)
+        membership.check_foreign_ellipsoid(foreignClasses,      "foreign_REAL")
+        membership.check_foreign_cuboids(foreignClasses,     "foreign_REAL")
         # Shrink
-        if(i != 4):
-            membership.shrink_ellipsoids(5)
-            membership.shrink_cuboids(5)
-            print("        >> Number of points per ellipsoid after shrinking:", len(membership.ellipsoids[0].points))
-            print("        >> Number of points per cuboid after shrinking:", len(membership.cuboids[0].points))
-            membership.recalculate_ellipsoids()
-            membership.recalculate_cuboids()        
+        if i != 4:
+            membership.shrink_objects(5)    
