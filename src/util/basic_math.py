@@ -32,7 +32,7 @@ def sort_by_distance(points, center):
             percentage += increment
             hashes = '#' * int(round(percentage/5))
             spaces = ' ' * (20 -len(hashes))
-            sys.stdout.write("\r           Sorting points:                          [{0}] {1}%".format(hashes + spaces, int(round(percentage))))
+            sys.stdout.write("\r           Sorting points:                                 [{0}] {1}%".format(hashes + spaces, int(round(percentage))))
             sys.stdout.flush()
             
     if(global_v.LOADING_BARS): 

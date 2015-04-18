@@ -122,13 +122,13 @@ def real_data_static_k():
 
     util.global_variables.CLASS_NUM = len(symbolClasses)
     util.global_variables.CHAR_NUM = len(symbolClasses[0].learning_set[0].characteristicsValues)
-    '''
-    for c in range(0, util.global_variables.CLASS_NUM):
-        console.write_header("Computing Cluster Evaluation")
-        best_k = ps.cluster_evaluation(util.global_variables.MAX_K_CLUS_EVALUATION, symbolClasses[c:c+1])
-        console.write_header("Computing Clusters with K:", str(util.global_variables.K))
-	'''
-	console.write_header("Clustering")
+
+    #for c in range(0, util.global_variables.CLASS_NUM):
+    #    console.write_header("Computing Cluster Evaluation")
+    #    best_k = ps.cluster_evaluation(util.global_variables.MAX_K_CLUS_EVALUATION, symbolClasses[c:c+1])
+    #    console.write_header("Computing Clusters with K:", str(util.global_variables.K))
+
+    console.write_header("Clustering")
     Clusterer().computeClusters(symbolClasses[:])
         
     console.write_header(" Synthetic Data Calculations")

@@ -77,7 +77,7 @@ class BasicMembership:
                 ellipsoid = Ellipsoid(temp_points)
                 # Check accuracy 
                 pointsInEllipsoid = ellipsoid.is_point_in_ellipsoid(temp_points,False, True)
-                print("           Points in Ellipsoid:                ", 100 * len(pointsInEllipsoid)/len(temp_points),"%")
+                print("           Points in Ellipsoid:                            ", 100 * len(pointsInEllipsoid)/len(temp_points),"%")
                 # Save an ellipsoid
                 set_of_objects.append(EllipsoidWrap(temp_points,ellipsoid))
                 
@@ -85,7 +85,7 @@ class BasicMembership:
                 cuboid = Cuboid(temp_points)
                 # Check accuracy
                 pointsInCuboid = cuboid.points_in_cuboid(temp_points)
-                print("           Points in Cuboid:                ", 100 * len(pointsInCuboid)/len(temp_points),"%")
+                print("           Points in Cuboid:                               ", 100 * len(pointsInCuboid)/len(temp_points),"%")
                 set_of_objects.append(CuboidWrap(temp_points,cuboid))
             
         return set_of_objects
