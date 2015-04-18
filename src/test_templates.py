@@ -187,5 +187,25 @@ def synthetic_test_paper_1():
     
     
     
+def synthetic_test_paper_2():
+    # CREATE CHAR_NUM CHARACTERISTICS
+    console.write_header("Creating Characteristics")
+    characteristics = []
+    data.generate_characteristic(characteristics)
     
+    # CREATE CLASS_NUM SYMBOL CLASSES
+    console.write_header(" Creating Symbol Classes")
+    symbolClasses = []
+    data.generate_symbol_classes(symbolClasses, characteristics)
     
+    # CREATE CLOUD DISTORTION IN NATIVE SET
+    console.write_header("Computing K cloud Distortion")
+    #Distorter().create_cluster_assessment_cloud(util.global_variables.K_CLOUD_DISTORTION,symbolClasses)
+    Distorter().create_k_clouds(util.global_variables.K_CLOUD_DISTORTION,symbolClasses)
+
+    Clusterer().computeClusters(symbolClasses)
+    Plot3D().renderPlot(symbolClasses)
+    
+    # COMPUTE CLUSTER EVALUATION
+    console.write_header("Computing Cluster Evaluation")
+    ps.cluster_evaluation(util.global_variables.MAX_K_CLUS_EVALUATION,symbolClasses)
