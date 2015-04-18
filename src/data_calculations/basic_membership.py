@@ -36,9 +36,23 @@ class BasicMembership:
             if len(in_how_many) == 0:
                 rejected.append(foreign)
         
-        print("HOW MANY REJECTED: ",len(rejected))
+        print("[ELLIPSOIDS] HOW MANY REJECTED: ",len(rejected)/len(foreigns))
+    
+    '''
+    '''
+    def check_foreign_cuboids(self, foreigns):
+        rejected = []
+        for foreign in foreigns:
+            in_how_many = []
+            for cuboid in self.cuboids:
+                if cuboid.cuboid.is_point_in_cuboid(foreign.characteristicsValues[:]):
+                    in_how_many.append(foreign)
+                    break;                    
                     
-            
+            if len(in_how_many) == 0:
+                rejected.append(foreign)           
+        print("[CUBOIDS] HOW MANY REJECTED: ",len(rejected)/len(foreigns))
+        
     '''
     '''
     def shrink_cuboids(self, percentage_of_points):

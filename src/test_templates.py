@@ -185,12 +185,14 @@ def synthetic_test_paper_1():
     console.write_header("Generating Convex and Compact Sets")
     membership = BasicMembership(symbolClasses)
      
-    for i in range(0,6):
+    for i in range(0,5):
         # Check foreign
         membership.check_foreign_ellipsoid(foreignClassesHomo)
         membership.check_foreign_ellipsoid(foreignClassesNonHomo)
+        membership.check_foreign_cuboids(foreignClassesHomo)
+        membership.check_foreign_cuboids(foreignClassesNonHomo)
         # Shrink
-        if(i != 5):
+        if(i != 4):
             membership.shrink_ellipsoids(5)
             membership.shrink_cuboids(5)
             print("        >> Number of points per ellipsoid after shrinking:", len(membership.ellipsoids[0].points))
@@ -200,4 +202,5 @@ def synthetic_test_paper_1():
     
     
     
-    
+def semisynthetic_test_paper_1():
+    print("semi_test") 
