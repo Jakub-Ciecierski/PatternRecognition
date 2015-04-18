@@ -153,7 +153,7 @@ PRINT_GENERATED_SYMBOLS = False
     has been created. By default we perform only test1 i.e. homogeneous native symbols
     and homogeneous foreign symbols.
 '''
-TestType = Enum('TestType','SYNTHETIC_HOMO_NATIVE GROUPING_ASSESSMENT FULL REAL_DATA REAL_DATA_STATIC_K SYNTHETIC_PAPER_1') 
+TestType = Enum('TestType','SYNTHETIC_HOMO_NATIVE GROUPING_ASSESSMENT FULL REAL_DATA REAL_DATA_STATIC_K SYNTHETIC_PAPER_1 SEMISYNTHETIC_PAPER_1') 
 TEST_TYPE = TestType.REAL_DATA
 
 '''

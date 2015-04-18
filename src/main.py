@@ -31,3 +31,6 @@ if util.global_variables.TEST_TYPE == util.global_variables.TestType.REAL_DATA_S
     
 if util.global_variables.TEST_TYPE == util.global_variables.TestType.SYNTHETIC_PAPER_1:
     tests.synthetic_test_paper_1()
+    
+if util.global_variables.TEST_TYPE == util.global_variables.TestType.SEMISYNTHETIC_PAPER_1:
+    tests.semisynthetic_test_paper_1()
