@@ -9,8 +9,11 @@ import os
 def init():
     return ResultsData(radiuses)
 
-radiuses = [1, 0.95, 0.90, 0.85, 0.80]
-results_data = init()
+# init() creates useless folders from point of view of "paper tests"
+if (global_v.TEST_TYPE != global_v.TestType.SEMISYNTHETIC_PAPER_1 and
+        global_v.TEST_TYPE != global_v.TestType.SYNTHETIC_PAPER_1):
+    radiuses = [1, 0.95, 0.90, 0.85, 0.80]
+    results_data = init()
 
 def ambiguity_for_different_radiuses(symbolClasses, foreignClassesHomo= [], foreignClassesNonHomo= []):
     global results_data 

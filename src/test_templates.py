@@ -122,12 +122,14 @@ def real_data_static_k():
 
     util.global_variables.CLASS_NUM = len(symbolClasses)
     util.global_variables.CHAR_NUM = len(symbolClasses[0].learning_set[0].characteristicsValues)
-    
-    for c in range(0, util.global_variables.CLASS_NUM):
-        console.write_header("Computing Cluster Evaluation")
-        best_k = ps.cluster_evaluation(util.global_variables.MAX_K_CLUS_EVALUATION, symbolClasses[c:c+1])
-        console.write_header("Computing Clusters with K:", str(util.global_variables.K))
-        Clusterer().computeClusters(symbolClasses[c:c+1])
+
+    #for c in range(0, util.global_variables.CLASS_NUM):
+    #    console.write_header("Computing Cluster Evaluation")
+    #    best_k = ps.cluster_evaluation(util.global_variables.MAX_K_CLUS_EVALUATION, symbolClasses[c:c+1])
+    #    console.write_header("Computing Clusters with K:", str(util.global_variables.K))
+
+    console.write_header("Clustering")
+    Clusterer().computeClusters(symbolClasses[:])
         
     console.write_header(" Synthetic Data Calculations")
     synth_calc.ambiguity_for_different_radiuses_real_data(symbolClasses[:], foreignClasses)
@@ -180,19 +182,59 @@ def synthetic_test_paper_1():
     # FOREIGN NON-HOMOGENEOUS
     console.write_header("Creating Non Homogeneous Foreign")
     foreignClassesNonHomo = f_creator.create_non_homogeneous_foreign(symbolClasses)
-    
+
     # CREATE ELLIPSOIDS AND CUBOIDS FOR EACH LEARNING SET
     console.write_header("Generating Convex and Compact Sets")
     membership = BasicMembership(symbolClasses)
+    membership.shrink_objects(0)  # just to write to he file
+    
+    for i in range(0,5):
+        # Check native
+        membership.check_natives_ellipsoid(symbolClasses[:],"foreign_homo","foreign_non_homo") 
+        membership.check_natives_cuboid(symbolClasses[:],"foreign_homo","foreign_non_homo") 
+        # Check foreign
+        membership.check_foreign_ellipsoid(foreignClassesHomo,      "foreign_homo")
+        membership.check_foreign_ellipsoid(foreignClassesNonHomo,   "foreign_non_homo")
+        membership.check_foreign_cuboids(foreignClassesHomo,        "foreign_homo")
+        membership.check_foreign_cuboids(foreignClassesNonHomo,     "foreign_non_homo")
+        # Shrink
+        if i != 4:
+            membership.shrink_objects(5)
+
+
     
     
+def semisynthetic_test_paper_1():
+    console.write_header("Loading Native symbols")
+    symbolClasses = loader.load_native_xls()
+    console.write_header("Loading Foreign symbols")
+    foreignClasses = loader.load_foreign_xls()
+
+    util.global_variables.CLASS_NUM = len(symbolClasses)
+    util.global_variables.CHAR_NUM = len(symbolClasses[0].learning_set[0].characteristicsValues)
     
+    # CREATE ELLIPSOIDS AND CUBOIDS FOR EACH LEARNING SET
+    console.write_header("Generating Convex and Compact Sets")
+    membership = BasicMembership(symbolClasses, False)
+    membership.shrink_objects(0)  # just to write to he file
+    
+    for i in range(0,5):
+        # Check native
+        membership.check_natives_ellipsoid(symbolClasses[:],"foreign_REAL","foreign_REAL") 
+        membership.check_natives_cuboid(symbolClasses[:],"foreign_REAL","foreign_REAL") 
+        # Check foreign
+        membership.check_foreign_ellipsoid(foreignClasses,      "foreign_REAL")
+        membership.check_foreign_cuboids(foreignClasses,     "foreign_REAL")
+        # Shrink
+        if i != 4:
+            membership.shrink_objects(5)
+
 def synthetic_test_paper_2():
     # CREATE CHAR_NUM CHARACTERISTICS
     console.write_header("Creating Characteristics")
     characteristics = []
     data.generate_characteristic(characteristics)
-    
+
     # CREATE CLASS_NUM SYMBOL CLASSES
     console.write_header(" Creating Symbol Classes")
     symbolClasses = []

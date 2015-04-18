@@ -153,8 +153,7 @@ PRINT_GENERATED_SYMBOLS = False
     has been created. By default we perform only test1 i.e. homogeneous native symbols
     and homogeneous foreign symbols.
 '''
-TestType = Enum('TestType','SYNTHETIC_HOMO_NATIVE GROUPING_ASSESSMENT FULL REAL_DATA REAL_DATA_STATIC_K SYNTHETIC_PAPER_1 SYNTHETIC_PAPER_2') 
-TEST_TYPE = TestType.REAL_DATA
+TestType = Enum('TestType','SYNTHETIC_HOMO_NATIVE GROUPING_ASSESSMENT FULL REAL_DATA REAL_DATA_STATIC_K SYNTHETIC_PAPER_1 SEMISYNTHETIC_PAPER_1 SYNTHETIC_PAPER_2') TEST_TYPE = TestType.REAL_DATA
 
 '''
     Global name is useful for referencing a proper directory.

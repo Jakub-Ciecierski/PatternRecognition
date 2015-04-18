@@ -12,7 +12,7 @@ class Cuboid:
     def __calculate_center(self):
         center =[] 
         for dim in self.__dimensions:
-            dim_center = dim.lowerBound + (dim.upperBound - dim.lowerBound)/2
+            dim_center = (dim.upperBound + dim.lowerBound)/2
             center.append(dim_center)
         return center
         
@@ -20,7 +20,7 @@ class Cuboid:
     '''        
     def is_point_in_cuboid(self, point):
         if(len(point) != len(self.__dimensions)):
-            print("ERROR: Point dimension is different than cuboid's one.")
+            print("ERROR:is_point_in_cuboid; Point dimension is different than cuboid's one.")
         else:
             for i in range(0,len(point)):
                 if (point[i] < self.__dimensions[i].lowerBound) or (point[i] > self.__dimensions[i].upperBound):
