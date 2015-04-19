@@ -245,9 +245,6 @@ def synthetic_test_paper_2():
     Distorter().create_cluster_assessment_cloud(util.global_variables.K_CLOUD_DISTORTION,symbolClasses)
     #Distorter().create_k_clouds(util.global_variables.K_CLOUD_DISTORTION,symbolClasses)
 
-    Clusterer().computeClusters(symbolClasses)
-    Plot3D().renderPlot(symbolClasses)
-
     # COMPUTE CLUSTER EVALUATION
     console.write_header("Computing Cluster Evaluation")
     ps.cluster_evaluation(util.global_variables.MAX_K_CLUS_EVALUATION,symbolClasses)
