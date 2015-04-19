@@ -1,7 +1,7 @@
 import numpy as np
 from clustering.elllipsoid import Ellipsoid
 import util.global_variables as global_v
-from src.clustering.cuboid import Cuboid
+from clustering.cuboid import Cuboid
 
 '''
     Structure which holds all needed information about cluster.
