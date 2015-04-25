@@ -62,7 +62,7 @@ class BasicMembership:
         os.makedirs(os.path.join("..","log",global_v.DIR_NAME,str(self.percentage) + "_%",self.ellipsoids_folder), exist_ok=True)      
         rejected = []
         for cl in symbolClasses:
-            for point in cl.learning_set:
+            for point in cl.test_set:
                 in_how_many = []
                 for ellipsoid in self.ellipsoids:
                     if ellipsoid.ellipsoid.is_point_in_ellipsoid([point.characteristicsValues[:]],True) == 0:
@@ -87,7 +87,7 @@ class BasicMembership:
         os.makedirs(os.path.join("..","log",global_v.DIR_NAME,str(self.percentage) + "_%",self.cuboids_folder), exist_ok=True)      
         rejected = []
         for cl in symbolClasses:
-            for point in cl.learning_set:
+            for point in cl.test_set:
                 in_how_many = []
                 for cuboid in self.cuboids:
                     if cuboid.cuboid.is_point_in_cuboid(point.characteristicsValues[:]):
@@ -108,6 +108,62 @@ class BasicMembership:
         f1.close()
         f2.close()
         
+    def check_natives_ellipsoid_proper(self,symbolClasses, name_homo, name_non_homo):
+        os.makedirs(os.path.join("..","log",global_v.DIR_NAME,str(self.percentage) + "_%",self.ellipsoids_folder), exist_ok=True)      
+        rejected = []
+        
+        total_count = 0
+        belongs_count = 0
+        
+        for cl in symbolClasses:
+            for point in cl.test_set:
+                total_count += 1
+                for ellipsoid in self.ellipsoids:
+                    if ellipsoid.ellipsoid.is_point_in_ellipsoid([point.characteristicsValues[:]],True) == 0:
+                        belongs_count += 1
+                        break;
+
+        TP = (belongs_count/total_count)*100
+        FN = 100 - TP
+        
+        f1 = open(os.path.join("..","log",global_v.DIR_NAME,str(self.percentage) + "_%",self.ellipsoids_folder,"m_"+name_homo+".txt"), 'a')   
+        f2 = open(os.path.join("..","log",global_v.DIR_NAME,str(self.percentage) + "_%",self.ellipsoids_folder,"m_"+name_non_homo+".txt"), 'a')         
+        tp_string = "Native:   TP ="+ str(TP) + "% (" + str(belongs_count) + "/" +str(total_count)+ ")  "
+        fn_string = "|| FN ="+ str(FN) + "% (" + str(total_count - belongs_count) + "/" +str(total_count) + ")  \n"
+        f1.write(tp_string + fn_string)
+        f2.write(tp_string + fn_string)
+        
+        f1.close()
+        f2.close()
+ 
+    def check_natives_cuboid_proper(self,symbolClasses, name_homo, name_non_homo):
+        os.makedirs(os.path.join("..","log",global_v.DIR_NAME,str(self.percentage) + "_%",self.cuboids_folder), exist_ok=True)      
+        rejected = []
+        
+        total_count = 0
+        belongs_count = 0
+        
+        for cl in symbolClasses:
+            for point in cl.test_set:
+                total_count += 1
+                for cuboid in self.cuboids:
+                    if cuboid.cuboid.is_point_in_cuboid(point.characteristicsValues[:]):
+                        belongs_count += 1
+                        break; 
+        
+        TP = (belongs_count/total_count)*100
+        FN = 100 - TP
+
+        f1 = open(os.path.join("..","log",global_v.DIR_NAME,str(self.percentage) + "_%",self.cuboids_folder,"m_"+name_homo+".txt"), 'a')   
+        f2 = open(os.path.join("..","log",global_v.DIR_NAME,str(self.percentage) + "_%",self.cuboids_folder,"m_"+name_non_homo+".txt"), 'a')         
+        tp_string = "Native:   TP ="+ str(TP) + "% (" + str(belongs_count) + "/" +str(total_count)+ ")  "
+        fn_string = "|| FN ="+ str(FN) + "% (" + str(total_count - belongs_count) + "/" +str(total_count) + ")  \n"
+        f1.write(tp_string + fn_string)
+        f2.write(tp_string + fn_string)
+        
+        f1.close()
+        f2.close()
+
     '''
     '''
     def check_foreign_ellipsoid(self, foreigns,name):

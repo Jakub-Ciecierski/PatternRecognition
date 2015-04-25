@@ -125,7 +125,7 @@ class Distorter:
                 # randomize position around a given class(based on position)
                 distortedClass.characteristicsValues = self.__generate_distortion(
                                                                 cl.characteristicsValues[:],
-                                                                8.6)
+                                                                3.6)
                 
                 scope =  int((global_v.N_LEARNING)/k)
                 for j in range (0, scope):

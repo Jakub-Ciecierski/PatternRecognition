@@ -3,6 +3,7 @@ from symbols.symbol_class import SymbolClass
 from util.color_chooser import ColorChooser
 import util.global_variables as global_v
 from test.test_importlib.extension.util import FILEPATH
+import random
 
 '''
     Reads all the sheets and every row attached to it
@@ -46,7 +47,8 @@ def load_native_xls():
                 characteristics.append(currentValue)
             distortedClass = SymbolClass(symbolClass.name, symbolClass.color)
             distortedClass.characteristicsValues = characteristics
-            symbolClass.learning_set.append(distortedClass)
+            random.choice((symbolClass.learning_set,symbolClass.test_set)).append(distortedClass)
+            #symbolClass.learning_set.append(distortedClass)
 
             #symbolClasses.append(symbolClass)
     return symbolClasses
