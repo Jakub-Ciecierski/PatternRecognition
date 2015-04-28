@@ -188,6 +188,8 @@ def synthetic_test_paper_1():
     membership = BasicMembership(symbolClasses)
     membership.shrink_objects(0)  # just to write to he file
     
+    Plot3D().render2(symbolClasses, membership)
+    
     for i in range(0,5):
         # Check native
         membership.check_natives_ellipsoid_proper(symbolClasses[:],"foreign_homo","foreign_non_homo")
@@ -200,9 +202,8 @@ def synthetic_test_paper_1():
         # Shrink
         if i != 4:
             membership.shrink_objects(5)
+        Plot3D().render2(symbolClasses, membership)
 
-
-    
     
 def semisynthetic_test_paper_1():
     console.write_header("Loading Native symbols")
@@ -212,11 +213,13 @@ def semisynthetic_test_paper_1():
 
     util.global_variables.CLASS_NUM = len(symbolClasses)
     util.global_variables.CHAR_NUM = len(symbolClasses[0].learning_set[0].characteristicsValues)
-    
+           
     # CREATE ELLIPSOIDS AND CUBOIDS FOR EACH LEARNING SET
     console.write_header("Generating Convex and Compact Sets")
     membership = BasicMembership(symbolClasses, False)
     membership.shrink_objects(0)  # just to write to he file
+    
+
     
     for i in range(0,5):
         # Check native

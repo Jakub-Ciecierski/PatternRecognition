@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
+import numpy as np
 from mpl_toolkits.mplot3d.axes3d import Axes3D
 import util.global_variables as global_v
-
+from itertools import product, combinations
 '''
     In charge of plotting data onto 3D sketch.
 '''
@@ -22,6 +23,47 @@ class Plot3D:
         if(global_v.CHAR_NUM == 3):
             print("Rendering 3D plot.")
             self.__render(symbolClasses, foreignSymbols)
+        else:
+            print("Cannot create 3D plot - number of characteristics != 3")
+    
+    
+    def render2(self, symbolClasses, membership):
+        if(global_v.CHAR_NUM == 3):
+            print("Rendering 3D plot.")
+            x,y,z, colors = [],[],[],[]
+            for symbolClass in symbolClasses:
+                for points in symbolClass.learning_set:
+                    x.append(points.characteristicsValues[0])
+                    y.append(points.characteristicsValues[1])
+                    z.append(points.characteristicsValues[2])
+                    colors.append(symbolClass.color)
+  
+            # Draw all points        
+            self.axes.scatter(x, y, z, c=colors, s=10, linewidth='0', alpha = 0.45, marker='o')
+            
+            # Add 2D label of the plot
+            self.__generate_labels(symbolClasses)
+            
+            # DRAW ELLIPSOIDS
+            for ellipsoid in membership.ellipsoids:
+                ex, ey, ez = ellipsoid.ellipsoid.get_points()
+                self.axes.plot_wireframe(ex, ey, ez, color="black", alpha=0.04)
+            
+            for cuboid in membership.cuboids:
+                for s, e in combinations(np.array(list(product([cuboid.cuboid.dimensions[0].lowerBound,cuboid.cuboid.dimensions[0].upperBound ],
+                                                               [cuboid.cuboid.dimensions[1].lowerBound,cuboid.cuboid.dimensions[1].upperBound],
+                                                               [cuboid.cuboid.dimensions[2].lowerBound,cuboid.cuboid.dimensions[2].upperBound]))), 2):
+                    if np.sum(np.abs(s-e)) == np.abs(cuboid.cuboid.dimensions[0].lowerBound-cuboid.cuboid.dimensions[0].upperBound):
+                        self.axes.plot3D(*zip(s,e), color="b")
+                    if np.sum(np.abs(s-e)) == np.abs(cuboid.cuboid.dimensions[1].lowerBound-cuboid.cuboid.dimensions[1].upperBound):
+                        self.axes.plot3D(*zip(s,e), color="b")
+                    if np.sum(np.abs(s-e)) == np.abs(cuboid.cuboid.dimensions[2].lowerBound-cuboid.cuboid.dimensions[2].upperBound):
+                        self.axes.plot3D(*zip(s,e), color="black", alpha=0.5)
+                
+            plt.show()
+            
+            
+            
         else:
             print("Cannot create 3D plot - number of characteristics != 3")
     

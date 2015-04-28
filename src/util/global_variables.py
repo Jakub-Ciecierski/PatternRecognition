@@ -91,7 +91,7 @@ SEMI_AXIS_SCALE = 1.0
     tolerance can be take. Default value is 1 and there is no need 
     to go below it. Really.
 '''
-ELLPSD_TRESH = 1.001
+ELLPSD_TRESH = 1.02
 
 '''
     Accuracy of Minimum Volume Enclosing Ellipsoid method.
