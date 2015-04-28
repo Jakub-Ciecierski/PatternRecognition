@@ -117,9 +117,9 @@ class MatricesBatch:
                     # FOREIGN | NON HOMO | NATIVE CLASS
                     self.__m_conf_nonhomo_foreign[0][native_no] += value
             
-    def summarization(self, class_n, set_type, m_type):
+    def summarization(self, class_n, set_type, m_type, appender=""):
         # Print out results  
-        f = open(os.path.join(self.__path,"r" + str(self.__radius_val)+"_"+str(set_type.name)+"_summary.txt"), 'a')
+        f = open(os.path.join(self.__path,"r" + str(self.__radius_val)+"_"+str(set_type.name)+appender+"_summary.txt"), 'a')
         self.double_print(">> Symbol:", [class_n],f)
         self.double_print("Unambiguous points:                            ",
               self.data(-1, class_n, DataInfo.GET, set_type, m_type, DataInfo.NATIVE_CLASS, class_n),f)
@@ -151,11 +151,11 @@ class MatricesBatch:
                 
         if(set_type == DataInfo.FOREIGN):
             if(m_type == DataInfo.HOMO):
-                f = open(os.path.join(self.__path,"r" + str(self.__radius_val)+"__m_conf_foreign_homo.txt"), 'w')
+                f = open(os.path.join(self.__path,"r" + str(self.__radius_val)+"__m_conf_foreign_ellipsoid.txt"), 'w')
                 self.__print(f,self.__m_conf_homo_foreign, util.global_variables.CLASS_NUM*util.global_variables.N_LEARNING)
                 f.close()
             if(m_type == DataInfo.NONHOMO):
-                f = open(os.path.join(self.__path,"r" + str(self.__radius_val)+"__m_conf_foreign_non_homo.txt"), 'w')
+                f = open(os.path.join(self.__path,"r" + str(self.__radius_val)+"__m_conf_foreign_cuboid.txt"), 'w')
                 self.__print(f,self.__m_conf_nonhomo_foreign, util.global_variables.CLASS_NUM*util.global_variables.N_LEARNING)
                 f.close()
     '''

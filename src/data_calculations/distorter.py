@@ -95,7 +95,7 @@ class Distorter:
                     
                     values = []
                     for v in range(0,len(cl.characteristicsValues)):
-                        values.append(cl.characteristicsValues[v] + (cl.characteristicsValues[v]*i*5) )
+                        values.append(cl.characteristicsValues[v] + (cl.characteristicsValues[v]*i*0.2) )
                     
                     # randomize position around a given class(based on position)
                     distortedClass.characteristicsValues = self.__generate_distortion(
@@ -108,10 +108,32 @@ class Distorter:
                     
                     values = []
                     for v in range(0,len(cl.characteristicsValues)):
-                        values.append(cl.characteristicsValues[v] + (cl.characteristicsValues[v]*i*5) )
+                        values.append(cl.characteristicsValues[v] + (cl.characteristicsValues[v]*i*0.2) )
                     
                     # randomize position around a given class(based on position)
                     distortedClass.characteristicsValues = self.__generate_distortion(
                                                                     values,
                                                                     global_v.HOMO_STD_DEV)
                     cl.test_set.append(distortedClass)
+
+    def create_cluster_assessment_cloud(self, k, symbolClasses):
+        for cl in symbolClasses:
+            for i in range(0, k):
+    
+                # instance of new symbol
+                distortedClass = SymbolClass(cl.name, cl.color)
+                # randomize position around a given class(based on position)
+                distortedClass.characteristicsValues = self.__generate_distortion(
+                                                                cl.characteristicsValues[:],
+                                                                3.6)
+                
+                scope =  int((global_v.N_LEARNING)/k)
+                for j in range (0, scope):
+                    cloud_point = SymbolClass(cl.name, cl.color)
+                    cloud_point.characteristicsValues = self.__generate_distortion(
+                                                                distortedClass.characteristicsValues[:], 
+                                                                1.0)
+                    cl.learning_set.append(cloud_point)
+
+            # Info about number of created points
+            console.write_non_homo(cl.name, int(k), "Symbol Class", "Groups")

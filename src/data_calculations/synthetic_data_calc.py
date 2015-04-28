@@ -12,7 +12,7 @@ def init():
 # init() creates useless folders from point of view of "paper tests"
 if (global_v.TEST_TYPE != global_v.TestType.SEMISYNTHETIC_PAPER_1 and
         global_v.TEST_TYPE != global_v.TestType.SYNTHETIC_PAPER_1):
-    radiuses = [1, 0.95, 0.90, 0.85, 0.80]
+    radiuses = [1]
     results_data = init()
 
 def ambiguity_for_different_radiuses(symbolClasses, foreignClassesHomo= [], foreignClassesNonHomo= []):
@@ -104,6 +104,31 @@ def ambiguity_for_different_radiuses_real_data(symbolClasses, foreignClasses):
         results_data.batch(r).print_matrix(DataInfo.FOREIGN, DataInfo.HOMO)
 
 
+def ambiguity_for_real_data(symbolClasses, foreignClasses, which_test = True):
+    global results_data 
+    results_data = init() 
+    r = 0
+
+    path = os.path.join("..","log",global_v.DIR_NAME,"r"+str(radiuses[r]))
+    os.makedirs(path, exist_ok=True)
+
+    # ellipsoid or cuboid
+    if which_test:
+        print("\n        MEMBERSHIP RESULTS [LEARN SET ELLIPSOID]")
+        ambiguity_test(DataInfo.LEARN, r, symbolClasses)
+        
+        print("\n\n        MEMBERSHIP RESULTS [ELLIPSOID]")
+        foreign_ambiguity_test(DataInfo.HOMO, r, foreignClasses, symbolClasses, which_test)
+        results_data.batch(r).print_matrix(DataInfo.FOREIGN, DataInfo.HOMO)
+    else:
+        print("\n        MEMBERSHIP RESULTS [LEARN SET CUBOID]")
+        ambiguity_test_cuboid(DataInfo.LEARN, r, symbolClasses)
+        
+        print("\n\n        MEMBERSHIP RESULTS [CUBOID]")
+        foreign_ambiguity_test(DataInfo.NONHOMO, r, foreignClasses, symbolClasses, which_test)
+        results_data.batch(r).print_matrix(DataInfo.FOREIGN, DataInfo.NONHOMO)
+
+
 '''
     TODO
 '''
@@ -135,10 +160,44 @@ def ambiguity_test(set_type, radius, symbolClasses):
             group_assigment(radius, i,DataInfo.EUCL, ambiguous_ellipsoids, in_corrected, set_type,point.characteristicsValues[:])
         
         # Print out results  
-        results_data.batch(radius).summarization(i, set_type, DataInfo.BASIC) 
+        results_data.batch(radius).summarization(i, set_type, DataInfo.BASIC, appender="ellipsoid") 
          
     results_data.batch(radius).print_matrix(set_type, DataInfo.BASIC)
     results_data.batch(radius).print_matrix(set_type, DataInfo.EUCL)    
+
+def ambiguity_test_cuboid(set_type, radius, symbolClasses):
+    for i in range(0, len(symbolClasses)):
+        if(set_type == DataInfo.LEARN):
+            set_to_test = symbolClasses[i].learning_set
+            global_v.N_LEARNING = len(symbolClasses[i].learning_set)
+        if(set_type == DataInfo.TEST):
+            set_to_test = symbolClasses[i].test_set
+            global_v.N_TEST = len(symbolClasses[i].test_set)
+            
+        for point in set_to_test:
+            # Does point belong to the right one ?
+            in_corrected = False
+            ambiguous_cuboids =[]
+            
+            for cl_check in symbolClasses:
+                for check_cluster in cl_check.clusters:
+                    accepted = check_cluster.cuboid.is_point_in_cuboid(point.characteristicsValues[:])
+                    if accepted:
+                        ambiguous_cuboids.append(EuclidianData(int(cl_check.name), check_cluster.ellipsoid.center))
+                        if(symbolClasses[i].name == cl_check.name):
+                            in_corrected = True
+                        
+   
+            # Based on information we decide to which group assign our point
+            group_assigment(radius, i,DataInfo.BASIC, ambiguous_cuboids, in_corrected, set_type, point.characteristicsValues[:])
+            group_assigment(radius, i,DataInfo.EUCL, ambiguous_cuboids, in_corrected, set_type,point.characteristicsValues[:])
+        
+        # Print out results  
+        results_data.batch(radius).summarization(i, set_type, DataInfo.BASIC, appender="cuboid") 
+         
+    results_data.batch(radius).print_matrix(set_type, DataInfo.BASIC)
+    results_data.batch(radius).print_matrix(set_type, DataInfo.EUCL)    
+
 '''
     TODO
 '''
@@ -191,9 +250,12 @@ def determine_closer_ellipsoid(ambiguous_ellipsoids, point):
 '''
     Process of ambiguity test for foreign symbols.
 '''
-def foreign_ambiguity_test(m_type, radius, foreignClasses, symbolClasses):
+def foreign_ambiguity_test(m_type, radius, foreignClasses, symbolClasses, which_test = True):
     # compute Strict classification, ambiguous count, and rejection count
-    stric_class, amb_count, rejected_count = f_rej.accuracy_of_rejecting_confusion(foreignClasses, symbolClasses)
+    if which_test:
+        stric_class, amb_count, rejected_count = f_rej.accuracy_of_rejecting_confusion(foreignClasses, symbolClasses)
+    else:
+        stric_class, amb_count, rejected_count = f_rej.accuracy_of_rejecting_cuboid(foreignClasses, symbolClasses)
 
     # safe results to batch
     results_data.batch(radius).data(amb_count, 0, DataInfo.SAVE, DataInfo.FOREIGN, m_type, 

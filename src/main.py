@@ -34,3 +34,12 @@ if util.global_variables.TEST_TYPE == util.global_variables.TestType.SYNTHETIC_P
     
 if util.global_variables.TEST_TYPE == util.global_variables.TestType.SEMISYNTHETIC_PAPER_1:
     tests.semisynthetic_test_paper_1()
+
+if util.global_variables.TEST_TYPE == util.global_variables.TestType.SYNTHETIC_PAPER_2:
+    tests.synthetic_test_paper_2()
+    
+if util.global_variables.TEST_TYPE == util.global_variables.TestType.SEMISYNTHETIC_PAPER_2:
+    tests.semisynthetic_test_paper_2()
+    
+if util.global_variables.TEST_TYPE == util.global_variables.TestType.STATIC_K_SEMISYNTHETIC_PAPER_2:
+    tests.static_k_semisynthetic_test_paper_2()

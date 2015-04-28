@@ -59,7 +59,7 @@ class Plot3D:
                     y.append(point[1])
                     z.append(point[2])
                     colors.append(symbolClass.color)
-                    self.__connect_by_line(point, centroid)
+                    #self.__connect_by_line(point, centroid)
                     
                 # Draw centroid
                 self.axes.scatter(centroid[0], centroid[1], centroid[2], c=symbolClass.color,
@@ -69,8 +69,8 @@ class Plot3D:
                 self.axes.scatter(cluster.rejected_x, cluster.rejected_y, cluster.rejected_z, c='r',marker='x', s=50 )
                 
                 # Draw ellipsoid
-                ex, ey, ez = cluster.ellipsoid.get_points()
-                self.axes.plot_wireframe(ex, ey, ez, color="black", alpha=0.04)
+                #ex, ey, ez = cluster.ellipsoid.get_points()
+                #self.axes.plot_wireframe(ex, ey, ez, color="black", alpha=0.04)
 
         # Draw all points        
         self.axes.scatter(x, y, z, c=colors, s=10, linewidth='0', alpha = 0.45, marker='o')

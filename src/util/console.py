@@ -13,9 +13,10 @@ subpoint_indent = "        "
 def parse_argv(argv):
     # Gather up flags
     try:                                
-        opts, args = getopt.getopt(argv, "1234567c:h:f:t:l:m:s:d:e:b:g:x:z:k:", ["test-type-1","test-type-2",
+        opts, args = getopt.getopt(argv, "123456789c:h:f:t:l:m:s:d:e:b:g:x:z:k:", ["test-type-1","test-type-2",
                                                                           "test-type-3","test-type-4",
                                                                           "test-type-5","test-type-6","test-type-7",
+                                                                          "test-type-8", "test-type-9",
                                                                    "classes=","characteristics=","log=","test=",
                                                                    "learn=","mvee=","k-cloud=","homo-std=",
                                                                    "eucl-min=", "n-file=", "f-file=",
@@ -42,11 +43,15 @@ def parse_argv(argv):
         elif opt in ("-4", "--test-type-4"):
             util.global_variables.TEST_TYPE = util.global_variables.TestType.REAL_DATA
         elif opt in ("-5", "--test-type-5"):
-            util.global_variables.TEST_TYPE = util.global_variables.TestType.REAL_DATA_STATIC_K
+            util.global_variables.TEST_TYPE = util.global_variables.TestType.STATIC_K_SEMISYNTHETIC_PAPER_2
         elif opt in ("-6", "--test-type-6"):
             util.global_variables.TEST_TYPE = util.global_variables.TestType.SYNTHETIC_PAPER_1
         elif opt in ("-7", "--test-type-7"):
             util.global_variables.TEST_TYPE = util.global_variables.TestType.SEMISYNTHETIC_PAPER_1
+        elif opt in ("-8", "--test-type-8"):
+            util.global_variables.TEST_TYPE = util.global_variables.TestType.SYNTHETIC_PAPER_2
+        elif opt in ("-9", "--test-type-9"):
+            util.global_variables.TEST_TYPE = util.global_variables.TestType.SEMISYNTHETIC_PAPER_2
         elif opt in ("-t", "--test"):
             util.global_variables.N_TEST = int(arg)
         elif opt in ("-l", "--learn"):

@@ -1,6 +1,7 @@
 import numpy as np
 from clustering.elllipsoid import Ellipsoid
 import util.global_variables as global_v
+from clustering.cuboid import Cuboid
 
 '''
     Structure which holds all needed information about cluster.
@@ -10,9 +11,11 @@ class Cluster:
     This class holds data about single cluster,
     its center and points around it
     """
-    def __init__(self, centroid, points, name, number, give_info = True, do_ellipsoid = True):
+    def __init__(self, centroid, points, name, number, give_info = True, do_ellipsoid = True, do_cuboid = True):
         self.center = centroid
         self.points = points
+        if do_cuboid:
+            self.cuboid = Cuboid(self.points)
         if do_ellipsoid:
             self.ellipsoid = Ellipsoid(self.points, global_v.SEMI_AXIS_SCALE)
             if(global_v.CHAR_NUM == 3):    

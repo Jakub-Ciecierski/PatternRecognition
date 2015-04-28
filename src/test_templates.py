@@ -11,7 +11,7 @@ import util.loader as loader
 import clustering.prediction_strength as ps
 import data_calculations.matrices_batch as mb
 from data_calculations.basic_membership import BasicMembership
-
+import data_calculations.paper2_calc as paper2
 
 
 '''
@@ -190,8 +190,8 @@ def synthetic_test_paper_1():
     
     for i in range(0,5):
         # Check native
-        membership.check_natives_ellipsoid(symbolClasses[:],"foreign_homo","foreign_non_homo") 
-        membership.check_natives_cuboid(symbolClasses[:],"foreign_homo","foreign_non_homo") 
+        membership.check_natives_ellipsoid_proper(symbolClasses[:],"foreign_homo","foreign_non_homo")
+        membership.check_natives_cuboid_proper(symbolClasses[:],"foreign_homo","foreign_non_homo") 
         # Check foreign
         membership.check_foreign_ellipsoid(foreignClassesHomo,      "foreign_homo")
         membership.check_foreign_ellipsoid(foreignClassesNonHomo,   "foreign_non_homo")
@@ -220,11 +220,68 @@ def semisynthetic_test_paper_1():
     
     for i in range(0,5):
         # Check native
-        membership.check_natives_ellipsoid(symbolClasses[:],"foreign_REAL","foreign_REAL") 
-        membership.check_natives_cuboid(symbolClasses[:],"foreign_REAL","foreign_REAL") 
+        membership.check_natives_ellipsoid_proper(symbolClasses[:],"foreign_REAL","foreign_REAL")
+        membership.check_natives_cuboid_proper(symbolClasses[:],"foreign_REAL","foreign_REAL")  
         # Check foreign
         membership.check_foreign_ellipsoid(foreignClasses,      "foreign_REAL")
         membership.check_foreign_cuboids(foreignClasses,     "foreign_REAL")
         # Shrink
         if i != 4:
-            membership.shrink_objects(5)    
+            membership.shrink_objects(5)
+
+def synthetic_test_paper_2():
+    # CREATE CHAR_NUM CHARACTERISTICS
+    console.write_header("Creating Characteristics")
+    characteristics = []
+    data.generate_characteristic(characteristics)
+
+    # CREATE CLASS_NUM SYMBOL CLASSES
+    console.write_header(" Creating Symbol Classes")
+    symbolClasses = []
+    data.generate_symbol_classes(symbolClasses, characteristics)
+
+    # CREATE CLOUD DISTORTION IN NATIVE SET
+    console.write_header("Computing K cloud Distortion")
+    Distorter().create_cluster_assessment_cloud(util.global_variables.K_CLOUD_DISTORTION,symbolClasses)
+    #Distorter().create_k_clouds(util.global_variables.K_CLOUD_DISTORTION,symbolClasses)
+
+    Clusterer().computeClusters(symbolClasses[:])
+    Plot3D().renderPlot(symbolClasses)
+    
+
+    # COMPUTE CLUSTER EVALUATION
+    console.write_header("Computing Cluster Evaluation")
+    ps.cluster_evaluation(util.global_variables.MAX_K_CLUS_EVALUATION,symbolClasses)
+
+def semisynthetic_test_paper_2():
+    console.write_header("Loading Native symbols")
+    symbolClasses = loader.load_native_xls()
+    console.write_header("Loading Foreign symbols")
+    foreignClasses = loader.load_foreign_xls()
+
+    util.global_variables.CLASS_NUM = len(symbolClasses)
+    util.global_variables.CHAR_NUM = len(symbolClasses[0].learning_set[0].characteristicsValues)
+    
+    # COMPUTE CLUSTER EVALUATION
+    for c in range(0, util.global_variables.CLASS_NUM):
+        console.write_header("Computing Cluster Evaluation")
+        best_k = ps.cluster_evaluation(util.global_variables.MAX_K_CLUS_EVALUATION, symbolClasses[c:c+1])
+        util.global_variables.K = best_k[0]
+        console.write_header("Computing Clusters with K:", str(util.global_variables.K))
+        Clusterer().computeClusters(symbolClasses[c:c+1])
+
+    paper2.compute(symbolClasses, foreignClasses)
+    
+def static_k_semisynthetic_test_paper_2():
+    console.write_header("Loading Native symbols")
+    symbolClasses = loader.load_native_xls()
+    console.write_header("Loading Foreign symbols")
+    foreignClasses = loader.load_foreign_xls()
+
+    util.global_variables.CLASS_NUM = len(symbolClasses)
+    util.global_variables.CHAR_NUM = len(symbolClasses[0].learning_set[0].characteristicsValues)
+    
+
+    Clusterer().computeClusters(symbolClasses)
+
+    paper2.compute(symbolClasses, foreignClasses)

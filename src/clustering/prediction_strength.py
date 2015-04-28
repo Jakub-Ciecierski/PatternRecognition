@@ -39,7 +39,7 @@ def cluster_evaluation(max_k, symbolClasses):
             avg_ps /= global_v.MAX_ITER_CLUS_EVALUATION
             double_print(">> prediction_strength("+str(k)+") = ", avg_ps, file, ending="\n")
 
-            if max_ps < avg_ps:
+            if max_ps <= avg_ps:
                 max_ps = avg_ps
                 best_k = k
 
@@ -188,7 +188,8 @@ def computeClusters(k, data):
             if labels[c] == j:
                 points.append(data[c].characteristicsValues)
 
-        cluster = Cluster(centroids[j],points, data[c].name, j, give_info = False, do_ellipsoid=False)
+        cluster = Cluster(centroids[j],points, data[c].name, j, give_info = False, 
+                          do_ellipsoid=False, do_cuboid=False)
         clusters.append(cluster)
     return clusters
 
