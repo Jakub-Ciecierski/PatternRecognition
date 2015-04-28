@@ -36,6 +36,25 @@ class Ellipsoid:
         it computes set of points, which can be easily used
         to render the shape.
     '''
+    def __create_3d_representation_new(self):
+        # Points to representing the shape(ellipsoid)
+        u,v = np.mgrid[0:2*np.pi:20j, 0:np.pi:20j]
+        
+        # Calculate each semi-axis   
+        s_a_x, s_a_y, s_a_z = 1./np.sqrt(self.E)
+        
+        # Ellipsoid centered at origin; not rotated 
+        origin_x = s_a_x * np.cos(u) 
+        origin_y = s_a_y * np.sin(u) 
+        origin_z = 0 * u
+        
+        # Rotate and move to the center
+        ellipsoid = np.dstack([origin_x, origin_y, origin_z])
+        ellipsoid = np.dot(ellipsoid,self.V) + self.center
+        x, y, z = np.rollaxis(ellipsoid, axis = -1)
+        
+        return x, y, z
+    
     def __create_3d_representation(self):
         # Points to representing the shape(ellipsoid)
         u,v = np.mgrid[0:2*np.pi:20j, 0:np.pi:20j]
@@ -54,6 +73,8 @@ class Ellipsoid:
         x, y, z = np.rollaxis(ellipsoid, axis = -1)
         
         return x, y, z
+    
+
     
     '''
         When scaling factor of semi-axes comes into game, 

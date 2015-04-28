@@ -66,11 +66,11 @@ class Plot3D:
                        s=40, marker='o')
                 
                 # Draw points mark as rejected from ellipsoid
-                self.axes.scatter(cluster.rejected_x, cluster.rejected_y, cluster.rejected_z, c='r',marker='x', s=50 )
+                #self.axes.scatter(cluster.rejected_x, cluster.rejected_y, cluster.rejected_z, c='r',marker='x', s=50 )
                 
                 # Draw ellipsoid
-                #ex, ey, ez = cluster.ellipsoid.get_points()
-                #self.axes.plot_wireframe(ex, ey, ez, color="black", alpha=0.04)
+                ex, ey, ez = cluster.ellipsoid.get_points()
+                self.axes.plot_wireframe(ex, ey, ez, color="black", alpha=0.09)
 
         # Draw all points        
         self.axes.scatter(x, y, z, c=colors, s=10, linewidth='0', alpha = 0.45, marker='o')
@@ -94,6 +94,76 @@ class Plot3D:
         print("3D plot scale uniformed:", global_v.UNIFORM_SCALE)
         
         return axes
+    
+    
+    
+    def __render2d(self,symbolClasses, foreignSymbols):
+        x,y,z, colors = [],[],[],[]
+        
+        if len(foreignSymbols):
+            for fSymbol in foreignSymbols:
+                fx = fSymbol.characteristicsValues[0]
+                fy = fSymbol.characteristicsValues[1]
+                fz = fSymbol.characteristicsValues[2]
+                fc = fSymbol.color
+                if len(fSymbol.clusters):
+                    self.__connect_by_line(fSymbol.characteristicsValues, fSymbol.clusters[0].center)
+                    fsize = 50
+                    falpha = 1
+                    fmarker = '^'
+                else:
+                    fsize = 20
+                    falpha = 0.45
+                    fmarker = '^'
+                self.axes.scatter(fx, fy, fz, c=fc, s=fsize, linewidth='0', alpha = falpha , marker=fmarker)
+        
+        for symbolClass in symbolClasses:
+            for cluster in symbolClass.clusters:
+                centroid = cluster.center
+                
+                # Gather points and colors.
+                for point in cluster.points:
+                    x.append(point[0])
+                    y.append(point[1])
+                    z.append(0)
+                    colors.append(symbolClass.color)
+                    #self.__connect_by_line(point, centroid)
+                    
+                # Draw centroid
+                self.axes.scatter(centroid[0], centroid[1], centroid[2], c=symbolClass.color,
+                       s=40, marker='o')
+                
+                # Draw points mark as rejected from ellipsoid
+                #self.axes.scatter(cluster.rejected_x, cluster.rejected_y, cluster.rejected_z, c='r',marker='x', s=50 )
+                
+                # Draw ellipsoid
+                ex, ey, ez = cluster.ellipsoid.get_points()
+                self.axes.plot_wireframe(ex, ey, ez, color="black", alpha=0.05)
+
+        # Draw all points        
+        self.axes.scatter(x, y, z, c=colors, s=10, linewidth='0', alpha = 0.45, marker='o')
+        
+        # Add 2D label of the plot
+        self.__generate_labels(symbolClasses)
+        
+        plt.show()
+        
+    '''
+        Creates and returns axes object.
+        Scaling way is also check and applied if needed.
+    '''
+    def __create_axes(self):
+        axes = Axes3D(plt.figure())
+
+        if(global_v.UNIFORM_SCALE):
+            axes.set_xlim3d(global_v.CHAR_INTERVAL[0], global_v.CHAR_INTERVAL[1])
+            axes.set_ylim3d(global_v.CHAR_INTERVAL[0], global_v.CHAR_INTERVAL[1])
+            axes.set_zlim3d(global_v.CHAR_INTERVAL[0], global_v.CHAR_INTERVAL[1])
+        print("3D plot scale uniformed:", global_v.UNIFORM_SCALE)
+        
+        return axes
+    
+    
     
     '''
         Encapsulates process of rendering a line between given points.

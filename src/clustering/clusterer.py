@@ -18,6 +18,7 @@ class Clusterer:
     """
     def computeClusters(self, symbolClasses):
         for cl in symbolClasses:
+            cl.clusters = []
             distortedClassesOfSingleClass = cl.learning_set[:]
     
             centroids, labels = self.__computeClusters(distortedClassesOfSingleClass)

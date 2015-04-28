@@ -1,4 +1,5 @@
 import random
+import util.global_variables as global_v
 
 '''
     Simple class for random color picking.
@@ -27,9 +28,16 @@ class ColorChooser:
             "salmon"]
     
     def get_color(self):
+        if global_v.WHICH_COLOR == 0:
+            global_v.WHICH_COLOR += 1
+            return "red"
+        else:
+            return "indigo"
+        
         _c = random.choice(self.colors)
         self.colors.remove(_c)
         return _c
+
     
     def getForeignColor(self):
         return "black"

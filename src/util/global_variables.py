@@ -1,9 +1,11 @@
 from enum import Enum
 
+WHICH_COLOR = 0
+
 '''
     Number of different symbol classes.
 '''
-CLASS_NUM = 1
+CLASS_NUM = 2
 
 '''
     Number of characteristics for each symbol class.
@@ -47,7 +49,7 @@ DIST_DIV = 1
 '''
     Number of clusters per symbol class.
 '''
-K = 3
+K = 2
 
 '''
     Minimum distance between centers of every symbol(euclidian)
@@ -73,12 +75,12 @@ MAX_K_CLUS_EVALUATION = 7
     The number of iteration that cluster evaluation for each k should
     be repeated.
 '''
-MAX_ITER_CLUS_EVALUATION = 10
+MAX_ITER_CLUS_EVALUATION = 1
 
 '''
     Number of clouds in native distortion
 '''
-K_CLOUD_DISTORTION = 4
+K_CLOUD_DISTORTION = 2
 
 '''
     Each ellipsoid's semi-axis will be scaled by this factor.

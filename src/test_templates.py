@@ -60,8 +60,8 @@ def grouping_assessment():
     data.generate_symbol_classes(symbolClasses, characteristics)
     
     console.write_header("Computing K cloud Distortion")
-    Distorter().create_k_clouds(util.global_variables.K_CLOUD_DISTORTION,symbolClasses)
-    #Distorter().create_non_homogeneus_cloud(symbolClasses)
+    #Distorter().create_k_clouds(util.global_variables.K_CLOUD_DISTORTION,symbolClasses)
+    Distorter().create_non_homogeneus_cloud(symbolClasses)
     console.write_header("Computing Cluster Evaluation")
     ps.cluster_evaluation(util.global_variables.MAX_K_CLUS_EVALUATION,symbolClasses)
 
@@ -245,6 +245,42 @@ def synthetic_test_paper_2():
     Distorter().create_cluster_assessment_cloud(util.global_variables.K_CLOUD_DISTORTION,symbolClasses)
     #Distorter().create_k_clouds(util.global_variables.K_CLOUD_DISTORTION,symbolClasses)
 
+    util.global_variables.K = 2
+
+    Clusterer().computeClusters(symbolClasses[:])
+    Plot3D().renderPlot(symbolClasses)
+
+    util.global_variables.K = 1
+
+    Clusterer().computeClusters(symbolClasses[:])
+    Plot3D().renderPlot(symbolClasses)
+
+    util.global_variables.K = 3
+
+    Clusterer().computeClusters(symbolClasses[:])
+    Plot3D().renderPlot(symbolClasses)
+
+    # COMPUTE CLUSTER EVALUATION
+    #console.write_header("Computing Cluster Evaluation")
+    #ps.cluster_evaluation(util.global_variables.MAX_K_CLUS_EVALUATION,symbolClasses)
+
+
+def synthetic_test_paper_2_old():
+    # CREATE CHAR_NUM CHARACTERISTICS
+    console.write_header("Creating Characteristics")
+    characteristics = []
+    data.generate_characteristic(characteristics)
+
+    # CREATE CLASS_NUM SYMBOL CLASSES
+    console.write_header(" Creating Symbol Classes")
+    symbolClasses = []
+    data.generate_symbol_classes(symbolClasses, characteristics)
+
+    # CREATE CLOUD DISTORTION IN NATIVE SET
+    console.write_header("Computing K cloud Distortion")
+    Distorter().create_cluster_assessment_cloud(util.global_variables.K_CLOUD_DISTORTION,symbolClasses)
+    #Distorter().create_k_clouds(util.global_variables.K_CLOUD_DISTORTION,symbolClasses)
+
     Clusterer().computeClusters(symbolClasses[:])
     Plot3D().renderPlot(symbolClasses)
     
@@ -252,6 +288,7 @@ def synthetic_test_paper_2():
     # COMPUTE CLUSTER EVALUATION
     console.write_header("Computing Cluster Evaluation")
     ps.cluster_evaluation(util.global_variables.MAX_K_CLUS_EVALUATION,symbolClasses)
+
 
 def semisynthetic_test_paper_2():
     console.write_header("Loading Native symbols")

@@ -73,7 +73,7 @@ def prediction_strength(data, k):
     testClusters = computeClusters(k, test)
     
     # PLOT
-    #plot_clusters(learningClusters, testClusters)
+    plot_clusters(learningClusters, testClusters)
 
     #
     # Take set of points of each Test cluster and 
@@ -189,7 +189,7 @@ def computeClusters(k, data):
                 points.append(data[c].characteristicsValues)
 
         cluster = Cluster(centroids[j],points, data[c].name, j, give_info = False, 
-                          do_ellipsoid=False, do_cuboid=False)
+                          do_ellipsoid=True, do_cuboid=True)
         clusters.append(cluster)
     return clusters
 
