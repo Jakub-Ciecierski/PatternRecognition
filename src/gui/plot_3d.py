@@ -27,7 +27,7 @@ class Plot3D:
             print("Cannot create 3D plot - number of characteristics != 3")
     
     
-    def render2(self, symbolClasses, membership):
+    def render2(self, symbolClasses, membership,type):
         if(global_v.CHAR_NUM == 3):
             print("Rendering 3D plot.")
             x,y,z, colors = [],[],[],[]
@@ -45,21 +45,24 @@ class Plot3D:
             self.__generate_labels(symbolClasses)
             
             # DRAW ELLIPSOIDS
-            for ellipsoid in membership.ellipsoids:
-                ex, ey, ez = ellipsoid.ellipsoid.get_points()
-                self.axes.plot_wireframe(ex, ey, ez, color="black", alpha=0.04)
-            
-            for cuboid in membership.cuboids:
-                for s, e in combinations(np.array(list(product([cuboid.cuboid.dimensions[0].lowerBound,cuboid.cuboid.dimensions[0].upperBound ],
-                                                               [cuboid.cuboid.dimensions[1].lowerBound,cuboid.cuboid.dimensions[1].upperBound],
-                                                               [cuboid.cuboid.dimensions[2].lowerBound,cuboid.cuboid.dimensions[2].upperBound]))), 2):
-                    if np.sum(np.abs(s-e)) == np.abs(cuboid.cuboid.dimensions[0].lowerBound-cuboid.cuboid.dimensions[0].upperBound):
-                        self.axes.plot3D(*zip(s,e), color="b")
-                    if np.sum(np.abs(s-e)) == np.abs(cuboid.cuboid.dimensions[1].lowerBound-cuboid.cuboid.dimensions[1].upperBound):
-                        self.axes.plot3D(*zip(s,e), color="b")
-                    if np.sum(np.abs(s-e)) == np.abs(cuboid.cuboid.dimensions[2].lowerBound-cuboid.cuboid.dimensions[2].upperBound):
-                        self.axes.plot3D(*zip(s,e), color="black", alpha=0.5)
+            if type == "ellipsoids":
+                for ellipsoid in membership.ellipsoids:
+                    ex, ey, ez = ellipsoid.ellipsoid.get_points()
+                    self.axes.plot_wireframe(ex, ey, ez, color="black", alpha=0.09)
                 
+            # DRAW CUBOIDS
+            if type == "cuboids":
+                for cuboid in membership.cuboids:
+                    for s, e in combinations(np.array(list(product([cuboid.cuboid.dimensions[0].lowerBound,cuboid.cuboid.dimensions[0].upperBound ],
+                                                                   [cuboid.cuboid.dimensions[1].lowerBound,cuboid.cuboid.dimensions[1].upperBound],
+                                                                   [cuboid.cuboid.dimensions[2].lowerBound,cuboid.cuboid.dimensions[2].upperBound]))), 2):
+                        if np.sum(np.abs(s-e)) == np.abs(cuboid.cuboid.dimensions[0].lowerBound-cuboid.cuboid.dimensions[0].upperBound):
+                            self.axes.plot3D(*zip(s,e), color="black", alpha=0.3)
+                        if np.sum(np.abs(s-e)) == np.abs(cuboid.cuboid.dimensions[1].lowerBound-cuboid.cuboid.dimensions[1].upperBound):
+                            self.axes.plot3D(*zip(s,e), color="black", alpha=0.3)
+                        if np.sum(np.abs(s-e)) == np.abs(cuboid.cuboid.dimensions[2].lowerBound-cuboid.cuboid.dimensions[2].upperBound):
+                            self.axes.plot3D(*zip(s,e), color="black", alpha=0.3)
+                    
             plt.show()
             
             

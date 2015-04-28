@@ -188,7 +188,8 @@ def synthetic_test_paper_1():
     membership = BasicMembership(symbolClasses)
     membership.shrink_objects(0)  # just to write to he file
     
-    Plot3D().render2(symbolClasses, membership)
+    Plot3D().render2(symbolClasses, membership, "ellipsoids")
+    Plot3D().render2(symbolClasses, membership, "cuboids")
     
     for i in range(0,5):
         # Check native
@@ -202,7 +203,8 @@ def synthetic_test_paper_1():
         # Shrink
         if i != 4:
             membership.shrink_objects(5)
-        Plot3D().render2(symbolClasses, membership)
+        Plot3D().render2(symbolClasses, membership,"ellipsoids")
+        Plot3D().render2(symbolClasses, membership,"cuboids")
 
     
 def semisynthetic_test_paper_1():

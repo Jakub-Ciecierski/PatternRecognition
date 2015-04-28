@@ -48,7 +48,7 @@ def generate_symbol_classes(symbolClasses, characteristics):
             found = False
             for c in range(0,i):
                 eucl = euclidian_distance(symbolClasses[c].characteristicsValues[:], newCharacteristics[:])
-                if  eucl < global_v.EUCL_MIN_D and loopCounter > 0:
+                if  eucl > global_v.EUCL_MIN_D and loopCounter > 0:
                     found = True
             if(not found):
                 break
