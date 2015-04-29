@@ -3,6 +3,7 @@ import sys
 import util.global_variables 
 import data_calculations.synthetic_data_calc as synth_calc
 from gui.plot_3d import Plot3D
+from gui.plot_2d import Plot2D
 from clustering.clusterer import Clusterer
 from data_calculations.distorter import Distorter
 import data_calculations.data_manager as data
@@ -11,6 +12,7 @@ import util.loader as loader
 import clustering.prediction_strength as ps
 import data_calculations.matrices_batch as mb
 from data_calculations.basic_membership import BasicMembership
+from data_calculations.basic_membership import ObjectType
 import data_calculations.paper2_calc as paper2
 
 
@@ -187,9 +189,10 @@ def synthetic_test_paper_1():
     console.write_header("Generating Convex and Compact Sets")
     membership = BasicMembership(symbolClasses)
     membership.shrink_objects(0)  # just to write to he file
-    
-    Plot3D().render2(symbolClasses, membership, "ellipsoids")
-    Plot3D().render2(symbolClasses, membership, "cuboids")
+        
+    plot = Plot2D()
+    plot.renderPlot(symbolClasses, membership, ObjectType.ELLIPSOID)
+    plot.renderPlot(symbolClasses, membership, ObjectType.CUBOID)
     
     for i in range(0,5):
         # Check native
@@ -203,9 +206,8 @@ def synthetic_test_paper_1():
         # Shrink
         if i != 4:
             membership.shrink_objects(5)
-        Plot3D().render2(symbolClasses, membership,"ellipsoids")
-        Plot3D().render2(symbolClasses, membership,"cuboids")
-
+            plot.renderPlot(symbolClasses, membership, ObjectType.ELLIPSOID)
+            plot.renderPlot(symbolClasses, membership, ObjectType.CUBOID)
     
 def semisynthetic_test_paper_1():
     console.write_header("Loading Native symbols")

@@ -55,6 +55,10 @@ K = 2
     Minimum distance between centers of every symbol(euclidian)
 '''
 EUCL_MIN_D = 0.5
+'''
+    Minimum distance between centers of every symbol(euclidian)
+'''
+EUCL_MAX_D = 10
 
 '''
     Maximum number of iterations of the k-means algorithm to run.
@@ -182,3 +186,5 @@ XLS_START_ROW = 2
     How many columns to read, values bellow 0 means all column will be read
 '''
 XLS_MAX_COL = -1
+
+JAKI_OBCIACH = 1

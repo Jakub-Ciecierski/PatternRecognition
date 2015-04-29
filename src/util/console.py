@@ -13,14 +13,14 @@ subpoint_indent = "        "
 def parse_argv(argv):
     # Gather up flags
     try:                                
-        opts, args = getopt.getopt(argv, "123456789c:h:f:t:l:m:s:d:e:b:g:x:z:k:", ["test-type-1","test-type-2",
+        opts, args = getopt.getopt(argv, "123456789c:h:f:t:l:m:s:d:e:b:g:x:z:k:a:", ["test-type-1","test-type-2",
                                                                           "test-type-3","test-type-4",
                                                                           "test-type-5","test-type-6","test-type-7",
                                                                           "test-type-8", "test-type-9",
                                                                    "classes=","characteristics=","log=","test=",
                                                                    "learn=","mvee=","k-cloud=","homo-std=",
                                                                    "eucl-min=", "n-file=", "f-file=",
-                                                                   "xls-start-r=","xls-max-c=","k-clusters="])
+                                                                   "xls-start-r=","xls-max-c=","k-clusters=","eucl-max="])
         print(args)
     except getopt.GetoptError:          
         usage()                         
@@ -64,6 +64,8 @@ def parse_argv(argv):
             util.global_variables.HOMO_STD_DEV = float(arg)
         elif opt in ("-e", "--eucl-min"):
             util.global_variables.EUCL_MIN_D = float(arg)
+        elif opt in ("-a", "--eucl-max"):
+            util.global_variables.EUCL_MAX_D = float(arg)
         elif opt in ("-b", "--n-file"):
             util.global_variables.NATIVE_FILE_PATH = arg
         elif opt in ("-g", "--f-file"):

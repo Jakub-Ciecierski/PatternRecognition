@@ -35,7 +35,7 @@ def generate_symbol_classes(symbolClasses, characteristics):
     for i in range(0,global_v.CLASS_NUM):
         newSymbol =  SymbolClass(i, ColorChooser().get_color(), type = SymbolType.NATIVE_BASE)  
         
-        loopCounter = 200 # to control number of iterations
+        loopCounter = 20000 # to control number of iterations
         while True:
             # Generate random characteristics for new symbol
             newCharacteristics =[]
@@ -48,7 +48,7 @@ def generate_symbol_classes(symbolClasses, characteristics):
             found = False
             for c in range(0,i):
                 eucl = euclidian_distance(symbolClasses[c].characteristicsValues[:], newCharacteristics[:])
-                if  eucl > global_v.EUCL_MIN_D and loopCounter > 0:
+                if  (eucl < global_v.EUCL_MIN_D or eucl > global_v.EUCL_MAX_D)  and loopCounter > 0:
                     found = True
             if(not found):
                 break

@@ -32,7 +32,7 @@ class ColorChooser:
             global_v.WHICH_COLOR += 1
             return "red"
         else:
-            return "indigo"
+            return "blue"
         
         _c = random.choice(self.colors)
         self.colors.remove(_c)
