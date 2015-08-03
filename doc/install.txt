@@ -30,4 +30,40 @@ C:\Python34\python setup.py install
 
 
 
+#---------------------------------------------------------#
+#----------------------- LINUX ---------------------------#
+#---------------------------------------------------------#
 
+1) matplotlib:
+
+> git clone git://github.com/matplotlib/matplotlib.git
+> cd matplotlib/
+# If you don't have root permissions:
+> python setup.py install --user
+# Else
+> python setup.py install
+
+2) scipy:
+Download binaries:
+http://sourceforge.net/projects/scipy/files/scipy/0.15.1/scipy-0.15.1.tar.gz/download
+> cd scipy-0.15.1
+# If you don't have root permissions:
+> python setup.py install --user
+# Else
+> python setup.py install
+
+3) scikit-learn
+
+> git clone https://github.com/scikit-learn/scikit-learn
+# If you don't have root permissions:
+> python setup.py install --user
+# Else
+> python setup.py install
+
+4) xlrd
+Download binaries:
+https://pypi.python.org/pypi/xlrd
+# If you don't have root permissions:
+> python setup.py install --user
+# Else
+> python setup.py install

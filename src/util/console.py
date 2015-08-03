@@ -13,14 +13,16 @@ subpoint_indent = "        "
 def parse_argv(argv):
     # Gather up flags
     try:                                
-        opts, args = getopt.getopt(argv, "123456789c:h:f:t:l:m:s:d:e:b:g:x:z:k:a:", ["test-type-1","test-type-2",
-                                                                          "test-type-3","test-type-4",
-                                                                          "test-type-5","test-type-6","test-type-7",
-                                                                          "test-type-8", "test-type-9",
-                                                                   "classes=","characteristics=","log=","test=",
-                                                                   "learn=","mvee=","k-cloud=","homo-std=",
-                                                                   "eucl-min=", "n-file=", "f-file=",
-                                                                   "xls-start-r=","xls-max-c=","k-clusters=","eucl-max="])
+        opts, args = getopt.getopt(argv, "123456789c:h:f:t:l:m:s:d:e:b:g:x:z:k:a:p:",
+                                            ["test-type-1","test-type-2",
+                                            "test-type-3","test-type-4",
+                                            "test-type-5","test-type-6","test-type-7",
+                                            "test-type-8", "test-type-9",
+                                            "classes=","characteristics=","log=","test=",
+                                            "learn=","mvee=","k-cloud=","homo-std=",
+                                            "eucl-min=", "n-file=", "f-file=",
+                                            "xls-start-r=","xls-max-c=","k-clusters=","eucl-max=",
+                                            "test-type="])
         print(args)
     except getopt.GetoptError:          
         usage()                         
@@ -76,12 +78,16 @@ def parse_argv(argv):
             util.global_variables.XLS_MAX_COL = int(arg)
         elif opt in ("-k", "--k-clusters"):
             util.global_variables.K = int(arg)
+        elif opt in ("-p", "--test-type"):
+            util.global_variables.TEST_TYPE_ID = int(arg)
 
-    # Prepare global filename for further references
-    util.global_variables.DIR_NAME = util.global_variables.TEST_TYPE.name + "_" + datetime.datetime.now().strftime('%Y-%m-%d_%H;%M;%S')
-    # Create directory to save information
-    os.makedirs(os.path.join("..","log",util.global_variables.DIR_NAME), exist_ok=True)
-    
+def init_log_dir():
+    if util.global_variables.TEST_TYPE != util.global_variables.TestType.NONE:
+        # Prepare global filename for further references
+        util.global_variables.DIR_NAME = util.global_variables.TEST_TYPE.name + "_" + datetime.datetime.now().strftime('%Y-%m-%d_%H;%M;%S')
+        # Create directory to save information
+        os.makedirs(os.path.join("..","log",util.global_variables.DIR_NAME), exist_ok=True)
+
 def usage():
     print("to be created", file=sys.stderr)
 
@@ -215,23 +221,25 @@ def print_symbols(symbolClasses):
             
 def print_config():
     f = open(os.path.join("..","log",util.global_variables.DIR_NAME,"RUN_CONFIG.txt"), 'w')
-    double_print(point_indent,"TEST_TYPE:        ", util.global_variables.TEST_TYPE.name, f) 
-    double_print(point_indent,"DIR:              ", util.global_variables.DIR_NAME, f)
+
+    double_print(point_indent,"TEST_TYPE_ID: ...............", util.global_variables.TEST_TYPE_ID, f)
+    double_print(point_indent,"TEST_TYPE: ..................", util.global_variables.TEST_TYPE.name, f)
+    double_print(point_indent,"DIR: ........................", util.global_variables.DIR_NAME, f)
     
-    double_print(point_indent,"CLASS_NUM:        ", util.global_variables.CLASS_NUM, f)
-    double_print(point_indent,"CHAR_NUM:         ", util.global_variables.CHAR_NUM, f)
-    double_print(point_indent,"N_LEARNING:       ", util.global_variables.N_LEARNING, f)
-    double_print(point_indent,"N_TEST:           ", util.global_variables.N_TEST, f)
-    double_print(point_indent, "K:                ", util.global_variables.K, f)
-    double_print(point_indent,"ELLPSD_TRESH:     ", util.global_variables.ELLPSD_TRESH, f)
-    double_print(point_indent,"EUCL_MIN_D:     ", util.global_variables.EUCL_MIN_D, f)
-    double_print(point_indent,"MVEE_ERR:         ", util.global_variables.MVEE_ERR, f)
-    double_print(point_indent,"HOMO_STD_DEV:     ", util.global_variables.HOMO_STD_DEV, f)
-    double_print(point_indent,"NON_HOMO_STD_DEV: ", util.global_variables.NON_HOMO_STD_DEV, f)
-    double_print(point_indent,"MAX_K_CLUS_EVALUATION:     ", util.global_variables.MAX_K_CLUS_EVALUATION, f)
-    double_print(point_indent,"K_CLOUD_DISTORTION: ", util.global_variables.K_CLOUD_DISTORTION, f)
-    double_print(point_indent,"NATIVE_FILE_PATH: ", util.global_variables.NATIVE_FILE_PATH, f)
-    double_print(point_indent,"FOREIGN_FILE_PATH: ", util.global_variables.FOREIGN_FILE_PATH, f)
+    double_print(point_indent,"CLASS_NUM: ..................", util.global_variables.CLASS_NUM, f)
+    double_print(point_indent,"CHAR_NUM: ...................", util.global_variables.CHAR_NUM, f)
+    double_print(point_indent,"N_LEARNING: .................", util.global_variables.N_LEARNING, f)
+    double_print(point_indent,"N_TEST: .....................", util.global_variables.N_TEST, f)
+    double_print(point_indent,"K: ..........................", util.global_variables.K, f)
+    double_print(point_indent,"ELLPSD_TRESH: ...............", util.global_variables.ELLPSD_TRESH, f)
+    double_print(point_indent,"EUCL_MIN_D: .................", util.global_variables.EUCL_MIN_D, f)
+    double_print(point_indent,"MVEE_ERR: ...................", util.global_variables.MVEE_ERR, f)
+    double_print(point_indent,"HOMO_STD_DEV: ...............", util.global_variables.HOMO_STD_DEV, f)
+    double_print(point_indent,"NON_HOMO_STD_DEV: ...........", util.global_variables.NON_HOMO_STD_DEV, f)
+    double_print(point_indent,"MAX_K_CLUS_EVALUATION: ......", util.global_variables.MAX_K_CLUS_EVALUATION, f)
+    double_print(point_indent,"K_CLOUD_DISTORTION: .........", util.global_variables.K_CLOUD_DISTORTION, f)
+    double_print(point_indent,"NATIVE_FILE_PATH: ...........", util.global_variables.NATIVE_FILE_PATH, f)
+    double_print(point_indent,"FOREIGN_FILE_PATH: ..........", util.global_variables.FOREIGN_FILE_PATH, f)
 
     f.close()
 

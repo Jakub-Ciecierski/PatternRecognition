@@ -1,25 +1,36 @@
-!!!!DO NOT TURN TEAMVIEWER OFF!!!!
+#-----------------------------------------------------------------------#
+#------------------------------ GENERAL --------------------------------#
+#-----------------------------------------------------------------------#
 
-P30101
-ID: 290201284
-pass: 8829
+TestType Enum break lines in the type string
 
-P30102
-ID: 290215739
-pass: 4314
+#-----------------------------------------------------------------------#
+#------------------------------ PAPER 2 --------------------------------#
+#-----------------------------------------------------------------------#
 
-P30103
-ID: 290219043
-pass: 7832
+1. klasy cyfr native dzielimy na dwa równoliczne zbiory: treningowy i testowy,
 
-P30106
-ID: 290115058
-pass: 8066
+2. wybieramy kilka klas, pewnie trzeba będzie przeprowadzić obliczenia dla
+zestawów klas a) 0, 1, 2, b) 4, 5, 6, c) 6, 8, 9, d) dla wszystkich
+dziesięciu klas; ale na początek tylko dla jednego zestawu a),
 
-P30105
-ID: 290159886
-pass: 8141
+3. dla wybranego zestawu dzielimy zbiór treningowy na 2, 3, 4, ...., c grup
+za pomocą k-means, zbiór treningowy traktujemy jako całość zapominając, że składa się z kilku klas,
 
-P30104
-ID: 290176364
-pass: 9400
+5. określamy jakość grupowania za pomocą prediction strength,
+trzeba będzie zastosować jeszcze jedną dwie inne miary,
+później wskażę jakie, ewentualnie proszę się samemu rozejrzeć,
+
+6. otaczamy znalezione grupy równoległobokami i elipsoidami,
+
+7. sprawdzamy miary jakości na zbiorze testowym,
+tzn. ile elementów testowych wypada poza
+obszar i jak wygląda odrzucanie elementów foreign.
+
+Trzeba jeszcze sprawdzić wyniki dla oryginalnych wartości cech i dla
+wartości znormalizowanych do przedziału [0,1].
+Normalizacja według wzoru: x_norm = (x-min)/(max-min)
+
+To jest mniej więcej powtórzenie dotychczasowych obliczeń z tą różnicą,
+że inaczej dzielimy zbiór treningowy native.
+Ten inny podział zbioru treningowego będzie podstawą do dalszych prac, ale o tym później.

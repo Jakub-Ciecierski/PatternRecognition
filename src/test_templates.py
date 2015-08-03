@@ -3,7 +3,7 @@ import sys
 import util.global_variables 
 import data_calculations.synthetic_data_calc as synth_calc
 from gui.plot_3d import Plot3D
-from gui.plot_2d import Plot2D
+#from gui.plot_2d import Plot2D
 from clustering.clusterer import Clusterer
 from data_calculations.distorter import Distorter
 import data_calculations.data_manager as data
@@ -15,6 +15,33 @@ from data_calculations.basic_membership import BasicMembership
 from data_calculations.basic_membership import ObjectType
 import data_calculations.paper2_calc as paper2
 
+'''
+    Chooses which test should be ran based on input test id
+'''
+def choose_test():
+    if util.global_variables.TEST_TYPE_ID == 1:
+        util.global_variables.TEST_TYPE = util.global_variables.TestType.SYNTHETIC_HOMO_NATIVE
+    elif util.global_variables.TEST_TYPE_ID == 2:
+        util.global_variables.TEST_TYPE = util.global_variables.TestType.GROUPING_ASSESSMENT
+    elif util.global_variables.TEST_TYPE_ID == 3:
+        util.global_variables.TEST_TYPE = util.global_variables.TestType.FULL
+    elif util.global_variables.TEST_TYPE_ID == 4:
+        util.global_variables.TEST_TYPE = util.global_variables.TestType.REAL_DATA
+    elif util.global_variables.TEST_TYPE_ID == 5:
+        util.global_variables.TEST_TYPE = util.global_variables.TestType.STATIC_K_SEMISYNTHETIC_PAPER_2
+    elif util.global_variables.TEST_TYPE_ID == 6:
+        util.global_variables.TEST_TYPE = util.global_variables.TestType.SYNTHETIC_PAPER_1
+    elif util.global_variables.TEST_TYPE_ID == 7:
+        util.global_variables.TEST_TYPE = util.global_variables.TestType.SEMISYNTHETIC_PAPER_1
+    elif util.global_variables.TEST_TYPE_ID == 8:
+        util.global_variables.TEST_TYPE = util.global_variables.TestType.SYNTHETIC_PAPER_2
+    elif util.global_variables.TEST_TYPE_ID == 9:
+        util.global_variables.TEST_TYPE = util.global_variables.TestType.SEMISYNTHETIC_PAPER_2
+    elif util.global_variables.TEST_TYPE_ID == 10:
+        util.global_variables.TEST_TYPE = util.global_variables.TestType.PAPER_2
+
+    else:
+        util.global_variables.TEST_TYPE = util.global_variables.TestType.NONE
 
 '''
     Native symbols: synthetic; homogeneous; 
@@ -329,3 +356,7 @@ def static_k_semisynthetic_test_paper_2():
     Clusterer().computeClusters(symbolClasses)
 
     paper2.compute(symbolClasses, foreignClasses)
+
+
+def paper_2():
+    console.write_header("Paper2 Test")
