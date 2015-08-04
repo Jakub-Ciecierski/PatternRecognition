@@ -13,3 +13,15 @@ class SymbolClass:
         self.clusters = []
         self.learning_set = []
         self.test_set = []
+
+    def __str__(self):
+        header_str = "Symbol"
+        name_str = "Name: " + str(self.name)
+        type_str = "Type: " + str(self.type)
+        training_str = "Training #: " + str(len(self.learning_set))
+        test_str = "Testing #: " + str(len(self.test_set))
+
+        full_str = "\n".join([header_str, name_str, type_str,
+                            training_str, test_str,]);
+
+        return full_str

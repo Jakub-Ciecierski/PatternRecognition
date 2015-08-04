@@ -1,6 +1,6 @@
 import util.console as console
 import sys
-import util.global_variables 
+import util.global_variables
 import data_calculations.synthetic_data_calc as synth_calc
 from gui.plot_3d import Plot3D
 #from gui.plot_2d import Plot2D
@@ -44,7 +44,7 @@ def choose_test():
         util.global_variables.TEST_TYPE = util.global_variables.TestType.NONE
 
 '''
-    Native symbols: synthetic; homogeneous; 
+    Native symbols: synthetic; homogeneous;
     Foreign symbols: synthetic; homogeneous and non-homogeneous
 '''
 def synthetic_homo_native():
@@ -52,12 +52,12 @@ def synthetic_homo_native():
     console.write_header("Creating Characteristics")
     characteristics = []
     data.generate_characteristic(characteristics)
-    
+
     # CREATE CLASS_NUM SYMBOL CLASSES
     console.write_header(" Creating Symbol Classes")
     symbolClasses = []
     data.generate_symbol_classes(symbolClasses, characteristics)
-    
+
     # Distortion
     console.write_header("Computing Homogeneous Distortion")
     Distorter().create_homogeneus_cloud(symbolClasses)
@@ -72,7 +72,7 @@ def synthetic_homo_native():
     foreignClassesNonHomo = f_creator.create_non_homogeneous_foreign(symbolClasses)
     console.write_header("Creating Homogeneous Foreign")
     foreignClassesHomo = f_creator.create_homogeneous_foreign(symbolClasses, characteristics)
-    # Radiuses 
+    # Radiuses
     console.write_header(" Synthetic Data Calculations")
     synth_calc.ambiguity_for_different_radiuses(symbolClasses[:], foreignClassesHomo, foreignClassesNonHomo)
 
@@ -82,12 +82,12 @@ def grouping_assessment():
     console.write_header("Creating Characteristics")
     characteristics = []
     data.generate_characteristic(characteristics)
-    
+
     # CREATE CLASS_NUM SYMBOL CLASSES
     console.write_header(" Creating Symbol Classes")
     symbolClasses = []
     data.generate_symbol_classes(symbolClasses, characteristics)
-    
+
     console.write_header("Computing K cloud Distortion")
     #Distorter().create_k_clouds(util.global_variables.K_CLOUD_DISTORTION,symbolClasses)
     Distorter().create_non_homogeneus_cloud(symbolClasses)
@@ -100,12 +100,12 @@ def full_test():
     console.write_header("Creating Characteristics")
     characteristics = []
     data.generate_characteristic(characteristics)
-    
+
     # CREATE CLASS_NUM SYMBOL CLASSES
     console.write_header(" Creating Symbol Classes")
     symbolClasses = []
     data.generate_symbol_classes(symbolClasses, characteristics)
-    
+
     console.write_header("Computing Homogeneous Distortion")
     Distorter().create_homogeneus_cloud(symbolClasses)
 
@@ -131,14 +131,14 @@ def real_data():
 
     util.global_variables.CLASS_NUM = len(symbolClasses)
     util.global_variables.CHAR_NUM = len(symbolClasses[0].learning_set[0].characteristicsValues)
-    
+
     for c in range(0, util.global_variables.CLASS_NUM):
         console.write_header("Computing Cluster Evaluation")
         best_k = ps.cluster_evaluation(util.global_variables.MAX_K_CLUS_EVALUATION, symbolClasses[c:c+1])
         util.global_variables.K = best_k[0]
         console.write_header("Computing Clusters with K:", str(util.global_variables.K))
         Clusterer().computeClusters(symbolClasses[c:c+1])
-        
+
     console.write_header(" Synthetic Data Calculations")
     synth_calc.ambiguity_for_different_radiuses_real_data(symbolClasses[:], foreignClasses)
 
@@ -159,15 +159,15 @@ def real_data_static_k():
 
     console.write_header("Clustering")
     Clusterer().computeClusters(symbolClasses[:])
-        
+
     console.write_header(" Synthetic Data Calculations")
     synth_calc.ambiguity_for_different_radiuses_real_data(symbolClasses[:], foreignClasses)
-    
+
 '''
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % SYNTHETIC TEST FOR PAPER 1 %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
+
     1) Generate characteristics with random intervals(uniform distribution)
     2) Generate 10 class with 1500 elements in each(Training set - 1000, Testing set - 5000)
        (classes - uniform distribution; 1500 distorted elements - normal distribution)
@@ -188,13 +188,13 @@ def real_data_static_k():
             >> Create new(smaller) cuboid
         else
             >> break
-'''    
+'''
 def synthetic_test_paper_1():
     # CREATE CHAR_NUM CHARACTERISTICS
     console.write_header("Creating Characteristics")
     characteristics = []
     data.generate_characteristic(characteristics)
-    
+
     # CREATE CLASS_NUM SYMBOL CLASSES
     console.write_header(" Creating Symbol Classes")
     symbolClasses = []
@@ -203,11 +203,11 @@ def synthetic_test_paper_1():
     # DISTORTION (UNIFORM)
     console.write_header("Computing Homogeneous Distortion")
     Distorter().create_homogeneus_cloud(symbolClasses)
-    
+
     # FOREIGN HOMOGENEOUS
     console.write_header("Creating Homogeneous Foreign")
     foreignClassesHomo = f_creator.create_homogeneous_foreign(symbolClasses, characteristics)
-    
+
     # FOREIGN NON-HOMOGENEOUS
     console.write_header("Creating Non Homogeneous Foreign")
     foreignClassesNonHomo = f_creator.create_non_homogeneous_foreign(symbolClasses)
@@ -216,15 +216,15 @@ def synthetic_test_paper_1():
     console.write_header("Generating Convex and Compact Sets")
     membership = BasicMembership(symbolClasses)
     membership.shrink_objects(0)  # just to write to he file
-        
+
     plot = Plot2D()
     plot.renderPlot(symbolClasses, membership, ObjectType.ELLIPSOID)
     plot.renderPlot(symbolClasses, membership, ObjectType.CUBOID)
-    
+
     for i in range(0,5):
         # Check native
         membership.check_natives_ellipsoid_proper(symbolClasses[:],"foreign_homo","foreign_non_homo")
-        membership.check_natives_cuboid_proper(symbolClasses[:],"foreign_homo","foreign_non_homo") 
+        membership.check_natives_cuboid_proper(symbolClasses[:],"foreign_homo","foreign_non_homo")
         # Check foreign
         membership.check_foreign_ellipsoid(foreignClassesHomo,      "foreign_homo")
         membership.check_foreign_ellipsoid(foreignClassesNonHomo,   "foreign_non_homo")
@@ -235,7 +235,7 @@ def synthetic_test_paper_1():
             membership.shrink_objects(5)
             plot.renderPlot(symbolClasses, membership, ObjectType.ELLIPSOID)
             plot.renderPlot(symbolClasses, membership, ObjectType.CUBOID)
-    
+
 def semisynthetic_test_paper_1():
     console.write_header("Loading Native symbols")
     symbolClasses = loader.load_native_xls()
@@ -244,18 +244,18 @@ def semisynthetic_test_paper_1():
 
     util.global_variables.CLASS_NUM = len(symbolClasses)
     util.global_variables.CHAR_NUM = len(symbolClasses[0].learning_set[0].characteristicsValues)
-           
+
     # CREATE ELLIPSOIDS AND CUBOIDS FOR EACH LEARNING SET
     console.write_header("Generating Convex and Compact Sets")
     membership = BasicMembership(symbolClasses, False)
     membership.shrink_objects(0)  # just to write to he file
-    
 
-    
+
+
     for i in range(0,5):
         # Check native
         membership.check_natives_ellipsoid_proper(symbolClasses[:],"foreign_REAL","foreign_REAL")
-        membership.check_natives_cuboid_proper(symbolClasses[:],"foreign_REAL","foreign_REAL")  
+        membership.check_natives_cuboid_proper(symbolClasses[:],"foreign_REAL","foreign_REAL")
         # Check foreign
         membership.check_foreign_ellipsoid(foreignClasses,      "foreign_REAL")
         membership.check_foreign_cuboids(foreignClasses,     "foreign_REAL")
@@ -317,7 +317,7 @@ def synthetic_test_paper_2_old():
 
     Clusterer().computeClusters(symbolClasses[:])
     Plot3D().renderPlot(symbolClasses)
-    
+
 
     # COMPUTE CLUSTER EVALUATION
     console.write_header("Computing Cluster Evaluation")
@@ -332,7 +332,7 @@ def semisynthetic_test_paper_2():
 
     util.global_variables.CLASS_NUM = len(symbolClasses)
     util.global_variables.CHAR_NUM = len(symbolClasses[0].learning_set[0].characteristicsValues)
-    
+
     # COMPUTE CLUSTER EVALUATION
     for c in range(0, util.global_variables.CLASS_NUM):
         console.write_header("Computing Cluster Evaluation")
@@ -342,7 +342,7 @@ def semisynthetic_test_paper_2():
         Clusterer().computeClusters(symbolClasses[c:c+1])
 
     paper2.compute(symbolClasses, foreignClasses)
-    
+
 def static_k_semisynthetic_test_paper_2():
     console.write_header("Loading Native symbols")
     symbolClasses = loader.load_native_xls()
@@ -351,12 +351,51 @@ def static_k_semisynthetic_test_paper_2():
 
     util.global_variables.CLASS_NUM = len(symbolClasses)
     util.global_variables.CHAR_NUM = len(symbolClasses[0].learning_set[0].characteristicsValues)
-    
+
 
     Clusterer().computeClusters(symbolClasses)
 
     paper2.compute(symbolClasses, foreignClasses)
 
+"""
+0. Compute for original values of characteristics and for its normalization [0,1].
+    x_norm = (x-min)/(max-min).
 
+1. Native class is split into Training and Testing set
+
+2. Choose few classes and group them into one set (classes are represented by digits):
+    a) 0, 1, 2
+    b) 4, 5 ,6
+    c) 6, 8, 9
+    d) all
+
+3. Group Testing set with 2, 3, 4, ..., c clusters using k-means.
+All native classes are treated as one big class. Thus their Training sets are treated
+as one big set.
+
+4. Compute cluster evaluation
+    a) Prediction strength
+    b)
+    c)
+    d)
+
+5) Create the ellipsoid and hyper rectangle encapsulating all elements of clusters
+
+6) Classifier Quality:
+    a) Training vs Testing
+    b) Foriegn rejecting
+"""
 def paper_2():
     console.write_header("Paper2 Test")
+
+    console.write_header("Loading Native symbols")
+    symbolClasses = loader.load_native_xls()
+
+    #print("#Training: ", len(symbolClasses[0].learning_set))
+    #print("#Testing: ", len(symbolClasses[0].test_set))
+
+    for i in range(0, 10):
+        print(symbolClasses[i], "\n\n")
+
+    #console.write_header("Loading Foreign symbols")
+    #foreignClasses = loader.load_foreign_xls()

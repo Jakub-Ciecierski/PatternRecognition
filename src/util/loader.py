@@ -8,12 +8,15 @@ import random
 '''
     Reads all the sheets and every row attached to it
     For every row, up to maxColulmns columns is read.
-    
+
     Returns as many SymbolClasses as there are different Symbol
     names provided in first column in each row
     For each SymbolClass, DistortedClasses are stored,
     corresponding to that class.
-    
+
+    Native set is split into Training and Testing set
+    randomly.
+
     filepath - path to the xsl file
     startRow - which row to start reading from
     maxColumns - how many characteristics we want to read at most
@@ -21,9 +24,9 @@ import random
 def load_native_xls():
     startRow = global_v.XLS_START_ROW
     maxColumns = global_v.XLS_MAX_COL
-    
+
     symbolClasses = []
-    
+
     print("Opening file:", global_v.NATIVE_FILE_PATH)
     wb = open_workbook(global_v.NATIVE_FILE_PATH)
     for s in wb.sheets():
@@ -36,7 +39,7 @@ def load_native_xls():
                 currentValue = float(str(s.cell(row,col).value).replace(',','.'))
                 # create new symbol class
                 if  (
-                        (row != startRow and col == 0 and 
+                        (row != startRow and col == 0 and
                             currentValue != symbolClasses[len(symbolClasses)-1].name) or
                         (row == startRow and col == 0)
                     ):
@@ -48,9 +51,6 @@ def load_native_xls():
             distortedClass = SymbolClass(symbolClass.name, symbolClass.color)
             distortedClass.characteristicsValues = characteristics
             random.choice((symbolClass.learning_set,symbolClass.test_set)).append(distortedClass)
-            #symbolClass.learning_set.append(distortedClass)
-
-            #symbolClasses.append(symbolClass)
     return symbolClasses
 
 
@@ -60,7 +60,7 @@ def load_foreign_xls():
 
     foreignClasses = []
     print("Opening file:", global_v.FOREIGN_FILE_PATH)
-    
+
     path = ""
     wb = open_workbook(global_v.FOREIGN_FILE_PATH)
     for s in wb.sheets():
@@ -74,7 +74,7 @@ def load_foreign_xls():
                 if col == 0:
                     continue
                 characteristics.append(currentValue)
-            
+
             foreignClass = SymbolClass('foreign', ColorChooser().getForeignColor)
             foreignClass.characteristicsValues = characteristics
             foreignClasses.append(foreignClass)
@@ -99,7 +99,7 @@ def load_txt(filepath):
     for i in range(3, len(lines)):
         line = lines[i].split()
         name = line[0]
-        if prev_name != name or i == 3: 
+        if prev_name != name or i == 3:
             symbolClass = SymbolClass(name, ColorChooser().get_color())
             for c in range(1,len(line)):
                 symbolClass.characteristicsValues.append(float(line[c]))
