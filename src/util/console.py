@@ -1,6 +1,6 @@
 import sys
 import getopt
-import util.global_variables 
+import util.global_variables
 import os
 import datetime
 #from main import symbolClasses
@@ -12,7 +12,7 @@ subpoint_indent = "        "
 
 def parse_argv(argv):
     # Gather up flags
-    try:                                
+    try:
         opts, args = getopt.getopt(argv, "123456789c:h:f:t:l:m:s:d:e:b:g:x:z:k:a:p:",
                                             ["test-type-1","test-type-2",
                                             "test-type-3","test-type-4",
@@ -23,17 +23,17 @@ def parse_argv(argv):
                                             "eucl-min=", "n-file=", "f-file=",
                                             "xls-start-r=","xls-max-c=","k-clusters=","eucl-max=",
                                             "test-type="])
-        print(args)
-    except getopt.GetoptError:          
-        usage()                         
-        sys.exit(2)              
-    # Perform proper actions           
-    for opt, arg in opts:               
-        if opt in ("-c", "--classes"):      
-            util.global_variables.CLASS_NUM = int(arg)   
+
+    except getopt.GetoptError:
+        usage()
+        sys.exit(2)
+    # Perform proper actions
+    for opt, arg in opts:
+        if opt in ("-c", "--classes"):
+            util.global_variables.CLASS_NUM = int(arg)
         elif opt in ("-h", "--characteristics"):
             util.global_variables.CHAR_NUM = int(arg)
-        elif opt in ("-f", "--log"): 
+        elif opt in ("-f", "--log"):
             print(arg, file=sys.stderr)
             util.global_variables.LOG_FILE_PREFIX_NAME = arg
         elif opt in ("-1", "--test-type-1"):
@@ -81,6 +81,9 @@ def parse_argv(argv):
         elif opt in ("-p", "--test-type"):
             util.global_variables.TEST_TYPE_ID = int(arg)
 
+"""
+    Deprecated, moved to logger
+"""
 def init_log_dir():
     if util.global_variables.TEST_TYPE != util.global_variables.TestType.NONE:
         # Prepare global filename for further references
@@ -89,29 +92,32 @@ def init_log_dir():
         os.makedirs(os.path.join("..","log",util.global_variables.DIR_NAME), exist_ok=True)
 
 def usage():
-    print("to be created", file=sys.stderr)
+    print("WRONG INPUT FLAGS to be created", file=sys.stderr)
 
+"""
+    Deprecated, moved to logger
+"""
 def write_header(text, arg=""):
     print()
     print(header_frame_symbol * header_length )
     print(header_frame_symbol,
         " " * int((header_length- len(text))/2-3),
-          text, arg, 
+          text, arg,
         " " * int((header_length- len(text))/2-3),
           header_frame_symbol )
     print(header_frame_symbol * header_length, '\n')
-    
+
 def write_point_text_number(text, number):
     point_length = header_length - len(2 * point_indent)
     sys.stdout.write("{0}{1}{2}{3}\n".format(point_indent,text,"." * (point_length -  len(text) - len(str(number))),number))
     sys.stdout.flush()
-    
+
 def write_symbol_classes(f,name,list, text=""):
     line1 = "{0}{1} {2}\n".format("",text,name)
     sys.stdout.write(point_indent + line1)
     f.write(line1)
     write_point_list(f,list,text)
-    
+
 def write_point_list(f,list, text=""):
     line1 = "{0}{1} ".format(subpoint_indent, text)
     sys.stdout.write(line1)
@@ -129,24 +135,24 @@ def write_point_list(f,list, text=""):
                 line3 = "{0} ".format(" " * (len(subpoint_indent) + len(text)) )
                 sys.stdout.write(line3)
                 f.write(line3)
-        
+
     sys.stdout.write("\n")
     f.write("\n")
     sys.stdout.flush()
-    
+
 def write_name_number(name,number,text=""):
     number_str = str(number) + "%"
     point_length = header_length - len(2 * point_indent)
     sys.stdout.write("{0}{1} {2}:{3}{4}\n".format(point_indent,text,name,"."*(point_length - 2- len(number_str)- len(text)-len(str(name))),number_str ))
     sys.stdout.flush()
-    
+
 def write_characteristics(f,name,lower_bound,upper_bound, text1="", text2="",text3="",text4=""):
     text_l = header_length - 2 * len(point_indent)
-    line1 = "{0}{1} {2} {3} {4}{5}{6}\n".format("", 
+    line1 = "{0}{1} {2} {3} {4}{5}{6}\n".format("",
                                                       text1,
-                                                      name, 
-                                                      text2, 
-                                                      text3, 
+                                                      name,
+                                                      text2,
+                                                      text3,
                                                       "." * (text_l-
                     (len(text1) + len(str(name))+ len(text2)+len(text3)+len(str(lower_bound))+3)
                                                              ),
@@ -156,14 +162,14 @@ def write_characteristics(f,name,lower_bound,upper_bound, text1="", text2="",tex
                                         "." * (text_l-
                     (len(text1) + len(str(name))+ len(text2)+len(text4)+len(str(lower_bound))+3)
                                                              ),
-                                        upper_bound)   
-    
+                                        upper_bound)
+
     sys.stdout.write(point_indent+line1)
     f.write(line1)
     sys.stdout.write(point_indent+line2)
-    f.write(line2)    
-    
-     
+    f.write(line2)
+
+
 def write_non_homo(name, group, text1="", text2=""):
     sys.stdout.write("{0}{1}: [{2}] {3}: {4}\n".format(point_indent,text1,name,text2,group ))
 
@@ -188,11 +194,11 @@ def redirect_stdout():
 '''
     prints all the symbols of native set
     First prints a header e.g.:
-    
+
     CLASS_NUM: 10
     N_LEARNING: 1000
     N_TEST: 500
-    
+
     For each class, first line is the base native symbol
     around which distortion was computed
     Next N_LEARNING lines is learning set of that symbol,
@@ -218,14 +224,14 @@ def print_symbols(symbolClasses):
             for value in ts.characteristicsValues:
                 print(value, end=" ",flush=True)
             print()
-            
+
 def print_config():
     f = open(os.path.join("..","log",util.global_variables.DIR_NAME,"RUN_CONFIG.txt"), 'w')
 
     double_print(point_indent,"TEST_TYPE_ID: ...............", util.global_variables.TEST_TYPE_ID, f)
     double_print(point_indent,"TEST_TYPE: ..................", util.global_variables.TEST_TYPE.name, f)
     double_print(point_indent,"DIR: ........................", util.global_variables.DIR_NAME, f)
-    
+
     double_print(point_indent,"CLASS_NUM: ..................", util.global_variables.CLASS_NUM, f)
     double_print(point_indent,"CHAR_NUM: ...................", util.global_variables.CHAR_NUM, f)
     double_print(point_indent,"N_LEARNING: .................", util.global_variables.N_LEARNING, f)
@@ -243,10 +249,7 @@ def print_config():
 
     f.close()
 
-    
+
 def double_print(indent, s, var, file):
     print(indent + s,var)
     file.write(s + str(var) + '\n')
-  
-    
-    

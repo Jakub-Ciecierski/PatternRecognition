@@ -15,6 +15,8 @@ from data_calculations.basic_membership import BasicMembership
 from data_calculations.basic_membership import ObjectType
 import data_calculations.paper2_calc as paper2
 
+import util.logger as logger
+
 '''
     Chooses which test should be ran based on input test id
 '''
@@ -386,16 +388,13 @@ as one big set.
     b) Foriegn rejecting
 """
 def paper_2():
-    console.write_header("Paper2 Test")
+    logger.log_header("Paper2 Test")
 
-    console.write_header("Loading Native symbols")
+    logger.log_header("Loading Native symbols")
+
     symbolClasses = loader.load_native_xls()
 
-    #print("#Training: ", len(symbolClasses[0].learning_set))
-    #print("#Testing: ", len(symbolClasses[0].test_set))
-
     for i in range(0, 10):
-        print(symbolClasses[i], "\n\n")
+        logger.log(str(symbolClasses[i]), "symbols.txt")
 
-    #console.write_header("Loading Foreign symbols")
     #foreignClasses = loader.load_foreign_xls()

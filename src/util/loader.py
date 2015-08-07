@@ -4,6 +4,7 @@ from util.color_chooser import ColorChooser
 import util.global_variables as global_v
 from test.test_importlib.extension.util import FILEPATH
 import random
+import util.logger as logger
 
 '''
     Reads all the sheets and every row attached to it
@@ -27,7 +28,8 @@ def load_native_xls():
 
     symbolClasses = []
 
-    print("Opening file:", global_v.NATIVE_FILE_PATH)
+    logger.log("Opening file: " + str(global_v.NATIVE_FILE_PATH))
+
     wb = open_workbook(global_v.NATIVE_FILE_PATH)
     for s in wb.sheets():
         for row in range(startRow, s.nrows):
@@ -59,7 +61,8 @@ def load_foreign_xls():
     maxColumns = global_v.XLS_MAX_COL
 
     foreignClasses = []
-    print("Opening file:", global_v.FOREIGN_FILE_PATH)
+
+    logger.log("Opening file: " + str(global_v.FOREIGN_FILE_PATH))
 
     path = ""
     wb = open_workbook(global_v.FOREIGN_FILE_PATH)
