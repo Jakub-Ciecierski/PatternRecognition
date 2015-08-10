@@ -16,6 +16,7 @@ from data_calculations.basic_membership import ObjectType
 import data_calculations.paper2_calc as paper2
 
 import util.logger as logger
+import util.progress_bar as p_bar
 
 '''
     Chooses which test should be ran based on input test id
@@ -391,6 +392,19 @@ def paper_2():
     logger.log_header("Paper2 Test")
 
     logger.log_header("Loading Native symbols")
+
+
+    i_size = 1000
+    j_size = 100
+    problem_size = i_size * j_size
+
+    p_bar.init_progress_bar(problem_size, "Test Bar")
+
+    for i in range(0, i_size):
+        for j in range(0, j_size):
+            p_bar.update_progress_bar()
+
+    p_bar.finish_progress_bar()
 
     symbolClasses = loader.load_native_xls()
 

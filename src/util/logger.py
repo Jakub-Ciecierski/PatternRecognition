@@ -98,7 +98,7 @@ def log(msg, filename="log.txt"):
     f.close()
 
 """
-    Legacy function, print header
+    Prints header, console only
 """
 def log_header(text):
     # Get the dimensions of the console

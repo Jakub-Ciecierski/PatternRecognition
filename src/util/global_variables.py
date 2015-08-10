@@ -28,7 +28,7 @@ NON_HOMO_CLASSES = True
     If true scale of the graph's axes is <0,20>.
     Otherwise axes are scaled to data values.
 '''
-UNIFORM_SCALE = False; 
+UNIFORM_SCALE = False;
 
 '''
     Number of points for each characteristic in learning set.
@@ -92,7 +92,7 @@ K_CLOUD_DISTORTION = 2
 SEMI_AXIS_SCALE = 1.0
 '''
     When checking the points membership to the ellipsoid, some error
-    tolerance can be take. Default value is 1 and there is no need 
+    tolerance can be take. Default value is 1 and there is no need
     to go below it. Really.
 '''
 ELLPSD_TRESH = 1.02
@@ -112,13 +112,13 @@ CHAR_INTERVAL = [0,20]
 
 '''
     Standard deviation for gaussian distribution used for
-    generation of based points in the cloud around original value. 
+    generation of based points in the cloud around original value.
 '''
 HOMO_STD_DEV = 0.6
 
 '''
     Standard deviation for gaussian distribution used for
-    generation of points surrounding base points in the cloud around original value. 
+    generation of points surrounding base points in the cloud around original value.
 '''
 NON_HOMO_STD_DEV = 0.7
 
@@ -150,7 +150,7 @@ REDIRECT_TO_FILE = True
 LOG_FILE_PREFIX_NAME = ""
 
 '''
-	If set to true will print generated native symbols 
+	If set to true will print generated native symbols
 '''
 PRINT_GENERATED_SYMBOLS = False
 
