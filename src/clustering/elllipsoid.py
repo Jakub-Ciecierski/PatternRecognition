@@ -2,6 +2,7 @@ import numpy as np
 import numpy.linalg as la
 import util.global_variables as global_v
 import sys
+
 '''
     Class manages all operations regarding ellipsoid.
 '''
@@ -169,9 +170,11 @@ class Ellipsoid:
         It returns matrix with ellipsoid features and center point.
     '''
     def __mvee(self, points, tol = global_v.MVEE_ERR):
+        i = 0
         if(global_v.LOADING_BARS):
             percentage = 0
             i = global_v.MVEE_ERR * 100
+
         N_LEARN, d = points.shape
         Q = np.column_stack((points, np.ones(N_LEARN))).T
         err = tol+1.0
@@ -186,6 +189,7 @@ class Ellipsoid:
             err = la.norm(new_u-u)
             u = new_u
             # assert u.sum() == 1 # invariant
+
             if(err < i and global_v.LOADING_BARS):
                 percentage += 0.01
                 hashes = '#' * int(round(percentage * 20))
@@ -193,8 +197,10 @@ class Ellipsoid:
                 sys.stdout.write("\r        >> minimum volume enclosing ellipsoid calculation: [{0}] {1}%".format(hashes + spaces, int(round(percentage * 100))))
                 sys.stdout.flush()
                 i -= global_v.MVEE_ERR
+
         if(global_v.LOADING_BARS):
             print()
+
         c = np.dot(u,points)
         A = la.inv(np.dot(np.dot(points.T, np.diag(u)), points)
                    - np.multiply.outer(c,c))/d

@@ -102,7 +102,7 @@ ELLPSD_TRESH = 1.02
     Recommended settings:
     >>    0.00001
 '''
-MVEE_ERR = 0.001
+MVEE_ERR = 0.01
 
 '''
     Randomized values of all characteristics will be picked from
@@ -137,7 +137,7 @@ FOREIGN_NON_HOMO_CLUSTER_COUNT = 5
 '''
     Turns on/off loading bars.
 '''
-LOADING_BARS = True
+LOADING_BARS = False
 
 '''
     If True Redirects stdout output to file, also turns off loading bars
@@ -189,3 +189,11 @@ XLS_START_ROW = 2
     How many columns to read, values bellow 0 means all column will be read
 '''
 XLS_MAX_COL = -1
+
+'''
+    Which classes to group together as one big native set.
+    Empty set means all will be grouped.
+    To include 0, 2, 4 classes, simply type:
+    [0, 2, 4]
+'''
+NATIVE_CLASSES = []

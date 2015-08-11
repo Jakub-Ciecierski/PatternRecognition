@@ -2,6 +2,20 @@ import sys
 import util.global_variables as global_v
 import os
 import datetime
+from enum import Enum
+
+"""
+    File names
+"""
+LOG_SYMBOLS_FILE_NAME = "symbols.txt"
+LOG_DEFAULT_FILE_NAME = "log.txt"
+LOG_CONFIG_FILE_NAME = "config.txt"
+LOG_CLUSTER_FILE_NAME = "clusters.txt"
+
+"""
+    Message templates
+"""
+LogStyle = Enum('LogStyle', 'NONE SEPARATOR_END SEPARATOR_START')
 
 """
     The name of the main log directory
@@ -40,8 +54,8 @@ TIME_FORMAT_LONG_LOGGER = '%H:%M:%S %d-%m-%Y'
 """
     Logger styles
 """
-TIME_INDENT ="  "
-TEXT_INDENT = "     "
+TIME_INDENT =""
+TEXT_INDENT = "  >>  "
 
 """
     Creates an log directory.
@@ -66,7 +80,7 @@ def init_log_dir():
 """
     Creates a log in the console and file
 """
-def log(msg, filename="log.txt"):
+def log(msg, filename=LOG_DEFAULT_FILE_NAME, styles=[LogStyle.NONE]):
     filepath = os.path.join(LOG_CURRENT_DIR_PATH, filename)
 
     # Check if file exists
@@ -78,13 +92,24 @@ def log(msg, filename="log.txt"):
     if not file_exists:
         f.write("File created: " + get_time(TIME_FORMAT_LONG_LOGGER) + "\n\n")
 
+    msg_to_log = ""
+
+    # Add style
+    if LogStyle.SEPARATOR_START in styles:
+        msg_to_log += __get_separator()
+
     # Print the time of log
-    msg_to_log = "".join([TIME_INDENT, "[", get_time(), "]:", "\n"]);
+    msg_to_log += "".join([TIME_INDENT, "[", get_time(), "]:", "\n"]);
 
     # Insert indent before each line
     msg_list = msg.split("\n")
     for m in msg_list:
         msg_to_log += "".join([TEXT_INDENT, m, "\n"]);
+
+    # Add style
+    if LogStyle.SEPARATOR_END in styles:
+        msg_to_log += __get_separator()
+
     msg_to_log += "\n\n"
 
     # Log
@@ -98,9 +123,20 @@ def log(msg, filename="log.txt"):
     f.close()
 
 """
-    Prints header, console only
+    Prints header, console and file
 """
-def log_header(text):
+def log_header(text, filename=LOG_DEFAULT_FILE_NAME):
+    filepath = os.path.join(LOG_CURRENT_DIR_PATH, filename)
+
+    # Check if file exists
+    file_exists = os.path.exists(filepath)
+
+    f = open(filepath, 'a')
+
+    # If it was openned for the first time, print a log
+    if not file_exists:
+        f.write("File created: " + get_time(TIME_FORMAT_LONG_LOGGER) + "\n\n")
+
     # Get the dimensions of the console
     rows, columns = os.popen('stty size', 'r').read().split()
 
@@ -114,16 +150,16 @@ def log_header(text):
     # Thus the need of fixing the end position of the header
     # Brace yourself. Magic Numbers are comming.
     if int(len(text)) % 2 == 0:
+        text_beggining_indent = 2
+        text_ending_indent = 5
+    else:
         text_beggining_indent = 1
         text_ending_indent = 4
-    else:
-        text_beggining_indent = 0
-        text_ending_indent = 3
 
     if int(len(time)) % 2 == 0:
-        time_ending_indent = 4
+        time_ending_indent = 3
     else:
-        time_ending_indent = 5
+        time_ending_indent = 4
 
     # Length of header border, not counting the two left and right corners
     border_length = (column_count - 2)
@@ -133,22 +169,51 @@ def log_header(text):
     time_pos = int(((column_count - 2) / 2)) - int(len(time) / 2)
 
     # Print the header
-    print()
-    print("#" + "-" * border_length + "#")
-    print(  "#"
-            + " " * time_pos
-            + "[" + time + "]"
-            + " " * (column_count - border_length + time_pos - time_ending_indent)
-            + "#")
+    msg_to_print = ""
 
-    print(  "#"
-            + " " * text_pos + text
-            + " " * (column_count - border_length + text_pos - text_ending_indent)
-            + "#")
+    msg_to_print += "\n"
+    msg_to_print += __get_separator()
 
-    print("#" + " " * border_length + "#")
-    print("#" + "-" * border_length + "#")
-    print()
+
+    msg_to_print += "".join(["#",
+                " " * time_pos,
+                "[" + time + "]",
+                " " * (column_count - border_length + time_pos - time_ending_indent),
+                "#",
+                "\n"])
+
+    msg_to_print += __get_separator(filler=" ")
+
+    msg_to_print += "".join(["#",
+                    " " * text_pos + text,
+                    " " * (column_count - border_length + text_pos - text_ending_indent),
+                    "#",
+                    "\n"])
+
+    msg_to_print += __get_separator(filler=" ")
+    msg_to_print += __get_separator()
+    msg_to_print += "\n"
+
+    print(msg_to_print)
+    f.write(msg_to_print)
+
+    # Flush buffer
+    sys.stdout.flush()
+
+    # Clean up
+    f.close()
+
+"""
+    Returns a nice, stylish log separator as string
+"""
+def __get_separator(corner="#", filler="-"):
+    rows, columns = os.popen('stty size', 'r').read().split()
+    column_count = int(columns)
+    border_length = (column_count - 2)
+
+    msg_to_print = corner + filler * border_length + corner + "\n"
+
+    return msg_to_print
 
 """
     Returns current time as string.
@@ -159,6 +224,9 @@ def log_header(text):
 def get_time(format=TIME_FORMAT_SHORT_LOGGER):
     return datetime.datetime.now().strftime(format)
 
+"""
+    Print current global configuration
+"""
 def log_config():
     # Get all items from global_variables
     items = dir(global_v)
@@ -183,5 +251,5 @@ def log_config():
             config_str += str(getattr(global_v, item))
             config_str += "\n"
 
-    log_header("Config")
-    log(config_str, "config.txt")
+    log_header("Config", LOG_CONFIG_FILE_NAME)
+    log(config_str, LOG_CONFIG_FILE_NAME)

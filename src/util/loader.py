@@ -45,7 +45,7 @@ def load_native_xls():
                             currentValue != symbolClasses[len(symbolClasses)-1].name) or
                         (row == startRow and col == 0)
                     ):
-                    symbolClass = SymbolClass(currentValue, ColorChooser().get_color())
+                    symbolClass = SymbolClass(int(currentValue), ColorChooser().get_color())
                     symbolClasses.append(symbolClass)
                 if col == 0:
                     continue

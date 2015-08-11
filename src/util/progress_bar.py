@@ -3,6 +3,8 @@ import sys
 import datetime
 import time
 import os
+import util.global_variables as global_v
+import util.logger as logger
 
 """
     Time when progress bar was initiated
@@ -53,7 +55,7 @@ SPACE_SYMBOL = " "
 """
     Uses to initiate the progress bar
 """
-def init_progress_bar(_problem_size, _header=""):
+def init(_problem_size, _header=""):
     global problem_size
     problem_size = _problem_size
 
@@ -75,16 +77,15 @@ def init_progress_bar(_problem_size, _header=""):
     if column_count < MAX_BAR_COUNT - 10:
         MAX_BAR_COUNT = column_count - 10
 
-    print("\n\n")
-    print(header)
+    logger.log("PROGRESS BAR INIT: " + str([header]), styles=[logger.LogStyle.SEPARATOR_START])
 
 """
     Should be called every iteration of your algorithm
     to notify progress
 """
-def update_progress_bar():
+def update(update_size=1):
     global current_size
-    current_size += 1
+    current_size += update_size
 
     global current_progress_percent
     current_progress_percent = (current_size / problem_size) * 100
@@ -102,9 +103,9 @@ def update_progress_bar():
 """
     Should be called after your algorithm is done
 """
-def finish_progress_bar():
+def finish():
     delta_time = time.time() - init_time
-    print()
-    sys.stdout.write("Finished after: {0:.3f} sec".format(delta_time))
-    sys.stdout.flush()
-    print("\n\n")
+
+    msg = str([header]) + "\n" + "Finished after: {0:.3f} sec".format(delta_time)
+
+    logger.log("PROGRESS BAR FINISH: " + msg, styles=[logger.LogStyle.SEPARATOR_END])

@@ -7,29 +7,32 @@ import os
 from numpy import sqrt
 from symbols.symbol_class import SymbolClass
 from util.color_chooser import ColorChooser
+import util.progress_bar as p_bar
+import util.logger as logger
+
 
 """
     Computes a cluster evaluation of given data.
-    Returns the best number of clusters fitting 
-    this data set 
+    Returns the best number of clusters fitting
+    this data set
 """
 def cluster_evaluation(max_k, symbolClasses):
-    # If directory is not existing - create it. Next, save results to file.
-    path = os.path.join("..","log",global_v.DIR_NAME)
-    os.makedirs(path, exist_ok=True)
-    file = open(os.path.join(path,"prediction_strength_summary.txt"), 'a')
+    logger.log_header("Prediction Strength")
+
     start_k = 2
     best_ks = []
     for cl in symbolClasses:
         prediction_str = []
         data = cl.learning_set
 
-        double_print('SYMBOL:'+str([cl.name])," ", file, ending="")
+        logger.log("Symbol: " + str([cl.name]))
 
         max_ps = 0
         best_k = 1
 
         for k in range(start_k,max_k+1):
+            p_bar.init(0, "ps(" + str(k) + ")")
+
             avg_ps = 0
             for j in range(0,global_v.MAX_ITER_CLUS_EVALUATION):
                 ps = prediction_strength(data, k)
@@ -37,7 +40,10 @@ def cluster_evaluation(max_k, symbolClasses):
                 prediction_str.append(ps)
 
             avg_ps /= global_v.MAX_ITER_CLUS_EVALUATION
-            double_print(">> prediction_strength("+str(k)+") = ", avg_ps, file, ending="\n")
+
+            logger.log("prediction_strength("+str(k)+") = " + str(avg_ps))
+
+            p_bar.finish()
 
             if max_ps <= avg_ps:
                 max_ps = avg_ps
@@ -45,38 +51,37 @@ def cluster_evaluation(max_k, symbolClasses):
 
         best_ks.append(best_k)
 
-    file.close()
     return best_ks
 
 """
     Computes the prediction strength
-    
+
     Split data into: Learning and Test sets
     Compute k-means for both sets.
 
     Computes the co-membership of each Test cluster
     in respect to Learnings clusters.
-    
-    Compute strength of each Test cluster and 
+
+    Compute strength of each Test cluster and
     find the minimum value
 """
 def prediction_strength(data, k):
     # Split data into two sets
     learning = []
     test = []
-    
+
     for i in range(0,int(len(data))):
         random.choice((learning,test)).append(data[i])
 
     # Compute k-clustering of both sets
     learningClusters = computeClusters(k, learning)
     testClusters = computeClusters(k, test)
-    
+
     # PLOT
-    plot_clusters(learningClusters, testClusters)
+    #plot_clusters(learningClusters, testClusters)
 
     #
-    # Take set of points of each Test cluster and 
+    # Take set of points of each Test cluster and
     # compute its co-membership matrix with respect to
     # the set of Learning clusters.
     #
@@ -91,7 +96,7 @@ def prediction_strength(data, k):
         sum = 0
         co_memb = co_membership(learningClusters, testClusters[i].points)
 
-        # Compute strength of each Test cluster    
+        # Compute strength of each Test cluster
         for r in range(0,len(co_memb)):
             for c in range(0, len(co_memb[r])):
                 sum += co_memb[r][c]
@@ -115,16 +120,16 @@ def prediction_strength(data, k):
     return min
 
 '''
-    Let data be a set of n elements, then co-membership 
+    Let data be a set of n elements, then co-membership
     is an n by n matrix with (i,j)th element equal to 1
     if i and j fall into the same cluster from the clusters set,
     0 otherwise.
-    The clusters and data can come from different samples (of the same population) 
+    The clusters and data can come from different samples (of the same population)
 '''
 def co_membership(clusters, data):
     # creating co_membership matrix
     m = [[0 for x in range(len(data))] for x in range(len(data))]
-    
+
     # check if each pair of points belong
     # to the same cluster
     for i in range(0,len(data)):
@@ -133,47 +138,11 @@ def co_membership(clusters, data):
                 cluster_index_i = __find_closest_cluster(data[i], clusters)
 
                 cluster_index_j = __find_closest_cluster(data[j], clusters)
-                
+
                 if(cluster_index_i == cluster_index_j):
                     m[i][j] = 1
                 else:
                     m[i][j] = 0
-    return m
-
-def co_membership2(clusters, data):
-    # creating co_membership matrix
-    m = [[0 for x in range(len(data))] for x in range(len(data))]
-    
-    # check if each pair of points belong
-    # to the same cluster
-    for i in range(0,len(data)):
-        for j in range(0,len(data)):
-            if(i != j):
-                for cluster in clusters:
-                    # both must belong to the same cluster
-                    i_belongs = False
-                    j_belongs = False
-
-                    # return 0 if point belongs to cluster
-                    point = []
-                    point.append(data[i])
-                    count = cluster.ellipsoid.is_point_in_ellipsoid(
-                                    point, just_number = True)
-                    if count == 0:
-                        i_belongs = True
-                    
-                    point = []
-                    point.append(data[j])
-                    count = cluster.ellipsoid.is_point_in_ellipsoid(
-                                    point, just_number = True)
-                    if count == 0:
-                        j_belongs = True
-                    
-                    if i_belongs and j_belongs:
-                        m[i][j] = 1
-                        break
-                    else:
-                        m[i][j] = 0
     return m
 
 def computeClusters(k, data):
@@ -188,8 +157,8 @@ def computeClusters(k, data):
             if labels[c] == j:
                 points.append(data[c].characteristicsValues)
 
-        cluster = Cluster(centroids[j],points, data[c].name, j, give_info = False, 
-                          do_ellipsoid=True, do_cuboid=True)
+        cluster = Cluster(centroids[j],points, data[c].name, j, give_info = False,
+                          do_ellipsoid=False, do_cuboid=False)
         clusters.append(cluster)
     return clusters
 
@@ -217,7 +186,7 @@ def __computeClusters(k, distortedClasses):
         X.append(values)
 
     centroids, points_labels = __computeKMeans(k, X)
-          
+
     return centroids, points_labels
 
 def __find_closest_cluster(foreignPoint, clusters):
@@ -243,14 +212,14 @@ def __find_closest_cluster(foreignPoint, clusters):
 def plot_clusters(learningClusters, testClusters):
     symbolLearn = SymbolClass("0", ColorChooser().get_color())
     symbolLearn.clusters = learningClusters
-    
+
     symbolTest = SymbolClass("0", ColorChooser().get_color())
     symbolTest.clusters = testClusters
     symbols = [symbolLearn]
     Plot3D().renderPlot(symbols)
     symbols = [symbolTest]
     Plot3D().renderPlot(symbols)
-    
+
 def double_print(s, val, f, ending="%"):
     print("        ",s,val,ending)
     f.write(s + str(val) + ending + "\n")
