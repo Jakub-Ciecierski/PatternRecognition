@@ -115,15 +115,15 @@ def log_header(text):
     # Brace yourself. Magic Numbers are comming.
     if int(len(text)) % 2 == 0:
         text_beggining_indent = 1
-        text_ending_indent = 3
+        text_ending_indent = 4
     else:
         text_beggining_indent = 0
-        text_ending_indent = 2
+        text_ending_indent = 3
 
     if int(len(time)) % 2 == 0:
-        time_ending_indent = 3
-    else:
         time_ending_indent = 4
+    else:
+        time_ending_indent = 5
 
     # Length of header border, not counting the two left and right corners
     border_length = (column_count - 2)
