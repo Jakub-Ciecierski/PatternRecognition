@@ -17,8 +17,6 @@ import util.logger as logger
     this data set
 """
 def cluster_evaluation(max_k, symbolClasses):
-    logger.log_header("Prediction Strength")
-
     start_k = 2
     best_ks = []
     for cl in symbolClasses:

@@ -73,7 +73,7 @@ CLUS_TOL = 0.0001
 '''
     The maximum amout of clusters (k) for cluster evaluation
 '''
-MAX_K_CLUS_EVALUATION = 7
+MAX_K_CLUS_EVALUATION = 3
 
 '''
     The number of iteration that cluster evaluation for each k should

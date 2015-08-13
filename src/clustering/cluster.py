@@ -15,7 +15,8 @@ class Cluster:
     """
     def __init__(self, centroid, points, name, number, give_info = True, do_ellipsoid = True, do_cuboid = True):
         if give_info:
-            logger.log_header("New Cluster name: " + str([name]) + " Number: #" + str(number))
+            logger.log_header("Created Cluster: " + str([name]) + " Number: #" + str(number),
+                                styles=[logger.LogHeaderStyle.SUB_HEADER])
 
         self.center = centroid
         self.points = points

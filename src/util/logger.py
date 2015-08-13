@@ -12,10 +12,37 @@ LOG_DEFAULT_FILE_NAME = "log.txt"
 LOG_CONFIG_FILE_NAME = "config.txt"
 LOG_CLUSTER_FILE_NAME = "clusters.txt"
 
+LOG_RESULTS_ELLIPSOIDS_FILE_NAME = "results_ellipsoids.txt"
+LOG_RESULTS_CUBOIDS_FILE_NAME = "results_cuboids.txt"
+
 """
-    Message templates
+    Message templates:
+
+    SEPARATOR_END:      Adds a separation line (width of the console)
+                        after the log
+
+    SEPARATOR_START:    Adds a separation line (width of the console)
+                        before the log
+
+    TIME_STAMP:         Add a timestamp before the log
 """
-LogStyle = Enum('LogStyle', 'NONE SEPARATOR_END SEPARATOR_START')
+LogStyle = Enum('LogStyle', 'NONE SEPARATOR_END SEPARATOR_START TIME_STAMP')
+
+"""
+    Header styles:
+
+    MAIN_HEADER:        Big header, representing a chapter entry
+
+    SUB_HEADER:         Medium header, representing a sub chapter entry
+
+"""
+LogHeaderStyle = Enum('LogHeaderStyle', 'NONE MAIN_HEADER SUB_HEADER')
+
+"""
+    Logger styles
+"""
+TIME_INDENT =""
+TEXT_INDENT = "  >>  "
 
 """
     The name of the main log directory
@@ -51,11 +78,6 @@ TIME_FORMAT_SHORT_LOGGER = '%H:%M:%S'
 """
 TIME_FORMAT_LONG_LOGGER = '%H:%M:%S %d-%m-%Y'
 
-"""
-    Logger styles
-"""
-TIME_INDENT =""
-TEXT_INDENT = "  >>  "
 
 """
     Creates an log directory.
@@ -78,16 +100,19 @@ def init_log_dir():
 
 
 """
-    Creates a log in the console and file
-"""
-def log(msg, filename=LOG_DEFAULT_FILE_NAME, styles=[LogStyle.NONE]):
-    filepath = os.path.join(LOG_CURRENT_DIR_PATH, filename)
+    Creates a log in the console and file.
 
+    You can add styles using the 'styles' list.
+    Currently it is very ugly.
+    TODO: separate styling from creating log message.
+"""
+def log(msg, filename=LOG_DEFAULT_FILE_NAME,
+            styles=[LogStyle.TIME_STAMP]):
+
+    filepath = os.path.join(LOG_CURRENT_DIR_PATH, filename)
     # Check if file exists
     file_exists = os.path.exists(filepath)
-
     f = open(filepath, 'a')
-
     # If it was openned for the first time, print a log
     if not file_exists:
         f.write("File created: " + get_time(TIME_FORMAT_LONG_LOGGER) + "\n\n")
@@ -99,7 +124,8 @@ def log(msg, filename=LOG_DEFAULT_FILE_NAME, styles=[LogStyle.NONE]):
         msg_to_log += __get_separator()
 
     # Print the time of log
-    msg_to_log += "".join([TIME_INDENT, "[", get_time(), "]:", "\n"]);
+    if LogStyle.TIME_STAMP in styles:
+        msg_to_log += "".join([TIME_INDENT, "[", get_time(), "]:", "\n"]);
 
     # Insert indent before each line
     msg_list = msg.split("\n")
@@ -110,9 +136,10 @@ def log(msg, filename=LOG_DEFAULT_FILE_NAME, styles=[LogStyle.NONE]):
     if LogStyle.SEPARATOR_END in styles:
         msg_to_log += __get_separator()
 
-    msg_to_log += "\n\n"
+    msg_to_log += "\n"
 
     # Log
+    print()
     print(msg_to_log)
     f.write(msg_to_log)
 
@@ -125,7 +152,9 @@ def log(msg, filename=LOG_DEFAULT_FILE_NAME, styles=[LogStyle.NONE]):
 """
     Prints header, console and file
 """
-def log_header(text, filename=LOG_DEFAULT_FILE_NAME):
+def log_header(text, filename=LOG_DEFAULT_FILE_NAME,
+                styles=[LogHeaderStyle.MAIN_HEADER]):
+
     filepath = os.path.join(LOG_CURRENT_DIR_PATH, filename)
 
     # Check if file exists
@@ -161,6 +190,9 @@ def log_header(text, filename=LOG_DEFAULT_FILE_NAME):
     else:
         time_ending_indent = 4
 
+    text_ending_indent -= column_count%2 - 1
+    time_ending_indent -= column_count%2 - 1
+
     # Length of header border, not counting the two left and right corners
     border_length = (column_count - 2)
     # Position of text
@@ -174,6 +206,8 @@ def log_header(text, filename=LOG_DEFAULT_FILE_NAME):
     msg_to_print += "\n"
     msg_to_print += __get_separator()
 
+    if LogHeaderStyle.MAIN_HEADER in styles:
+        msg_to_print += __get_separator(filler=" ")
 
     msg_to_print += "".join(["#",
                 " " * time_pos,
@@ -182,7 +216,8 @@ def log_header(text, filename=LOG_DEFAULT_FILE_NAME):
                 "#",
                 "\n"])
 
-    msg_to_print += __get_separator(filler=" ")
+    if LogHeaderStyle.MAIN_HEADER in styles:
+        msg_to_print += __get_separator(filler=" ")
 
     msg_to_print += "".join(["#",
                     " " * text_pos + text,
@@ -190,7 +225,9 @@ def log_header(text, filename=LOG_DEFAULT_FILE_NAME):
                     "#",
                     "\n"])
 
-    msg_to_print += __get_separator(filler=" ")
+    if LogHeaderStyle.MAIN_HEADER in styles:
+        msg_to_print += __get_separator(filler=" ")
+
     msg_to_print += __get_separator()
     msg_to_print += "\n"
 

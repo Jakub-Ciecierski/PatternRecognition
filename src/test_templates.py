@@ -20,6 +20,10 @@ import data_calculations.paper2_calc as paper2
 
 import util.logger as logger
 import util.progress_bar as p_bar
+import data_calculations.classification as classifier
+
+# Experiments
+import experiments.paper2 as exp_paper2
 
 '''
     Chooses which test should be ran based on input test id
@@ -364,87 +368,7 @@ def static_k_semisynthetic_test_paper_2():
     paper2.compute(symbolClasses, foreignClasses)
 
 """
-0. Compute for original values of characteristics and for its normalization [0,1].
-    x_norm = (x-min)/(max-min).
-
-1. Native class is split into Training and Testing set
-
-2. Choose few classes and group them into one set (classes are represented by digits):
-    a) 0, 1, 2
-    b) 4, 5 ,6
-    c) 6, 8, 9
-    d) all
-
-3. Group Training set with 2, 3, 4, ..., c clusters using k-means.
-All native classes are treated as one big class. Thus their Training sets are treated
-as one big set.
-
-4. Compute cluster evaluation
-    a) Prediction strength
-    b)
-    c)
-    d)
-
-5) Create the ellipsoid and hyper rectangle encapsulating all elements of clusters
-
-6) Classifier Quality:
-    a) Training vs Testing
-    b) Foriegn rejecting
+    Runs the 'paper2' experiments
 """
 def paper_2():
-    logger.log_header("Paper2 Test")
-
-    '''
-        1) SPLIT NATIVE CLASS INTO TRAINING AND TESTING sets
-        TODO: separate loading and spliting from 'loader' module
-        TODO: save the split configuration and use the same one accross all test instances
-    '''
-    logger.log_header("Loading Native symbols")
-    symbolClasses = loader.load_native_xls()
-
-    util.global_variables.CLASS_NUM = len(symbolClasses)
-    util.global_variables.CHAR_NUM = len(symbolClasses[0].learning_set[0].characteristicsValues)
-
-    '''
-        2) SELECT AND GROUP CLASSES FROM NATIVE SET
-    '''
-    logger.log_header("Grouping Native symbols")
-    groupedSymbolsClasses = SymbolClass("Group of Classes: ", ColorChooser().get_color())
-
-    # Go through all symbols classes and choose the classes we want
-    for i in range(0, len(symbolClasses)):
-        if (symbolClasses[i].name in global_v.NATIVE_CLASSES or
-                len(global_v.NATIVE_CLASSES) == 0):
-            groupedSymbolsClasses.name += str(symbolClasses[i].name) + ", "
-            groupedSymbolsClasses.learning_set += symbolClasses[i].learning_set
-            groupedSymbolsClasses.test_set += symbolClasses[i].test_set
-
-    # Log
-    logger.log(str(groupedSymbolsClasses))
-
-    # Load Foreign symbols
-    logger.log_header("Loading Foreign symbols")
-    foreignClasses = loader.load_foreign_xls()
-    logger.log("Foreign Symbols: #" + str(len(foreignClasses)))
-
-    '''
-        3) CLUSERING
-    '''
-    logger.log_header("Clustering K = " + str(global_v.K))
-
-    # Init the progress bar
-    p_bar.init(1, "Clustering")
-
-    # Legacy function, requirs a list as input
-    tmp_list = [groupedSymbolsClasses]
-    Clusterer().computeClusters(tmp_list)
-
-    # Finish the progress bar
-    p_bar.finish()
-
-    '''
-        4) CLUSTER EVALUATION
-    '''
-    logger.log_header("Cluster Evaluation")
-    tmp_list = [groupedSymbolsClasses]
-    best_k = ps.cluster_evaluation(util.global_variables.MAX_K_CLUS_EVALUATION, tmp_list)
+    exp_paper2.run()

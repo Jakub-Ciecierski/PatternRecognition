@@ -77,7 +77,8 @@ def init(_problem_size, _header=""):
     if column_count < MAX_BAR_COUNT - 10:
         MAX_BAR_COUNT = column_count - 10
 
-    logger.log("PROGRESS BAR INIT: " + str([header]), styles=[logger.LogStyle.SEPARATOR_START])
+    logger.log("PROGRESS BAR INIT: " + str([header]),
+                styles=[logger.LogStyle.SEPARATOR_START])
 
 """
     Should be called every iteration of your algorithm
@@ -97,7 +98,8 @@ def update(update_size=1):
     space = SPACE_SYMBOL * (MAX_BAR_COUNT - current_progress_bar)
 
     if SHOW_PROGRESS_BAR:
-        sys.stdout.write("\r[{0}] {1:.2f}%".format(bars + space, current_progress_percent))
+        sys.stdout.write("\r[{0}] {1:.2f}%".format(bars + space,
+                            current_progress_percent))
         sys.stdout.flush()
 
 """
@@ -108,4 +110,5 @@ def finish():
 
     msg = str([header]) + "\n" + "Finished after: {0:.3f} sec".format(delta_time)
 
+    print()
     logger.log("PROGRESS BAR FINISH: " + msg, styles=[logger.LogStyle.SEPARATOR_END])
