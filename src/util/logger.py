@@ -109,6 +109,8 @@ def init_log_dir():
 def log(msg, filename=LOG_DEFAULT_FILE_NAME,
             styles=[LogStyle.TIME_STAMP]):
 
+    msg = str(msg)
+
     filepath = os.path.join(LOG_CURRENT_DIR_PATH, filename)
     # Check if file exists
     file_exists = os.path.exists(filepath)

@@ -8,6 +8,14 @@ TestType Enum break lines in the type string
 #------------------------------ PAPER 2 --------------------------------#
 #-----------------------------------------------------------------------#
 
+TODAY:
+
+Normalization
+Save native training and testing split
+Load native from that saved files
+
+ALL:
+
 1. klasy cyfr native dzielimy na dwa równoliczne zbiory: treningowy i testowy,
 
 2. wybieramy kilka klas, pewnie trzeba będzie przeprowadzić obliczenia dla

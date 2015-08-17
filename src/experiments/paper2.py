@@ -1,4 +1,5 @@
 from symbols.symbol_class import SymbolClass
+import sys
 
 from clustering.clusterer import Clusterer
 import clustering.evaluation.prediction_strength as ps
@@ -44,6 +45,10 @@ def run():
     # 1) Load symbols
     nativeElements, foreignElements = __load_symbols()
 
+    # 0) Normalize the characterstic values
+    if global_v.NORMALIZE:
+        __normalize(nativeElements, foreignElements)
+
     # 2) Choose classes
     nativeElements = __choose_native_classes(nativeElements)
 
@@ -56,6 +61,122 @@ def run():
 
     # 5) Compute Classifier quality
     __compute_classifier_quality(nativeElements, foreignElements)
+
+#------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------
+
+"""
+    0) Normalize the characterstic values to [0,1].
+    x_norm = (x-min)/(max-min).
+"""
+def __normalize(nativeElements, foreignElements):
+    logger.log_header("Normalization")
+
+    MIN_INDEX = 0
+    MAX_INDEX = 1
+
+    # Find MIN / MAX For native elements
+    min_max_values = __min_max(nativeElements, MIN_INDEX, MAX_INDEX)
+
+    for nativeClass in nativeElements:
+
+        for element in nativeClass.learning_set:
+            for i in range(0, len(element.characteristicsValues)):
+                charValue = element.characteristicsValues[i]
+                element.characteristicsValues[i] = __norm(charValue,
+                                                    min_max_values[i][MIN_INDEX],
+                                                    min_max_values[i][MAX_INDEX])
+
+        for element in nativeClass.test_set:
+            for i in range(0, len(element.characteristicsValues)):
+                charValue = element.characteristicsValues[i]
+                element.characteristicsValues[i] = __norm(charValue,
+                                                        min_max_values[i][MIN_INDEX],
+                                                        min_max_values[i][MAX_INDEX])
+
+    # Find MIN / MAX For foreign elements
+    min_max_values = __min_max(foreignElements, MIN_INDEX, MAX_INDEX)
+
+
+#------------------------------------------------------------------------------------
+
+def __norm(x, min, max):
+
+    x_norm = (x - min) / (max - min)
+
+    if x_norm > 1.0 or x_norm < 0.0:
+        logger.log("Normalization failed. Exiting...")
+        sys.exit()
+
+    return x_norm
+
+#------------------------------------------------------------------------------------
+
+def __min_max(nativeElements, MIN_INDEX=0, MAX_INDEX=1):
+
+    # Get the dimension
+    dim = len(nativeElements[0].learning_set[0].characteristicsValues)
+
+    # Set up min max values of each characterstic
+    min_max_values = [[0]*2 for x in range(dim)]
+    for min_max_value in min_max_values:
+        min_max_value[MIN_INDEX] = 99999
+        min_max_value[MAX_INDEX] = -99999
+
+    logger.log_header("Normalizing Native",
+                        styles=[logger.LogHeaderStyle.SUB_HEADER])
+
+    for nativeClass in nativeElements:
+
+        # Find max and min of each characterstic
+        for element in nativeClass.learning_set:
+            # Dimensions must fit
+            if len(element.characteristicsValues) != dim:
+                logger.log("Incorrect dimensions. Exiting...")
+                sys.exit()
+
+            # Find min max
+            for i in range(0, dim):
+                charValue = element.characteristicsValues[i]
+                # Min
+                if min_max_values[i][MIN_INDEX] >= charValue:
+                    min_max_values[i][MIN_INDEX] = charValue
+                # Max
+                if min_max_values[i][MAX_INDEX] <= charValue:
+                    min_max_values[i][MAX_INDEX] = charValue
+
+        # Find max and min of each characterstic
+        for element in nativeClass.test_set:
+            # Dimensions must fit
+            if len(element.characteristicsValues) != dim:
+                logger.log("Incorrect dimensions. Exiting...")
+                sys.exit()
+
+            # Find min max
+            for i in range(0, dim):
+                charValue = element.characteristicsValues[i]
+                # Min
+                if min_max_values[i][MIN_INDEX] >= charValue:
+                    min_max_values[i][MIN_INDEX] = charValue
+                # Max
+                if min_max_values[i][MAX_INDEX] <= charValue:
+                    min_max_values[i][MAX_INDEX] = charValue
+    """
+    for i in range(0, dim):
+        logger.log("Value #" + str(i), filename="test.txt")
+        logger.log(min_max_values[i][MIN_INDEX],
+                    filename="test.txt",
+                    styles=[logger.LogStyle.NONE])
+        logger.log(min_max_values[i][MAX_INDEX],
+                    filename="test.txt",
+                    styles=[logger.LogStyle.NONE])
+    """
+    return min_max_values
+
+#------------------------------------------------------------------------------------
+
+def __compute_normalization():
+    pass
 
 #------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------
@@ -79,6 +200,7 @@ def __load_symbols():
 
     return nativeElements, foreignElements
 
+#------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------
 
 """
@@ -104,6 +226,7 @@ def __choose_native_classes(nativeElements):
     return chosenNativeElements
 
 #------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------
 
 """
     3) CLUSERING
@@ -123,6 +246,7 @@ def __compute_clusters(nativeElements):
     p_bar.finish()
 
 #------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------
 
 '''
     4) CLUSTER EVALUATION
@@ -138,6 +262,7 @@ def __compute_cluster_evaluation(nativeElements):
     best_k = ps.cluster_evaluation(global_v.MAX_K_CLUS_EVALUATION,
                                     tmp_list)
 
+#------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------
 
 """

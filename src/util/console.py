@@ -13,7 +13,7 @@ subpoint_indent = "        "
 def parse_argv(argv):
     # Gather up flags
     try:
-        opts, args = getopt.getopt(argv, "123456789c:h:f:t:l:m:s:d:e:b:g:x:z:k:a:p:i:",
+        opts, args = getopt.getopt(argv, "123456789c:h:f:t:l:m:s:d:e:b:g:x:z:k:a:p:i:n",
                                             ["test-type-1","test-type-2",
                                             "test-type-3","test-type-4",
                                             "test-type-5","test-type-6","test-type-7",
@@ -22,7 +22,7 @@ def parse_argv(argv):
                                             "learn=","mvee=","k-cloud=","homo-std=",
                                             "eucl-min=", "n-file=", "f-file=",
                                             "xls-start-r=","xls-max-c=","k-clusters=","eucl-max=",
-                                            "test-type=", "native-classes="])
+                                            "test-type=", "native-classes=", "norm"])
 
     except getopt.GetoptError:
         usage()
@@ -54,6 +54,8 @@ def parse_argv(argv):
             util.global_variables.TEST_TYPE = util.global_variables.TestType.SYNTHETIC_PAPER_2
         elif opt in ("-9", "--test-type-9"):
             util.global_variables.TEST_TYPE = util.global_variables.TestType.SEMISYNTHETIC_PAPER_2
+        elif opt in ("-n", "--norm"):
+            util.global_variables.NORMALIZE = True
         elif opt in ("-t", "--test"):
             util.global_variables.N_TEST = int(arg)
         elif opt in ("-l", "--learn"):

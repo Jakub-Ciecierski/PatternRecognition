@@ -197,3 +197,9 @@ XLS_MAX_COL = -1
     [0, 2, 4]
 '''
 NATIVE_CLASSES = []
+
+'''
+    Whether the characteristic values shall be normalized [0,1].
+    x_norm = (x-min)/(max-min)
+'''
+NORMALIZE = False
