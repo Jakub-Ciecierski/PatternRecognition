@@ -55,6 +55,8 @@ def load_native_xls():
             random.choice((symbolClass.learning_set,symbolClass.test_set)).append(distortedClass)
     return symbolClasses
 
+def save_native(nativeElements):
+    pass
 
 def load_foreign_xls():
     startRow = global_v.XLS_START_ROW

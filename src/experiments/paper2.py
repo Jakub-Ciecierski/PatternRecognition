@@ -68,6 +68,8 @@ def run():
 """
     0) Normalize the characterstic values to [0,1].
     x_norm = (x-min)/(max-min).
+
+    TODO How to find min max...
 """
 def __normalize(nativeElements, foreignElements):
     logger.log_header("Normalization")
@@ -95,8 +97,16 @@ def __normalize(nativeElements, foreignElements):
                                                         min_max_values[i][MAX_INDEX])
 
     # Find MIN / MAX For foreign elements
+    """
     min_max_values = __min_max(foreignElements, MIN_INDEX, MAX_INDEX)
 
+    for element in foreignElements:
+        for i in range(0, len(element.characteristicsValues)):
+            charValue = element.characteristicsValues[i]
+            element.characteristicsValues[i] = __norm(charValue,
+                                                min_max_values[i][MIN_INDEX],
+                                                min_max_values[i][MAX_INDEX])
+    """
 
 #------------------------------------------------------------------------------------
 
