@@ -20,7 +20,7 @@ class Clusterer:
         for cl in symbolClasses:
             cl.clusters = []
             distortedClassesOfSingleClass = cl.learning_set[:]
-    
+
             centroids, labels = self.__computeClusters(distortedClassesOfSingleClass)
 
             # distinguish k clusters
@@ -30,37 +30,35 @@ class Clusterer:
                 for c in range(0, len(distortedClassesOfSingleClass)):
                     if labels[c] == j:
                         points.append(distortedClassesOfSingleClass[c].characteristicsValues)
-    
+
                 cluster = Cluster(centroids[j],points, cl.name, j)
                 cl.clusters.append(cluster)
-                
+
 
     '''
         Computes k cluster by applying kmeans to given sample.
     '''
     def __computeKMeans(self,sample):
-        k_means = KMeans(init='k-means++', n_clusters=global_v.K, n_init=10
-                            , max_iter=global_v.CLUS_MAX_ITER, tol=global_v.CLUS_TOL, random_state=4444)
+        k_means = KMeans(init='k-means++', n_clusters=global_v.K, n_init=10,
+                            max_iter=global_v.CLUS_MAX_ITER, 
+                            tol=global_v.CLUS_TOL, random_state=4444)
         k_means.fit(sample)
         return k_means.cluster_centers_, k_means.labels_
-    
+
     '''
         Computes k clusters of given sample of learning_set.
     '''
     def __computeClusters(self,distortedClasses):
         X = []
-    
+
         # compute clusters of each class
         for distoredClass in distortedClasses[:]:
             values = []
             for value in distoredClass.characteristicsValues[:]:
                 values.append(value)
-    
+
             X.append(values)
-    
+
         centroids, points_labels = self.__computeKMeans(X)
-              
+
         return centroids, points_labels
-    
-    
-    
