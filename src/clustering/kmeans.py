@@ -1,18 +1,21 @@
 from sklearn.cluster import MiniBatchKMeans, KMeans
+import util.global_variables as global_v
+from clustering.cluster import Cluster
+from numpy import sqrt
 
-def compute(k, data):
+def compute(k, training_set):
     clusters = []
-    centroids, labels = __computeClusters(k, data)
+    centroids, labels = __computeClusters(k, training_set)
 
     # distinguish k clusters
     for j in range(0,k):
         # points of this cluster
         points = []
-        for c in range(0, len(data)):
+        for c in range(0, len(training_set)):
             if labels[c] == j:
-                points.append(data[c].characteristicsValues)
+                points.append(training_set[c].characteristicsValues)
 
-        cluster = Cluster(centroids[j], points, data[c].name, j,
+        cluster = Cluster(centroids[j], points, training_set[c].name, j,
                             give_info = False,
                             do_ellipsoid=False,
                             do_cuboid=False)
@@ -36,13 +39,13 @@ def __computeKMeans(k, sample):
 '''
     Computes k clusters of given sample of learning_set.
 '''
-def __computeClusters(k, distortedClasses):
+def __computeClusters(k, training_set):
     X = []
 
     # compute clusters of each class
-    for distoredClass in distortedClasses[:]:
+    for training_symbol in training_set[:]:
         values = []
-        for value in distoredClass.characteristicsValues[:]:
+        for value in training_symbol.characteristicsValues[:]:
             values.append(value)
 
         X.append(values)

@@ -24,6 +24,7 @@ import data_calculations.classification as classifier
 
 # Experiments
 import experiments.paper2 as exp_paper2
+import experiments.cluster_evaluation_exp as c_eva_exp
 
 '''
     Chooses which test should be ran based on input test id
@@ -49,6 +50,8 @@ def choose_test():
         util.global_variables.TEST_TYPE = util.global_variables.TestType.SEMISYNTHETIC_PAPER_2
     elif util.global_variables.TEST_TYPE_ID == 10:
         util.global_variables.TEST_TYPE = util.global_variables.TestType.PAPER_2
+    elif util.global_variables.TEST_TYPE_ID == 11:
+        util.global_variables.TEST_TYPE = util.global_variables.TestType.CLUSTER_EVALUATION
 
     else:
         util.global_variables.TEST_TYPE = util.global_variables.TestType.NONE
@@ -372,3 +375,6 @@ def static_k_semisynthetic_test_paper_2():
 """
 def paper_2():
     exp_paper2.run()
+
+def cluster_evaluation_test():
+    c_eva_exp.run()

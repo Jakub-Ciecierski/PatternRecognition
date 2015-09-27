@@ -13,7 +13,7 @@ subpoint_indent = "        "
 def parse_argv(argv):
     # Gather up flags
     try:
-        opts, args = getopt.getopt(argv, "123456789c:h:f:t:l:m:s:d:e:b:g:x:z:k:a:p:i:n",
+        opts, args = getopt.getopt(argv, "123456789c:h:f:t:l:m:s:d:e:b:g:x:z:k:a:p:i:nq:",
                                             ["test-type-1","test-type-2",
                                             "test-type-3","test-type-4",
                                             "test-type-5","test-type-6","test-type-7",
@@ -22,7 +22,8 @@ def parse_argv(argv):
                                             "learn=","mvee=","k-cloud=","homo-std=",
                                             "eucl-min=", "n-file=", "f-file=",
                                             "xls-start-r=","xls-max-c=","k-clusters=","eucl-max=",
-                                            "test-type=", "native-classes=", "norm"])
+                                            "test-type=", "native-classes=", "norm",
+                                            "max-k-eval="])
 
     except getopt.GetoptError:
         usage()
@@ -82,6 +83,8 @@ def parse_argv(argv):
             util.global_variables.K = int(arg)
         elif opt in ("-p", "--test-type"):
             util.global_variables.TEST_TYPE_ID = int(arg)
+        elif opt in ("-q", "--max-k-eval"):
+            util.global_variables.MAX_ITER_CLUS_EVALUATION = int(arg)
         elif opt in ("-i", "--native-classes"):
             class_list_str = arg.split()
             for i in range(0, len(class_list_str)):

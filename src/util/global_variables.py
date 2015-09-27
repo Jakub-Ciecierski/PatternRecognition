@@ -5,7 +5,7 @@ WHICH_COLOR = 0
 '''
     Number of different symbol classes.
 '''
-CLASS_NUM = 2
+CLASS_NUM = 1
 
 '''
     Number of characteristics for each symbol class.
@@ -73,13 +73,13 @@ CLUS_TOL = 0.0001
 '''
     The maximum amout of clusters (k) for cluster evaluation
 '''
-MAX_K_CLUS_EVALUATION = 3
+MAX_K_CLUS_EVALUATION = 7
 
 '''
     The number of iteration that cluster evaluation for each k should
     be repeated.
 '''
-MAX_ITER_CLUS_EVALUATION = 1
+MAX_ITER_CLUS_EVALUATION = 7
 
 '''
     Number of clouds in native distortion
@@ -159,7 +159,7 @@ PRINT_GENERATED_SYMBOLS = False
     has been created. By default we perform only test1 i.e. homogeneous native symbols
     and homogeneous foreign symbols.
 '''
-TestType = Enum('TestType', 'NONE SYNTHETIC_HOMO_NATIVE GROUPING_ASSESSMENT FULL REAL_DATA REAL_DATA_STATIC_K SYNTHETIC_PAPER_1 SEMISYNTHETIC_PAPER_1 SYNTHETIC_PAPER_2 SEMISYNTHETIC_PAPER_2 STATIC_K_SEMISYNTHETIC_PAPER_2 PAPER_2')
+TestType = Enum('TestType', 'NONE SYNTHETIC_HOMO_NATIVE GROUPING_ASSESSMENT FULL REAL_DATA REAL_DATA_STATIC_K SYNTHETIC_PAPER_1 SEMISYNTHETIC_PAPER_1 SYNTHETIC_PAPER_2 SEMISYNTHETIC_PAPER_2 STATIC_K_SEMISYNTHETIC_PAPER_2 PAPER_2 CLUSTER_EVALUATION')
 
 TEST_TYPE = TestType.SYNTHETIC_PAPER_2
 

@@ -2,7 +2,7 @@ from xlrd import open_workbook
 from symbols.symbol_class import SymbolClass
 from util.color_chooser import ColorChooser
 import util.global_variables as global_v
-from test.test_importlib.extension.util import FILEPATH
+#from test.test_importlib.extension.util import FILEPATH
 import random
 import util.logger as logger
 

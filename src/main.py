@@ -54,5 +54,9 @@ elif util.global_variables.TEST_TYPE == util.global_variables.TestType.STATIC_K_
 elif util.global_variables.TEST_TYPE == util.global_variables.TestType.PAPER_2:
     tests.paper_2()
 
+elif util.global_variables.TEST_TYPE == util.global_variables.TestType.CLUSTER_EVALUATION:
+    tests.cluster_evaluation_test()
+
+
 else:
     print("\nPlease input proper Test ID\n")
