@@ -44,6 +44,8 @@ def compute(training_set, start_k = 2, end_k = 7):
 
     # Main loop. Computes indices for different amount of clusters
     for k in range(start_k, end_k + 1):
+        p_bar.init(0, "mc_r(" + str(k) + ")")
+
         # 1) Compute clusters.
         clusters = kmeans.compute(k, training_set)
 
@@ -59,7 +61,11 @@ def compute(training_set, start_k = 2, end_k = 7):
         C = (Sw/Nw) / (Sb/Nb)
         Results.append(C)
 
+        p_bar.finish()
+
     return Results
+
+#-------------------------------------------------------------------------------
 
 '''
     Computes the sum of the within-cluster distances
@@ -78,6 +84,8 @@ def __sum_within(clusters):
                 Nw += 1
 
     return Sum, Nw
+
+#-------------------------------------------------------------------------------
 
 def __sum_between(clusters):
     Sum = 0

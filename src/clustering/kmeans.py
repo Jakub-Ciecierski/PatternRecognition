@@ -74,7 +74,17 @@ def __find_closest_cluster(foreignPoint, clusters):
             min_i = i
     return min_i
 
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
+"""
+    This functions shouild be put in math module
+"""
+
+'''
+    Computes distance between two points
+'''
 def distance(point1, point2):
     dist = 0
 
@@ -84,3 +94,13 @@ def distance(point1, point2):
     dist = sqrt(dist)
 
     return dist
+
+def sum(point1, point2):
+    n = len(point1)
+
+    sum = [i for i in range(n)]
+
+    for i in range(0, n):
+        sum[i] = point1[i] + point2[i]
+
+    return sum

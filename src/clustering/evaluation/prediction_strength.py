@@ -19,7 +19,7 @@ def compute(training_set, start_k=2, end_k=7):
     best_k = 1
 
     for k in range(start_k, end_k+1):
-        #p_bar.init(0, "ps(" + str(k) + ")")
+        p_bar.init(0, "ps(" + str(k) + ")")
 
         avg_ps = 0
         for j in range(0,global_v.MAX_ITER_CLUS_EVALUATION):
@@ -30,7 +30,7 @@ def compute(training_set, start_k=2, end_k=7):
         avg_ps /= global_v.MAX_ITER_CLUS_EVALUATION
         Results.append(avg_ps)
 
-        #p_bar.finish()
+        p_bar.finish()
 
         if max_ps <= avg_ps:
             max_ps = avg_ps

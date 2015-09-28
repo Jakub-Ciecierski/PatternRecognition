@@ -78,7 +78,8 @@ def init(_problem_size, _header=""):
         MAX_BAR_COUNT = column_count - 10
 
     logger.log("PROGRESS BAR INIT: " + str([header]),
-                styles=[logger.LogStyle.SEPARATOR_START])
+                styles=[logger.LogStyle.SEPARATOR_START],
+                spaces=3)
 
 """
     Should be called every iteration of your algorithm
@@ -111,4 +112,5 @@ def finish():
     msg = str([header]) + "\n" + "Finished after: {0:.3f} sec".format(delta_time)
 
     print()
-    logger.log("PROGRESS BAR FINISH: " + msg, styles=[logger.LogStyle.SEPARATOR_END])
+    logger.log("PROGRESS BAR FINISH: " + msg,
+            styles=[logger.LogStyle.SEPARATOR_END])

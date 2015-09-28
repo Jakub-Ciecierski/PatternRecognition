@@ -107,19 +107,24 @@ def init_log_dir():
     TODO: separate styling from creating log message.
 """
 def log(msg, filename=LOG_DEFAULT_FILE_NAME,
-            styles=[LogStyle.TIME_STAMP]):
-
+            styles=[LogStyle.TIME_STAMP],
+            spaces=0):
     msg = str(msg)
 
     filepath = os.path.join(LOG_CURRENT_DIR_PATH, filename)
+
     # Check if file exists
     file_exists = os.path.exists(filepath)
+
     f = open(filepath, 'a')
+
     # If it was openned for the first time, print a log
     if not file_exists:
         f.write("File created: " + get_time(TIME_FORMAT_LONG_LOGGER) + "\n\n")
 
     msg_to_log = ""
+
+    msg_to_log += "\n" * spaces
 
     # Add style
     if LogStyle.SEPARATOR_START in styles:
@@ -138,7 +143,7 @@ def log(msg, filename=LOG_DEFAULT_FILE_NAME,
     if LogStyle.SEPARATOR_END in styles:
         msg_to_log += __get_separator()
 
-    msg_to_log += "\n"
+    #msg_to_log += "\n"
 
     # Log
     print()
