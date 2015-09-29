@@ -2,6 +2,8 @@
 /.pydevproject
 /.settings/org.eclipse.ltk.core.refactoring.prefs
 
+/resources/*
+
 # eclipse specific git ignore
 *.pydevproject
 .project

@@ -1,3 +1,4 @@
+"""
 #import sys
 #sys.path.append("~/programming/pattern_recognition/src/")
 
@@ -31,3 +32,4 @@ class TestKMeans(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+"""

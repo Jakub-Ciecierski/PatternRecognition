@@ -55,8 +55,7 @@ def load_native_xls():
             random.choice((symbolClass.learning_set,symbolClass.test_set)).append(distortedClass)
     return symbolClasses
 
-def save_native(nativeElements):
-    pass
+#-----------------------------------------------------------------------------------------
 
 def load_foreign_xls():
     startRow = global_v.XLS_START_ROW
@@ -86,6 +85,71 @@ def load_foreign_xls():
 
     return foreignClasses
 
+#-----------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------
+
+def serialize_choosen_elements(nativeElements):
+    logger.log_header("Choosing Native elements")
+    chosenNativeElements = SymbolClass("Chosen of Classes: ",
+                                        ColorChooser().get_color())
+
+    m_filename = "["
+
+    # Go through all symbols classes and choose the classes we want
+    for i in range(0, len(nativeElements)):
+        if (nativeElements[i].name in global_v.NATIVE_CLASSES or
+                len(global_v.NATIVE_CLASSES) == 0):
+            chosenNativeElements.learning_set += nativeElements[i].learning_set
+            chosenNativeElements.test_set += nativeElements[i].test_set
+
+            chosenNativeElements.name += str(nativeElements[i].name) + ", "
+            m_filename += str(nativeElements[i].name) + ", "
+
+    chosenNativeElements.name = chosenNativeElements.name.rstrip(", ")
+    m_filename = m_filename.rstrip(", ")
+    m_filename += "]"
+
+    for learning_element in chosenNativeElements.learning_set:
+        element_str = str(learning_element.characteristicsValues)
+        element_str = element_str.strip("[]")
+        element_str = element_str.rstrip("]")
+
+        logger.log(element_str,
+                    filename="training" + "_" + m_filename + ".txt",
+                    styles=[logger.LogStyle.NONE, logger.LogStyle.FILE_ONLY],
+                    text_indent="")
+
+    for test_element in chosenNativeElements.test_set:
+        element_str = str(test_element.characteristicsValues)
+        element_str = element_str.strip("[]")
+        element_str = element_str.rstrip("]")
+
+        logger.log(element_str,
+                filename="test" + "_" + m_filename + ".txt",
+                styles=[logger.LogStyle.NONE, logger.LogStyle.FILE_ONLY],
+                text_indent="")
+
+    # Log
+    logger.log(str(chosenNativeElements))
+
+    return chosenNativeElements
+
+#-----------------------------------------------------------------------------------------
+
+def deserialize_native():
+    f = open(global_v.NATIVE_TRAINING_FILE)
+    lines = f.readlines()
+
+    line = lines[2].split(", ")
+
+    wat = float(line[0])
+
+    logger.log(line)
+
+    logger.log(wat)
+
+#-----------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------
 
 '''
     TODO have to change global variables

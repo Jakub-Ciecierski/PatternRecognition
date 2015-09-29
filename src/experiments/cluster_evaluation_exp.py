@@ -8,12 +8,13 @@ import util.progress_bar as p_bar
 import clustering.evaluation.prediction_strength as ps
 import clustering.evaluation.mcclain_rao as mc_r
 import clustering.evaluation.pbm as pbm
+import clustering.evaluation.ratkowsky_lance as rat_l
 
 from gui.plot_3d import Plot3D
 from clustering.clusterer import Clusterer
 
 def run():
-    logger.log_header("Cluster Evaluation")
+    logger.log_header("Cluster Evaluation, k clouds: " + str(global_v.K_CLOUD_DISTORTION))
 
     symbolClasses = __generate_symbol()
     '''
@@ -54,6 +55,8 @@ def __compute_cluster_evaluation(training_set):
 
     __pbm_evaluation(training_set, start_k, end_k)
 
+    __rat_l_evaluation(training_set, start_k, end_k)
+
 #-------------------------------------------------------------------------------
 
 def __ps_evaluation(training_set, start_k, end_k):
@@ -73,7 +76,7 @@ def __mc_r_evaluation(training_set, start_k, end_k):
     logger.log_header("McClain-Rao")
 
     Results = mc_r.compute(training_set,
-                start_k, end_k)
+                            start_k, end_k)
 
     for i in range(0, len(Results)):
         logger.log("mc_r(" + str(i+start_k) + ") = " + str(Results[i]),
@@ -85,8 +88,20 @@ def __pbm_evaluation(training_set, start_k, end_k):
     logger.log_header("PBM")
 
     Results = pbm.compute(training_set,
-                start_k, end_k)
+                            start_k, end_k)
 
     for i in range(0, len(Results)):
         logger.log("pbm(" + str(i+start_k) + ") = " + str(Results[i]),
+                    styles=[logger.LogStyle.NONE])
+
+#-------------------------------------------------------------------------------
+
+def __rat_l_evaluation(training_set, start_k, end_k):
+    logger.log_header("Ratkowsky-Lance")
+
+    Results = rat_l.compute(training_set,
+                                start_k, end_k)
+
+    for i in range(0, len(Results)):
+        logger.log("rat_l(" + str(i+start_k) + ") = " + str(Results[i]),
                     styles=[logger.LogStyle.NONE])

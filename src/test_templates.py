@@ -25,6 +25,7 @@ import data_calculations.classification as classifier
 # Experiments
 import experiments.paper2 as exp_paper2
 import experiments.cluster_evaluation_exp as c_eva_exp
+import experiments.serialize_elements_exp as serializer_exp
 
 '''
     Chooses which test should be ran based on input test id
@@ -52,6 +53,8 @@ def choose_test():
         util.global_variables.TEST_TYPE = util.global_variables.TestType.PAPER_2
     elif util.global_variables.TEST_TYPE_ID == 11:
         util.global_variables.TEST_TYPE = util.global_variables.TestType.CLUSTER_EVALUATION
+    elif util.global_variables.TEST_TYPE_ID == 12:
+        util.global_variables.TEST_TYPE = util.global_variables.TestType.CHOOSE_ELEMENTS
 
     else:
         util.global_variables.TEST_TYPE = util.global_variables.TestType.NONE
@@ -378,3 +381,6 @@ def paper_2():
 
 def cluster_evaluation_test():
     c_eva_exp.run()
+
+def choose_native_elements():
+    serializer_exp.run()

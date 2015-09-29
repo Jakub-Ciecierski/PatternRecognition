@@ -79,7 +79,7 @@ MAX_K_CLUS_EVALUATION = 7
     The number of iteration that cluster evaluation for each k should
     be repeated.
 '''
-MAX_ITER_CLUS_EVALUATION = 7
+MAX_ITER_CLUS_EVALUATION = 1
 
 '''
     Number of clouds in native distortion
@@ -159,7 +159,7 @@ PRINT_GENERATED_SYMBOLS = False
     has been created. By default we perform only test1 i.e. homogeneous native symbols
     and homogeneous foreign symbols.
 '''
-TestType = Enum('TestType', 'NONE SYNTHETIC_HOMO_NATIVE GROUPING_ASSESSMENT FULL REAL_DATA REAL_DATA_STATIC_K SYNTHETIC_PAPER_1 SEMISYNTHETIC_PAPER_1 SYNTHETIC_PAPER_2 SEMISYNTHETIC_PAPER_2 STATIC_K_SEMISYNTHETIC_PAPER_2 PAPER_2 CLUSTER_EVALUATION')
+TestType = Enum('TestType', 'NONE SYNTHETIC_HOMO_NATIVE GROUPING_ASSESSMENT FULL REAL_DATA REAL_DATA_STATIC_K SYNTHETIC_PAPER_1 SEMISYNTHETIC_PAPER_1 SYNTHETIC_PAPER_2 SEMISYNTHETIC_PAPER_2 STATIC_K_SEMISYNTHETIC_PAPER_2 PAPER_2 CLUSTER_EVALUATION CHOOSE_ELEMENTS')
 
 TEST_TYPE = TestType.SYNTHETIC_PAPER_2
 
@@ -174,6 +174,16 @@ DIR_NAME = "temp"
     The path to native symbols sample
 '''
 NATIVE_FILE_PATH = ""
+
+'''
+    The path to native training elements
+'''
+NATIVE_TRAINING_FILE = ""
+
+'''
+    The path to native training elements
+'''
+NATIVE_TESTING_FILE = ""
 
 '''
     The path to foreign symbols sample

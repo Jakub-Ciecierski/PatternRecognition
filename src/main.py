@@ -57,6 +57,9 @@ elif util.global_variables.TEST_TYPE == util.global_variables.TestType.PAPER_2:
 elif util.global_variables.TEST_TYPE == util.global_variables.TestType.CLUSTER_EVALUATION:
     tests.cluster_evaluation_test()
 
+elif util.global_variables.TEST_TYPE == util.global_variables.TestType.CHOOSE_ELEMENTS:
+    tests.choose_native_elements()
+
 
 else:
     print("\nPlease input proper Test ID\n")

@@ -25,8 +25,11 @@ LOG_RESULTS_CUBOIDS_FILE_NAME = "results_cuboids.txt"
                         before the log
 
     TIME_STAMP:         Add a timestamp before the log
+
+    FILE_ONLY:
+                        Logs only to a file
 """
-LogStyle = Enum('LogStyle', 'NONE SEPARATOR_END SEPARATOR_START TIME_STAMP')
+LogStyle = Enum('LogStyle', 'NONE SEPARATOR_END SEPARATOR_START TIME_STAMP FILE_ONLY')
 
 """
     Header styles:
@@ -41,7 +44,7 @@ LogHeaderStyle = Enum('LogHeaderStyle', 'NONE MAIN_HEADER SUB_HEADER')
 """
     Logger styles
 """
-TIME_INDENT =""
+TIME_INDENT = ""
 TEXT_INDENT = "  >>  "
 
 """
@@ -105,10 +108,14 @@ def init_log_dir():
     You can add styles using the 'styles' list.
     Currently it is very ugly.
     TODO: separate styling from creating log message.
+
+    - spaces refer to extra amount of spaces between logs
+    - text_indent refer to the indent at the beggining of each line
 """
 def log(msg, filename=LOG_DEFAULT_FILE_NAME,
             styles=[LogStyle.TIME_STAMP],
-            spaces=0):
+            spaces=0,
+            text_indent=TEXT_INDENT):
     msg = str(msg)
 
     filepath = os.path.join(LOG_CURRENT_DIR_PATH, filename)
@@ -137,7 +144,7 @@ def log(msg, filename=LOG_DEFAULT_FILE_NAME,
     # Insert indent before each line
     msg_list = msg.split("\n")
     for m in msg_list:
-        msg_to_log += "".join([TEXT_INDENT, m, "\n"]);
+        msg_to_log += "".join([text_indent, m, "\n"]);
 
     # Add style
     if LogStyle.SEPARATOR_END in styles:
@@ -146,8 +153,9 @@ def log(msg, filename=LOG_DEFAULT_FILE_NAME,
     #msg_to_log += "\n"
 
     # Log
-    print()
-    print(msg_to_log)
+    if LogStyle.FILE_ONLY not in styles:
+        print()
+        print(msg_to_log)
     f.write(msg_to_log)
 
     # Flush buffer

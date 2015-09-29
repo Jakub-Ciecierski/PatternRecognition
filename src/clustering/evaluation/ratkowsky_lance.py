@@ -1,4 +1,5 @@
 import clustering.kmeans as kmeans
+from numpy import sqrt
 
 import util.progress_bar as p_bar
 import util.logger as logger
@@ -23,13 +24,30 @@ def compute(training_set, start_k=2, end_k=7):
         # 1) Compute clusters.
         clusters = kmeans.compute(k, training_set)
 
+        # 2) Compute the barycenter of entire data
         center = __compute_barycenter(clusters)
 
         p = len(center)
         R = 0
+        BGSS = 0
+        TSS = 0
 
+        # 3) Compute the mean R of quatients between BGSS and TSS
+        # for each dimension of data
         for j in range(0, p):
-            BGSS_j +=
+            BGSS = __compute_bgss_j(j, clusters, center)
+            TSS = __compute_tss_j(j, clusters, center)
+            R += BGSS / TSS
+        R /= p
+
+        # 4) Ratkowsky-Lance  index
+        C = sqrt((R/k))
+
+        Results.append(C)
+
+        p_bar.finish()
+
+    return Results
 
 
 #-------------------------------------------------------------------------------
@@ -40,7 +58,7 @@ def compute(training_set, start_k=2, end_k=7):
 def __compute_bgss_j(j, clusters, center):
     BGSSj = 0
 
-    for c in clusters
+    for c in clusters:
         c_center = c.center
         nk = len(c.points)
 
