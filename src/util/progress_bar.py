@@ -1,3 +1,4 @@
+import shutil
 import math
 import sys
 import datetime
@@ -67,9 +68,9 @@ def init(_problem_size, _header=""):
 
     global header
     header = _header
-
+    
     # Get the dimensions of the console
-    rows, columns = os.popen('stty size', 'r').read().split()
+    columns, rows = shutil.get_terminal_size((80,20))
     column_count = int(columns)
 
     # Make sure that the progress bar is not leaning to new line

@@ -3,6 +3,7 @@ import util.global_variables as global_v
 import os
 import datetime
 from enum import Enum
+import shutil
 
 """
     File names
@@ -182,7 +183,8 @@ def log_header(text, filename=LOG_DEFAULT_FILE_NAME,
         f.write("File created: " + get_time(TIME_FORMAT_LONG_LOGGER) + "\n\n")
 
     # Get the dimensions of the console
-    rows, columns = os.popen('stty size', 'r').read().split()
+    #rows, columns = os.popen('stty size', 'r').read().split()
+    columns, rows = shutil.get_terminal_size((80,20))
 
     row_count = int(rows)
     column_count = int(columns)
@@ -259,7 +261,8 @@ def log_header(text, filename=LOG_DEFAULT_FILE_NAME,
     Returns a nice, stylish log separator as string
 """
 def __get_separator(corner="#", filler="-"):
-    rows, columns = os.popen('stty size', 'r').read().split()
+    columns, rows = shutil.get_terminal_size((80,20))
+    #rows, columns = os.popen('stty size', 'r').read().split()
     column_count = int(columns)
     border_length = (column_count - 2)
 
