@@ -11,7 +11,7 @@ import shutil
 LOG_SYMBOLS_FILE_NAME = "symbols.txt"
 LOG_DEFAULT_FILE_NAME = "log.txt"
 LOG_CONFIG_FILE_NAME = "config.txt"
-LOG_CLUSTER_FILE_NAME = "clusters.txt"
+LOG_CLUSTER_FILE_NAME = "cluster_evaluation.txt"
 
 LOG_RESULTS_ELLIPSOIDS_FILE_NAME = "results_ellipsoids.txt"
 LOG_RESULTS_CUBOIDS_FILE_NAME = "results_cuboids.txt"
@@ -113,22 +113,37 @@ def init_log_dir():
     - spaces refer to extra amount of spaces between logs
     - text_indent refer to the indent at the beggining of each line
 """
-def log(msg, filename=LOG_DEFAULT_FILE_NAME,
+def log(msg, filename="",
             styles=[LogStyle.TIME_STAMP],
             spaces=0,
             text_indent=TEXT_INDENT):
     msg = str(msg)
 
-    filepath = os.path.join(LOG_CURRENT_DIR_PATH, filename)
+    if filename:
+        filepath = os.path.join(LOG_CURRENT_DIR_PATH, filename)
 
+        # Check if file exists
+        file_exists = os.path.exists(filepath)
+
+        f = open(filepath, 'a')
+
+        # If it was openned for the first time, print a log
+        if not file_exists:
+            f.write("File created: " + get_time(TIME_FORMAT_LONG_LOGGER) + "\n\n")
+
+#-----------------------------------------------------------------------------------------
+    # Default log file
+    filepath_default = os.path.join(LOG_CURRENT_DIR_PATH, LOG_DEFAULT_FILE_NAME)
     # Check if file exists
-    file_exists = os.path.exists(filepath)
+    file_exists = os.path.exists(filepath_default)
 
-    f = open(filepath, 'a')
+    f_default = open(filepath_default, 'a')
 
     # If it was openned for the first time, print a log
     if not file_exists:
-        f.write("File created: " + get_time(TIME_FORMAT_LONG_LOGGER) + "\n\n")
+        f_default.write("File created: " + get_time(TIME_FORMAT_LONG_LOGGER) + "\n\n")
+
+#-----------------------------------------------------------------------------------------
 
     msg_to_log = ""
 
@@ -157,30 +172,50 @@ def log(msg, filename=LOG_DEFAULT_FILE_NAME,
     if LogStyle.FILE_ONLY not in styles:
         print()
         print(msg_to_log)
-    f.write(msg_to_log)
+
+    if filename:
+        f.write(msg_to_log)
+    f_default.write(msg_to_log)
 
     # Flush buffer
     sys.stdout.flush()
 
     # Clean up
-    f.close()
+    if filename:
+        f.close()
+    f_default.close()
 
 """
     Prints header, console and file
 """
-def log_header(text, filename=LOG_DEFAULT_FILE_NAME,
+def log_header(text, filename="",
                 styles=[LogHeaderStyle.MAIN_HEADER]):
 
-    filepath = os.path.join(LOG_CURRENT_DIR_PATH, filename)
+    if filename:
+        filepath = os.path.join(LOG_CURRENT_DIR_PATH, filename)
 
+        # Check if file exists
+        file_exists = os.path.exists(filepath)
+
+        f = open(filepath, 'a')
+
+        # If it was openned for the first time, print a log
+        if not file_exists:
+            f.write("File created: " + get_time(TIME_FORMAT_LONG_LOGGER) + "\n\n")
+
+#-----------------------------------------------------------------------------------------
+    # Default log file
+    filepath_default = os.path.join(LOG_CURRENT_DIR_PATH, LOG_DEFAULT_FILE_NAME)
     # Check if file exists
-    file_exists = os.path.exists(filepath)
+    file_exists = os.path.exists(filepath_default)
 
-    f = open(filepath, 'a')
+    f_default = open(filepath_default, 'a')
 
     # If it was openned for the first time, print a log
     if not file_exists:
-        f.write("File created: " + get_time(TIME_FORMAT_LONG_LOGGER) + "\n\n")
+        f_default.write("File created: " + get_time(TIME_FORMAT_LONG_LOGGER) + "\n\n")
+
+#-----------------------------------------------------------------------------------------
 
     # Get the dimensions of the console
     #rows, columns = os.popen('stty size', 'r').read().split()
@@ -249,13 +284,17 @@ def log_header(text, filename=LOG_DEFAULT_FILE_NAME,
     msg_to_print += "\n"
 
     print(msg_to_print)
-    f.write(msg_to_print)
+    if filename:
+        f.write(msg_to_print)
+    f_default.write(msg_to_print)
 
     # Flush buffer
     sys.stdout.flush()
 
     # Clean up
-    f.close()
+    if filename:
+        f.close()
+    f_default.close()
 
 """
     Returns a nice, stylish log separator as string

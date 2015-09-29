@@ -13,7 +13,7 @@ subpoint_indent = "        "
 def parse_argv(argv):
     # Gather up flags
     try:
-        opts, args = getopt.getopt(argv, "123456789c:h:f:t:l:m:s:d:e:b:g:x:z:k:a:p:i:nq:j:u:",
+        opts, args = getopt.getopt(argv, "123456789c:h:f:t:l:m:s:d:e:b:g:x:z:k:a:p:i:nq:j:u:y:",
                                             ["test-type-1","test-type-2",
                                             "test-type-3","test-type-4",
                                             "test-type-5","test-type-6","test-type-7",
@@ -23,7 +23,8 @@ def parse_argv(argv):
                                             "eucl-min=", "n-file=", "f-file=",
                                             "xls-start-r=","xls-max-c=","k-clusters=","eucl-max=",
                                             "test-type=", "native-classes=", "norm",
-                                            "max-k-eval=", "n-train-file=", "n-test-file="])
+                                            "max-k-eval=", "n-train-file=", "n-test-file=",
+                                            "f-classes="])
 
     except getopt.GetoptError:
         usage()
@@ -93,6 +94,10 @@ def parse_argv(argv):
             class_list_str = arg.split()
             for i in range(0, len(class_list_str)):
                 util.global_variables.NATIVE_CLASSES.append(int(class_list_str[i]))
+        elif opt in ("-y", "--f-classes"):
+            class_list_str = arg.split()
+            for i in range(0, len(class_list_str)):
+                util.global_variables.FOREIGN_CLASSES.append(int(class_list_str[i]))
 
 """
     Deprecated, moved to logger

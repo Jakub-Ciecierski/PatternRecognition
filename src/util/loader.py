@@ -62,10 +62,14 @@ def load_foreign_xls():
     maxColumns = global_v.XLS_MAX_COL
 
     foreignClasses = []
+    skip = False
+    number = -1
 
-    logger.log("Opening file: " + str(global_v.FOREIGN_FILE_PATH))
+    logger.log("Opening file: " + str(global_v.FOREIGN_FILE_PATH))``
+    logger.log("Including classes: " + str(global_v.FOREIGN_CLASSES))
 
     path = ""
+
     wb = open_workbook(global_v.FOREIGN_FILE_PATH)
     for s in wb.sheets():
         for row in range(startRow, s.nrows):
@@ -74,23 +78,36 @@ def load_foreign_xls():
                 if maxColumns > 0 and col == maxColumns + 1:
                     break
 
-                currentValue = float(str(s.cell(row,col).value).replace(',','.'))
                 if col == 0:
+                    number = int(s.cell(row, col).value)
+                    if (number in global_v.FOREIGN_CLASSES or
+                        len(global_v.FOREIGN_CLASSES) == 0):
+                        skip = False
+                    else:
+                        skip = True
                     continue
+
+                currentValue = float(str(s.cell(row,col).value).replace(',','.'))
                 characteristics.append(currentValue)
 
-            foreignClass = SymbolClass('foreign', ColorChooser().getForeignColor)
-            foreignClass.characteristicsValues = characteristics
-            foreignClasses.append(foreignClass)
+            if not skip:
+                foreignClass = SymbolClass('foreign: ' + str(number), ColorChooser().getForeignColor)
+                foreignClass.characteristicsValues = characteristics
+                foreignClasses.append(foreignClass)
 
     return foreignClasses
 
 #-----------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------
 
-def serialize_choosen_elements(nativeElements):
+'''
+    Serializes chosen native elements.
+
+    As chosen from global_v.NATIVE_CLASSES
+'''
+def serialize_chosen_elements(nativeElements):
     logger.log_header("Choosing Native elements")
-    chosenNativeElements = SymbolClass("Chosen of Classes: ",
+    chosenNativeElements = SymbolClass("",
                                         ColorChooser().get_color())
 
     m_filename = "["
@@ -121,7 +138,7 @@ def serialize_choosen_elements(nativeElements):
 
     for test_element in chosenNativeElements.test_set:
         element_str = str(test_element.characteristicsValues)
-        element_str = element_str.strip("[]")
+        element_str = element_str.strip("[")
         element_str = element_str.rstrip("]")
 
         logger.log(element_str,
@@ -136,17 +153,50 @@ def serialize_choosen_elements(nativeElements):
 
 #-----------------------------------------------------------------------------------------
 
+'''
+    Loads native elements from training and testing files
+    as chosen by global_v.NATIVE_TRAINING_FILE and NATIVE_TESTING_FILE
+'''
 def deserialize_native():
+    nativeSymbols = SymbolClass("Native",
+                            ColorChooser().get_color())
+
+    # Training
     f = open(global_v.NATIVE_TRAINING_FILE)
     lines = f.readlines()
 
-    line = lines[2].split(", ")
+    for l in range(2, len(lines)):
+        line = lines[l].split(", ")
+        features = []
+        symbol = SymbolClass("Native",
+                                nativeSymbols.color)
 
-    wat = float(line[0])
+        for i in range(0, len(line)):
+            features.append(float(line[i]))
+        symbol.characteristicsValues = features
 
-    logger.log(line)
+        nativeSymbols.learning_set.append(symbol)
 
-    logger.log(wat)
+    # Testing
+    f2 = open(global_v.NATIVE_TESTING_FILE)
+    lines = f2.readlines()
+
+    for l in range(2, len(lines)):
+        line = lines[l].split(", ")
+        features = []
+        symbol = SymbolClass("Native",
+                                nativeSymbols.color)
+
+        for i in range(0, len(line)):
+            features.append(float(line[i]))
+        symbol.characteristicsValues = features
+
+        nativeSymbols.test_set.append(symbol)
+
+    return nativeSymbols
+
+    f.close()
+    f2.close()
 
 #-----------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------

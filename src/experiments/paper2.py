@@ -2,7 +2,11 @@ from symbols.symbol_class import SymbolClass
 import sys
 
 from clustering.clusterer import Clusterer
+
 import clustering.evaluation.prediction_strength as ps
+import clustering.evaluation.mcclain_rao as mc_r
+import clustering.evaluation.pbm as pbm
+import clustering.evaluation.ratkowsky_lance as rat_l
 
 from util.color_chooser import ColorChooser
 import util.loader as loader
@@ -42,22 +46,19 @@ as one big set.
     b) Foriegn rejecting
 """
 def run():
-    # 1) Load symbols
+    # 1), 2) Load symbols
     nativeElements, foreignElements = __load_symbols()
 
     # 0) Normalize the characterstic values
     if global_v.NORMALIZE:
         __normalize(nativeElements, foreignElements)
 
-    # 2) Choose classes
-    nativeElements = __choose_native_classes(nativeElements)
-
     # 3) Compute clusters
     # 3.1) Compute Ellipsoids and cuboids
     __compute_clusters(nativeElements)
 
     # 4) Cluster evaluation
-    __compute_cluster_evaluation(nativeElements)
+    __compute_cluster_evaluation(nativeElements.learning_set)
 
     # 5) Compute Classifier quality
     __compute_classifier_quality(nativeElements, foreignElements)
@@ -199,41 +200,20 @@ def __compute_normalization():
 def __load_symbols():
     # Load Native symbols
     logger.log_header("Loading Native symbols")
-    nativeElements = loader.load_native_xls()
+    nativeElements = loader.deserialize_native()
 
     # Load Foreign symbols
     logger.log_header("Loading Foreign symbols")
     foreignElements = loader.load_foreign_xls()
 
-    global_v.CLASS_NUM = len(nativeElements)
-    global_v.CHAR_NUM = len(nativeElements[0].learning_set[0].characteristicsValues)
+    global_v.CLASS_NUM = 1
+    global_v.CHAR_NUM = len(nativeElements.learning_set[0].characteristicsValues)
 
     return nativeElements, foreignElements
 
 #------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------
 
-"""
-    2) SELECT AND GROUP CLASSES FROM NATIVE SET
-"""
-def __choose_native_classes(nativeElements):
-    logger.log_header("Choosing Native elements")
-    chosenNativeElements = SymbolClass("Chosen of Classes: ",
-                                        ColorChooser().get_color())
-
-    # Go through all symbols classes and choose the classes we want
-    for i in range(0, len(nativeElements)):
-        if (nativeElements[i].name in global_v.NATIVE_CLASSES or
-                len(global_v.NATIVE_CLASSES) == 0):
-            chosenNativeElements.learning_set += nativeElements[i].learning_set
-            chosenNativeElements.test_set += nativeElements[i].test_set
-
-            chosenNativeElements.name += str(nativeElements[i].name) + ", "
-
-    # Log
-    logger.log(str(chosenNativeElements))
-
-    return chosenNativeElements
 
 #------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------
@@ -258,19 +238,85 @@ def __compute_clusters(nativeElements):
 #------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------
 
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
 '''
     4) CLUSTER EVALUATION
-    TODO: Add different algorithms
 '''
-def __compute_cluster_evaluation(nativeElements):
-    logger.log_header("Cluster Evaluation")
+def __compute_cluster_evaluation(training_set):
+    start_k = 2
+    end_k   = global_v.MAX_K_CLUS_EVALUATION
 
+    __ps_evaluation(training_set, start_k, end_k)
+
+    __mc_r_evaluation(training_set, start_k, end_k)
+
+    __pbm_evaluation(training_set, start_k, end_k)
+
+    __rat_l_evaluation(training_set, start_k, end_k)
+
+#-------------------------------------------------------------------------------
+
+def __ps_evaluation(training_set, start_k, end_k):
     logger.log_header("Prediction Strength",
+                        filename=logger.LOG_CLUSTER_FILE_NAME,
                         styles=[logger.LogHeaderStyle.SUB_HEADER])
-    # Legacy function, requirs a list as input
-    tmp_list = [nativeElements]
-    best_k = ps.cluster_evaluation(global_v.MAX_K_CLUS_EVALUATION,
-                                    tmp_list)
+
+    Results = ps.compute(training_set,
+                start_k, end_k)
+
+    for i in range(0, len(Results)):
+        logger.log("ps(" + str(i+start_k) + ") = " + str(Results[i]),
+                    filename=logger.LOG_CLUSTER_FILE_NAME,
+                    styles=[logger.LogStyle.NONE])
+
+
+#-------------------------------------------------------------------------------
+
+def __mc_r_evaluation(training_set, start_k, end_k):
+    logger.log_header("McClain-Rao",
+                        filename=logger.LOG_CLUSTER_FILE_NAME,
+                        styles=[logger.LogHeaderStyle.SUB_HEADER])
+
+    Results = mc_r.compute(training_set,
+                            start_k, end_k)
+
+    for i in range(0, len(Results)):
+        logger.log("mc_r(" + str(i+start_k) + ") = " + str(Results[i]),
+                    filename=logger.LOG_CLUSTER_FILE_NAME,
+                    styles=[logger.LogStyle.NONE])
+
+#-------------------------------------------------------------------------------
+
+def __pbm_evaluation(training_set, start_k, end_k):
+    logger.log_header("PBM",
+                        filename=logger.LOG_CLUSTER_FILE_NAME,
+                        styles=[logger.LogHeaderStyle.SUB_HEADER])
+
+    Results = pbm.compute(training_set,
+                            start_k, end_k)
+
+    for i in range(0, len(Results)):
+        logger.log("pbm(" + str(i+start_k) + ") = " + str(Results[i]),
+                    filename=logger.LOG_CLUSTER_FILE_NAME,
+                    styles=[logger.LogStyle.NONE])
+
+#-------------------------------------------------------------------------------
+
+def __rat_l_evaluation(training_set, start_k, end_k):
+    logger.log_header("Ratkowsky-Lance",
+                        filename=logger.LOG_CLUSTER_FILE_NAME,
+                        styles=[logger.LogHeaderStyle.SUB_HEADER])
+
+    Results = rat_l.compute(training_set,
+                                start_k, end_k)
+
+    for i in range(0, len(Results)):
+        logger.log("rat_l(" + str(i+start_k) + ") = " + str(Results[i]),
+                    filename=logger.LOG_CLUSTER_FILE_NAME,
+                    styles=[logger.LogStyle.NONE])
 
 #------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------

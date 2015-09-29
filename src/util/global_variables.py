@@ -79,7 +79,7 @@ MAX_K_CLUS_EVALUATION = 7
     The number of iteration that cluster evaluation for each k should
     be repeated.
 '''
-MAX_ITER_CLUS_EVALUATION = 1
+MAX_ITER_CLUS_EVALUATION = 3
 
 '''
     Number of clouds in native distortion
@@ -102,7 +102,7 @@ ELLPSD_TRESH = 1.02
     Recommended settings:
     >>    0.00001
 '''
-MVEE_ERR = 0.01
+MVEE_ERR = 0.0004
 
 '''
     Randomized values of all characteristics will be picked from
@@ -207,6 +207,11 @@ XLS_MAX_COL = -1
     [0, 2, 4]
 '''
 NATIVE_CLASSES = []
+
+'''
+    Which foreign 'classes' to choose
+'''
+FOREIGN_CLASSES = []
 
 '''
     Whether the characteristic values shall be normalized [0,1].

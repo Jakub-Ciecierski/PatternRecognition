@@ -95,7 +95,7 @@ def compute_native_vs_foreign(nativeElements, foreignElements, classify_geometry
     Computes Accuracy, Sensitivity, Precision and F-Measure
 """
 def compute_measurements(TP, FN, TN, FP):
-    accuracy = (TP + FN) / (TP + FN + FP + TN)
+    accuracy = (TP + TN) / (TP + FN + FP + TN)
 
     sensitivity = TP / (TP + FN)
 
