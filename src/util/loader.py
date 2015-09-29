@@ -65,7 +65,7 @@ def load_foreign_xls():
     skip = False
     number = -1
 
-    logger.log("Opening file: " + str(global_v.FOREIGN_FILE_PATH))``
+    logger.log("Opening file: " + str(global_v.FOREIGN_FILE_PATH))
     logger.log("Including classes: " + str(global_v.FOREIGN_CLASSES))
 
     path = ""
