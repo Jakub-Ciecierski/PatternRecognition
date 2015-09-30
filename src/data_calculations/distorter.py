@@ -125,14 +125,14 @@ class Distorter:
                 # randomize position around a given class(based on position)
                 distortedClass.characteristicsValues = self.__generate_distortion(
                                                                 cl.characteristicsValues[:],
-                                                                3.5)
+                                                                7.5)
 
                 scope =  int((global_v.N_LEARNING)/k)
                 for j in range (0, scope):
                     cloud_point = SymbolClass(cl.name, cl.color)
                     cloud_point.characteristicsValues = self.__generate_distortion(
                                                                 distortedClass.characteristicsValues[:],
-                                                                0.5)
+                                                                1.5)
                     cl.learning_set.append(cloud_point)
 
             # Info about number of created points

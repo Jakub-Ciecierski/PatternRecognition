@@ -55,7 +55,7 @@ def compute(training_set, start_k = 2, end_k = 7):
         # 3) Sum of distances of between pairs of points
         Sb, Nb = __sum_between(clusters)
         N = len(training_set)
-        Nb = ((N * (N - 1)) / 2 )- Nw
+        #Nb = ((N * (N - 1)) / 2 )- Nw
 
         # McClain-Rao Index
         C = (Sw/Nw) / (Sb/Nb)

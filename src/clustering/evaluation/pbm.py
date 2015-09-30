@@ -55,7 +55,7 @@ def compute(training_set, start_k=2, end_k=7):
 
         Et = __distance_between_barycenter(clusters)
 
-        C = (1/k * (Et / Ew) * Db)**2
+        C = ( (1/k) * (Et / Ew) * Db)**2
 
         Results.append(C)
 
