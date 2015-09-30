@@ -8,41 +8,44 @@ import numpy as np
 import os
 import util.console as console
 import sys
+
+import util.logger as logger
+
 '''
     To make main.py more transparent whole process of initialization
     starting data and performing tests on generated sets takes place here.
 '''
 
 '''
-    Creation of CHAR_NUM characteristics, each with random subinterval 
+    Creation of CHAR_NUM characteristics, each with random subinterval
     of [0,20]. Uniform distribution is used.
 '''
 def generate_characteristic(characteristics):
-    f = open(os.path.join("..","log",global_v.DIR_NAME,"CHARACTERISTICS.txt"), 'w')
+    f = open(os.path.join("..","log",logger.LOG_CURRENT_DIR_PATH,"CHARACTERISTICS.txt"), 'w')
     for i in range(0,global_v.CHAR_NUM):
         characteristics.append(Characteristic())
         console.write_characteristics(f,i, characteristics[i].interval.lowerBound,
                                 characteristics[i].interval.upperBound,
                                 "Characterestic #", "Interval:", "From:", "To:")
     f.close()
-        
+
 '''
     Initialization of CLASS_NUM symbol classes, each with CHAR_NUM
     characteristics. Values of each characteristic is randomized.
     Uniform distribution is used.
-'''        
+'''
 def generate_symbol_classes(symbolClasses, characteristics):
     for i in range(0,global_v.CLASS_NUM):
-        newSymbol =  SymbolClass(i, ColorChooser().get_color(), type = SymbolType.NATIVE_BASE)  
-        
+        newSymbol =  SymbolClass(i, ColorChooser().get_color(), type = SymbolType.NATIVE_BASE)
+
         loopCounter = 20000 # to control number of iterations
         while True:
             # Generate random characteristics for new symbol
             newCharacteristics =[]
             for j in range(0,len(characteristics)):
                 newCharacteristics.append(
-                                RandomGenerator().generateRandom(characteristics[j].interval.lowerBound, 
-                                                                 characteristics[j].interval.upperBound))   
+                                RandomGenerator().generateRandom(characteristics[j].interval.lowerBound,
+                                                                 characteristics[j].interval.upperBound))
 
             # Check generated numbers
             found = False
@@ -55,10 +58,10 @@ def generate_symbol_classes(symbolClasses, characteristics):
             loopCounter -= 1
         # Save symbol
         newSymbol.characteristicsValues = newCharacteristics
-        symbolClasses.append(newSymbol)   
-         
+        symbolClasses.append(newSymbol)
+
     # INFO
-    f = open(os.path.join("..","log",global_v.DIR_NAME,"NATIVE_SYMBOLS.txt"), 'w')
+    f = open(os.path.join("..","log",logger.LOG_CURRENT_DIR_PATH,"NATIVE_SYMBOLS.txt"), 'w')
     for symbolClass in symbolClasses:
         console.write_symbol_classes(f,symbolClass.name,symbolClass.characteristicsValues,text="Symbol Class:", )
     f.close()
@@ -80,9 +83,9 @@ def cluster_membership_test(symbolClasses):
                 if(result == 0):
                     number_of_accepted += 1
                     break
-        console.write_name_number(symbol_class.name, 100*number_of_accepted/global_v.N_TEST, 
+        console.write_name_number(symbol_class.name, 100*number_of_accepted/global_v.N_TEST,
                                   text="% of test points accepted by symbol")
-        
+
 
 def euclidian_distance(point1, point2):
     result = 0

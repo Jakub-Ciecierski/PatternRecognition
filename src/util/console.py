@@ -3,6 +3,7 @@ import getopt
 import util.global_variables
 import os
 import datetime
+import util.logger as logger
 #from main import symbolClasses
 
 header_length = 94
@@ -13,7 +14,7 @@ subpoint_indent = "        "
 def parse_argv(argv):
     # Gather up flags
     try:
-        opts, args = getopt.getopt(argv, "123456789c:h:f:t:l:m:s:d:e:b:g:x:z:k:a:p:i:nq:j:u:y:",
+        opts, args = getopt.getopt(argv, "123456789c:h:f:t:l:m:s:d:e:b:g:x:z:k:a:p:i:nq:j:u:y:o:w:",
                                             ["test-type-1","test-type-2",
                                             "test-type-3","test-type-4",
                                             "test-type-5","test-type-6","test-type-7",
@@ -24,7 +25,7 @@ def parse_argv(argv):
                                             "xls-start-r=","xls-max-c=","k-clusters=","eucl-max=",
                                             "test-type=", "native-classes=", "norm",
                                             "max-k-eval=", "n-train-file=", "n-test-file=",
-                                            "f-classes="])
+                                            "f-classes=", "log-sub-dir=", "log-pref-dir="])
 
     except getopt.GetoptError:
         usage()
@@ -90,6 +91,11 @@ def parse_argv(argv):
             util.global_variables.NATIVE_TRAINING_FILE = arg
         elif opt in ("-u", "--n-test-file"):
             util.global_variables.NATIVE_TESTING_FILE = arg
+        elif opt in ("-o", "--log-sub-dir"):
+            logger.LOG_SUB_DIR_NAME = arg
+        elif opt in ("-w", "--log-pref-dir"):
+            logger.LOG_DIR_PREFIX_NAME = arg
+
         elif opt in ("-i", "--native-classes"):
             class_list_str = arg.split()
             for i in range(0, len(class_list_str)):

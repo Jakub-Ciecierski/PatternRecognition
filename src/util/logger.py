@@ -48,6 +48,8 @@ LogHeaderStyle = Enum('LogHeaderStyle', 'NONE MAIN_HEADER SUB_HEADER')
 TIME_INDENT = ""
 TEXT_INDENT = "  >>  "
 
+#-----------------------------------------------------------------------------------------
+
 """
     The name of the main log directory
     where all logs are stored.
@@ -63,6 +65,18 @@ LOG_MAIN_DIR_PATH = ".."
     The full path to current log directory
 """
 LOG_CURRENT_DIR_PATH = ""
+
+"""
+    Path to the sub dir inside LOG_MAIN_DIR_NAME directory
+"""
+LOG_SUB_DIR_NAME = ""
+
+"""
+    Adds a prefix to the current test log folder name
+"""
+LOG_DIR_PREFIX_NAME = ""
+
+#-----------------------------------------------------------------------------------------
 
 """
     The format of the time to be joined in
@@ -89,14 +103,16 @@ TIME_FORMAT_LONG_LOGGER = '%H:%M:%S %d-%m-%Y'
 def init_log_dir():
     # Don't make logs if no test is running
     if global_v.TEST_TYPE != global_v.TestType.NONE:
+        global LOG_DIR_PREFIX_NAME
+        global LOG_CURRENT_DIR_PATH
 
         # Prepare global filename for further references
-        global_v.DIR_NAME = global_v.TEST_TYPE.name + "_" + get_time(TIME_FORMAT_DIR_NAME)
+        global_v.DIR_NAME = global_v.TEST_TYPE.name + "_" + LOG_DIR_PREFIX_NAME + "_" + get_time(TIME_FORMAT_DIR_NAME)
 
         # Join the path to current directory
-        global LOG_CURRENT_DIR_PATH
         LOG_CURRENT_DIR_PATH = os.path.join(LOG_MAIN_DIR_PATH,
                                             LOG_MAIN_DIR_NAME,
+                                            LOG_SUB_DIR_NAME,
                                             global_v.DIR_NAME)
 
         # Create directory to save information
