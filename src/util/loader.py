@@ -178,20 +178,21 @@ def deserialize_native():
         nativeSymbols.learning_set.append(symbol)
 
     # Testing
-    f2 = open(global_v.NATIVE_TESTING_FILE)
-    lines = f2.readlines()
+    if global_v.NATIVE_TESTING_FILE:
+        f2 = open(global_v.NATIVE_TESTING_FILE)
+        lines = f2.readlines()
 
-    for l in range(2, len(lines)):
-        line = lines[l].split(", ")
-        features = []
-        symbol = SymbolClass("Native",
-                                nativeSymbols.color)
+        for l in range(2, len(lines)):
+            line = lines[l].split(", ")
+            features = []
+            symbol = SymbolClass("Native",
+                                    nativeSymbols.color)
 
-        for i in range(0, len(line)):
-            features.append(float(line[i]))
-        symbol.characteristicsValues = features
+            for i in range(0, len(line)):
+                features.append(float(line[i]))
+            symbol.characteristicsValues = features
 
-        nativeSymbols.test_set.append(symbol)
+            nativeSymbols.test_set.append(symbol)
 
     return nativeSymbols
 

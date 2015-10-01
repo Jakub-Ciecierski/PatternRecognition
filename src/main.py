@@ -54,7 +54,7 @@ elif util.global_variables.TEST_TYPE == util.global_variables.TestType.STATIC_K_
 elif util.global_variables.TEST_TYPE == util.global_variables.TestType.PAPER_2:
     tests.paper_2()
 
-elif util.global_variables.TEST_TYPE == util.global_variables.TestType.CLUSTER_EVALUATION:
+elif util.global_variables.TEST_TYPE == util.global_variables.TestType.CL_EVAL:
     tests.cluster_evaluation_test()
 
 elif util.global_variables.TEST_TYPE == util.global_variables.TestType.CHOOSE_ELEMENTS:

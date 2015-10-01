@@ -1,11 +1,13 @@
 from clustering.cluster import Cluster
-from sklearn.cluster import MiniBatchKMeans, KMeans
-import util.global_variables as global_v
 from gui.plot_3d import Plot3D
 import random
 import os
 from numpy import sqrt
 from symbols.symbol_class import SymbolClass
+
+import clustering.kmeans as kmeans
+
+import util.global_variables as global_v
 from util.color_chooser import ColorChooser
 import util.progress_bar as p_bar
 import util.logger as logger
@@ -44,6 +46,8 @@ def compute(training_set, start_k=2, end_k=7):
     Computes a cluster evaluation of given data.
     Returns the best number of clusters fitting
     this data set
+
+    Deprecated ! Use compute() instead
 """
 def cluster_evaluation(max_k, symbolClasses):
     start_k = 2
@@ -101,8 +105,8 @@ def prediction_strength(data, k):
         random.choice((learning,test)).append(data[i])
 
     # Compute k-clustering of both sets
-    learningClusters = computeClusters(k, learning)
-    testClusters = computeClusters(k, test)
+    learningClusters = kmeans.compute(k, learning)
+    testClusters = kmeans.compute(k, test)
 
     # PLOT
     #plot_clusters(learningClusters, testClusters)
@@ -168,79 +172,15 @@ def co_membership(clusters, data):
     for i in range(0,len(data)):
         for j in range(0,len(data)):
             if(i != j):
-                cluster_index_i = __find_closest_cluster(data[i], clusters)
+                cluster_index_i = kmeans.__find_closest_cluster(data[i], clusters)
 
-                cluster_index_j = __find_closest_cluster(data[j], clusters)
+                cluster_index_j = kmeans.__find_closest_cluster(data[j], clusters)
 
                 if(cluster_index_i == cluster_index_j):
                     m[i][j] = 1
                 else:
                     m[i][j] = 0
     return m
-
-def computeClusters(k, data):
-    clusters = []
-    centroids, labels = __computeClusters(k, data)
-
-    # distinguish k clusters
-    for j in range(0,k):
-        # points of this cluster
-        points = []
-        for c in range(0, len(data)):
-            if labels[c] == j:
-                points.append(data[c].characteristicsValues)
-
-        cluster = Cluster(centroids[j],points, data[c].name, j, give_info = False,
-                          do_ellipsoid=False, do_cuboid=False)
-        clusters.append(cluster)
-    return clusters
-
-'''
-    Computes k cluster by applying kmeans to given sample.
-'''
-def __computeKMeans( k, sample):
-    k_means = KMeans(init='k-means++', n_clusters=k, n_init=10
-                        , max_iter=global_v.CLUS_MAX_ITER, tol=global_v.CLUS_TOL, random_state=4444)
-    k_means.fit(sample)
-    return k_means.cluster_centers_, k_means.labels_
-
-'''
-    Computes k clusters of given sample of learning_set.
-'''
-def __computeClusters(k, distortedClasses):
-    X = []
-
-    # compute clusters of each class
-    for distoredClass in distortedClasses[:]:
-        values = []
-        for value in distoredClass.characteristicsValues[:]:
-            values.append(value)
-
-        X.append(values)
-
-    centroids, points_labels = __computeKMeans(k, X)
-
-    return centroids, points_labels
-
-def __find_closest_cluster(foreignPoint, clusters):
-    min_dist = 0
-    min_cluster = clusters[0]
-    min_i = 0
-    for i in range(len(clusters[0].center)):
-        min_dist += (clusters[0].center[i] - foreignPoint[i])**2
-    min_dist = sqrt(min_dist)
-
-    for i in range(0,len(clusters)):
-        distance = 0
-        for j in range(len(clusters[i].center)):
-            center = clusters[i].center
-            distance += (center[j] - foreignPoint[j])**2
-        distance = sqrt(distance)
-        if min_dist > distance:
-            min_dist = distance
-            min_cluster = clusters[i]
-            min_i = i
-    return min_i
 
 def plot_clusters(learningClusters, testClusters):
     symbolLearn = SymbolClass("0", ColorChooser().get_color())

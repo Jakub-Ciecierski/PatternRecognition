@@ -52,7 +52,7 @@ def choose_test():
     elif util.global_variables.TEST_TYPE_ID == 10:
         util.global_variables.TEST_TYPE = util.global_variables.TestType.PAPER_2
     elif util.global_variables.TEST_TYPE_ID == 11:
-        util.global_variables.TEST_TYPE = util.global_variables.TestType.CLUSTER_EVALUATION
+        util.global_variables.TEST_TYPE = util.global_variables.TestType.CL_EVAL
     elif util.global_variables.TEST_TYPE_ID == 12:
         util.global_variables.TEST_TYPE = util.global_variables.TestType.CHOOSE_ELEMENTS
 

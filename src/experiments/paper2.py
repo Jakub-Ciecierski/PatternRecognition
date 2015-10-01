@@ -16,7 +16,6 @@ import util.progress_bar as p_bar
 
 import data_calculations.classification as classifier
 
-
 """
 0. Compute for original values of characteristics and for its normalization [0,1].
     x_norm = (x-min)/(max-min).
@@ -45,6 +44,12 @@ as one big set.
     a) Training vs Testing
     b) Foriegn rejecting
 """
+
+'''
+    Should the cluster evaluation be computed
+'''
+CLUSTER_EVALUATION = False
+
 def run():
     # 1), 2) Load symbols
     nativeElements, foreignElements = __load_symbols()
@@ -58,7 +63,8 @@ def run():
     __compute_clusters(nativeElements)
 
     # 4) Cluster evaluation
-    __compute_cluster_evaluation(nativeElements.learning_set)
+    if CLUSTER_EVALUATION:
+        __compute_cluster_evaluation(nativeElements.learning_set)
 
     # 5) Compute Classifier quality
     __compute_classifier_quality(nativeElements, foreignElements)

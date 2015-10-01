@@ -63,7 +63,7 @@ EUCL_MAX_D = 10
 '''
     Maximum number of iterations of the k-means algorithm to run.
 '''
-CLUS_MAX_ITER = 1000
+CLUS_MAX_ITER = 10000
 
 '''
     The relative increment in the results before declaring convergence.
@@ -73,13 +73,13 @@ CLUS_TOL = 0.0001
 '''
     The maximum amout of clusters (k) for cluster evaluation
 '''
-MAX_K_CLUS_EVALUATION = 7
+MAX_K_CLUS_EVALUATION = 10
 
 '''
     The number of iteration that cluster evaluation for each k should
     be repeated.
 '''
-MAX_ITER_CLUS_EVALUATION = 3
+MAX_ITER_CLUS_EVALUATION = 5
 
 '''
     Number of clouds in native distortion
@@ -114,7 +114,13 @@ CHAR_INTERVAL = [0,20]
     Standard deviation for gaussian distribution used for
     generation of based points in the cloud around original value.
 '''
-HOMO_STD_DEV = 0.6
+HOMO_STD_DEV = 0.5
+
+'''
+    Standard deviation for gauusian dist. used for generating centers
+    of clouds
+'''
+HOMO_CENTER_STD_DEV = 6.5
 
 '''
     Standard deviation for gaussian distribution used for
@@ -159,7 +165,7 @@ PRINT_GENERATED_SYMBOLS = False
     has been created. By default we perform only test1 i.e. homogeneous native symbols
     and homogeneous foreign symbols.
 '''
-TestType = Enum('TestType', 'NONE SYNTHETIC_HOMO_NATIVE GROUPING_ASSESSMENT FULL REAL_DATA REAL_DATA_STATIC_K SYNTHETIC_PAPER_1 SEMISYNTHETIC_PAPER_1 SYNTHETIC_PAPER_2 SEMISYNTHETIC_PAPER_2 STATIC_K_SEMISYNTHETIC_PAPER_2 PAPER_2 CLUSTER_EVALUATION CHOOSE_ELEMENTS')
+TestType = Enum('TestType', 'NONE SYNTHETIC_HOMO_NATIVE GROUPING_ASSESSMENT FULL REAL_DATA REAL_DATA_STATIC_K SYNTHETIC_PAPER_1 SEMISYNTHETIC_PAPER_1 SYNTHETIC_PAPER_2 SEMISYNTHETIC_PAPER_2 STATIC_K_SEMISYNTHETIC_PAPER_2 PAPER_2 CL_EVAL CHOOSE_ELEMENTS')
 
 TEST_TYPE = TestType.SYNTHETIC_PAPER_2
 

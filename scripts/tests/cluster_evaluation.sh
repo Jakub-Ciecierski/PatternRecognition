@@ -5,6 +5,11 @@ case $i in
     -k=*|--k-clusters=*)
     K="${i#*=}"
     ;;
+    
+    -d=*|--sub-dir=*)
+    SUB_DIR="${i#*=}"
+    
+    ;;
     *)
             # unknown option
     ;;
@@ -20,5 +25,6 @@ python3.4 ../src/main.py \
 	-c 1 \
 	--learn 1000 \
 	--k-cloud ${K} \
-	-q 8 \
+	-q 10 \
+	--log-sub-dir ${SUB_DIR} \
 	--log-pref-dir ${log_pref_dir}

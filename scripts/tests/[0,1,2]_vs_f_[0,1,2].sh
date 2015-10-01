@@ -32,7 +32,7 @@ python3.4 ../src/main.py \
 	--n-train-file ../resources/0\,1\,2/training_\[0\,\ 1\,\ 2\].txt \
 	--n-test-file ../resources/0\,1\,2/test_\[0\,\ 1\,\ 2\].txt \
 	--mvee 0.0003 \
-	-q 8 \
+	-q 10 \
 	-k ${K} \
 	--log-sub-dir ${log_sub_dir} \
 	--log-pref-dir ${log_pref_dir}

@@ -30,7 +30,8 @@ def compute(k, training_set):
 def __computeKMeans(k, sample):
     k_means = KMeans(init='k-means++', n_clusters=k, n_init=10,
                         max_iter=global_v.CLUS_MAX_ITER,
-                        tol=global_v.CLUS_TOL, random_state=4444)
+                        tol=global_v.CLUS_TOL,
+                        random_state=4444)
 
     k_means.fit(sample)
 
@@ -79,7 +80,7 @@ def __find_closest_cluster(foreignPoint, clusters):
 #-------------------------------------------------------------------------------
 
 """
-    This functions shouild be put in math module
+    These functions shouild be put in math module
 """
 
 '''

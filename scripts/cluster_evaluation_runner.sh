@@ -19,11 +19,11 @@ done
 #-----------------------------------------------------------------------
 
 START_K=2
-END_K=8
+END_K=10
 
 echo "Running cluster Batch for: cluster_evaluation.sh"
 
 for K in `seq ${START_K} ${END_K}`;
 	do
-			xterm --hold -e 'tests/cluster_evaluation.sh -k='${K} &
+			xterm --hold -e 'tests/cluster_evaluation.sh -k='${K}' -d='${SUB_DIR}&
 	done

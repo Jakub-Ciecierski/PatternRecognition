@@ -13,16 +13,21 @@ import clustering.evaluation.ratkowsky_lance as rat_l
 from gui.plot_3d import Plot3D
 from clustering.clusterer import Clusterer
 
-def run():
-    logger.log_header("Cluster Evaluation, k clouds: " + str(global_v.K_CLOUD_DISTORTION))
+import util.loader as loader
 
-    symbolClasses = __generate_symbol()
-    '''
-    global_v.K = 3
-    Clusterer().computeClusters(symbolClasses)
-    Plot3D().renderPlot(symbolClasses)
-    '''
-    __compute_cluster_evaluation(symbolClasses[0].learning_set)
+def run():
+    symbolClasses = []
+
+    if global_v.NATIVE_TRAINING_FILE:
+        logger.log_header("Cluster Evaluation: " + str(global_v.NATIVE_TRAINING_FILE))
+        symbolClasses = loader.deserialize_native()
+        __compute_cluster_evaluation(symbolClasses.learning_set)
+    else:
+        logger.log_header("Cluster Evaluation, k clouds: " + str(global_v.K_CLOUD_DISTORTION))
+        symbolClasses = __generate_symbol()
+        __compute_cluster_evaluation(symbolClasses[0].learning_set)
+
+
 
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -60,48 +65,60 @@ def __compute_cluster_evaluation(training_set):
 #-------------------------------------------------------------------------------
 
 def __ps_evaluation(training_set, start_k, end_k):
-    logger.log_header("Prediction Strength")
+    logger.log_header("Prediction Strength",
+                        filename=logger.LOG_CLUSTER_FILE_NAME,
+                        styles=[logger.LogHeaderStyle.SUB_HEADER])
 
     Results = ps.compute(training_set,
                 start_k, end_k)
 
     for i in range(0, len(Results)):
         logger.log("ps(" + str(i+start_k) + ") = " + str(Results[i]),
+                    filename=logger.LOG_CLUSTER_FILE_NAME,
                     styles=[logger.LogStyle.NONE])
 
 
 #-------------------------------------------------------------------------------
 
 def __mc_r_evaluation(training_set, start_k, end_k):
-    logger.log_header("McClain-Rao")
+    logger.log_header("McClain-Rao",
+                        filename=logger.LOG_CLUSTER_FILE_NAME,
+                        styles=[logger.LogHeaderStyle.SUB_HEADER])
 
     Results = mc_r.compute(training_set,
                             start_k, end_k)
 
     for i in range(0, len(Results)):
         logger.log("mc_r(" + str(i+start_k) + ") = " + str(Results[i]),
+                    filename=logger.LOG_CLUSTER_FILE_NAME,
                     styles=[logger.LogStyle.NONE])
 
 #-------------------------------------------------------------------------------
 
 def __pbm_evaluation(training_set, start_k, end_k):
-    logger.log_header("PBM")
+    logger.log_header("PBM",
+                        filename=logger.LOG_CLUSTER_FILE_NAME,
+                        styles=[logger.LogHeaderStyle.SUB_HEADER])
 
     Results = pbm.compute(training_set,
                             start_k, end_k)
 
     for i in range(0, len(Results)):
         logger.log("pbm(" + str(i+start_k) + ") = " + str(Results[i]),
+                    filename=logger.LOG_CLUSTER_FILE_NAME,
                     styles=[logger.LogStyle.NONE])
 
 #-------------------------------------------------------------------------------
 
 def __rat_l_evaluation(training_set, start_k, end_k):
-    logger.log_header("Ratkowsky-Lance")
+    logger.log_header("Ratkowsky-Lance",
+                        filename=logger.LOG_CLUSTER_FILE_NAME,
+                        styles=[logger.LogHeaderStyle.SUB_HEADER])
 
     Results = rat_l.compute(training_set,
                                 start_k, end_k)
 
     for i in range(0, len(Results)):
         logger.log("rat_l(" + str(i+start_k) + ") = " + str(Results[i]),
+                    filename=logger.LOG_CLUSTER_FILE_NAME,
                     styles=[logger.LogStyle.NONE])
